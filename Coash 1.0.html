@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#09101f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="RSG AI Coach">
+<title>RSG AI Coach</title>
+<style>
+:root{--bg:#09101f;--card:#151e33;--card2:#1d2944;--input:#243351;--text:#f7fafc;--muted:#98a7bd;--green:#48e0a4;--blue:#65a7ff;--orange:#ffb454;--red:#ff6b79;--line:#ffffff14}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.app{max-width:460px;margin:auto;min-height:100vh;padding-bottom:92px}.top{position:sticky;top:0;z-index:10;padding:calc(14px + env(safe-area-inset-top)) 16px 12px;background:#09101fe8;backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.topline,.row{display:flex;justify-content:space-between;align-items:center;gap:10px}.brand{font-size:11px;font-weight:900;letter-spacing:1.5px;color:var(--green)}h1{font-size:25px;margin:3px 0}h2{margin:0 0 8px;font-size:24px}h3{margin:0 0 6px}.avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,var(--blue),var(--green));color:#041421;font-weight:900}
+.screen{display:none;padding:14px}.screen.on{display:block}.card,.metric,.exercise,.program,.library-item{background:linear-gradient(145deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:21px}
+.card{padding:16px;margin-bottom:12px}.hero{background:radial-gradient(circle at 90% 0,#286c7b88,transparent 45%),linear-gradient(145deg,#1d2944,#121a2d)}.hero h2{font-size:32px}.muted,p,small{color:var(--muted)}p{line-height:1.45}.pill,.badge{display:inline-flex;padding:7px 10px;border-radius:999px;background:#ffffff12;font-size:12px;font-weight:800}.badge{color:var(--green)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}.metric{padding:13px;min-height:88px;display:flex;flex-direction:column;justify-content:space-between}.metric span{color:var(--muted);font-size:12px}.metric b{font-size:21px}
+.btn{border:0;font:inherit;font-weight:900;border-radius:14px;padding:13px;cursor:pointer}.primary{width:100%;background:var(--green);color:#062d20}.secondary{width:100%;background:var(--input);color:var(--text)}.smallbtn{padding:9px 11px;background:var(--input);color:var(--text)}
+.tabs{display:flex;gap:7px;overflow:auto;padding-bottom:8px}.tab{flex:none;border:0;padding:9px 12px;border-radius:999px;background:var(--input);color:var(--muted);font-weight:800}.tab.on{background:var(--blue);color:#071424}
+label{display:block;color:var(--muted);font-size:13px;margin-bottom:10px}input,select,textarea{width:100%;margin-top:5px;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--input);color:var(--text);font-size:16px}
+.form2{display:grid;grid-template-columns:1fr 1fr;gap:9px}.choice{display:grid;grid-template-columns:1fr 1fr;gap:8px}.choice button{border:0;padding:12px;border-radius:13px;background:var(--input);color:var(--text);font-weight:800}.choice button.on{background:var(--green);color:#052d20}
+.exercise,.program,.library-item{padding:13px;margin-bottom:9px}.meta{color:var(--muted);font-size:12px;margin:5px 0 10px}.set{display:grid;grid-template-columns:26px 1fr 1fr 48px;gap:6px;margin:7px 0;align-items:center}.set button{height:42px;border:0;border-radius:10px;background:var(--input);color:var(--muted);font-weight:900}.set button.done{background:var(--green);color:#062d20}
+.why{padding:12px;border-radius:14px;background:#0a1222;border:1px solid var(--line);color:var(--muted);line-height:1.45}.coachcard.good{border-left:4px solid var(--green)}.coachcard.warn{border-left:4px solid var(--orange)}.coachcard.danger{border-left:4px solid var(--red)}
+.progress{height:9px;background:#ffffff12;border-radius:999px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--green))}
+.macro{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.macro div{padding:10px;background:#0a1222;border-radius:13px;text-align:center;color:var(--muted);font-size:12px}.macro b{display:block;color:var(--text);font-size:19px;margin-top:4px}
+.quest{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.quest:last-child{border:0}.ico{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--input)}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(460px,100%);display:grid;grid-template-columns:repeat(5,1fr);padding:7px 4px calc(7px + env(safe-area-inset-bottom));background:#09101ff2;border-top:1px solid var(--line);z-index:20}.nav button{border:0;background:none;color:var(--muted);font-size:9px;font-weight:800}.nav span{display:block;font-size:20px}.nav button.on{color:var(--green)}
+.timer{display:none;position:fixed;right:12px;bottom:92px;z-index:30;background:white;color:#111827;padding:10px 12px;border-radius:16px;align-items:center;gap:10px}.timer.on{display:flex}.toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:white;color:#111827;padding:10px 14px;border-radius:999px;opacity:0;pointer-events:none;z-index:50;transition:.2s}.toast.on{opacity:1}
+.modal{display:none;position:fixed;inset:0;background:#000a;z-index:60;align-items:flex-end}.modal.on{display:flex}.sheet{width:min(460px,100%);margin:auto;background:var(--card);border-radius:28px 28px 0 0;padding:20px calc(18px + env(safe-area-inset-right)) calc(22px + env(safe-area-inset-bottom))}
+.stepdots{display:flex;gap:6px;margin-bottom:14px}.stepdots i{height:5px;flex:1;border-radius:9px;background:#ffffff16}.stepdots i.on{background:var(--green)}
+.listrow{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.tiny{font-size:11px;color:var(--muted)}.hidden-advanced{display:none}.advanced .hidden-advanced{display:block}.simple .advanced-only{display:none}
+@media(max-width:360px){.form2,.choice{grid-template-columns:1fr}.hero h2{font-size:28px}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+<header class="top"><div class="topline"><div><div class="brand">RSG AI COACH</div><h1 id="pageTitle">Hem</h1></div><div class="avatar" id="avatar">R</div></div></header>
+<main>
+<section id="home" class="screen on">
+<div class="card hero"><span class="pill" id="goalPill">💪 Bygga muskler</span><h2 id="hello">Din plan lär sig av dig.</h2><p id="homeCoach">Logga träning, sömn och aktivitet så anpassas planen gradvis.</p><button class="btn primary" data-go="train">Starta nästa pass</button></div>
+<div class="grid"><div class="metric"><span>Readiness</span><b id="readiness">–</b></div><div class="metric"><span>Veckans pass</span><b id="weekSessions">0</b></div><div class="metric"><span>Streak</span><b id="streak">0 v</b></div><div class="metric"><span>Coachens säkerhet</span><b id="confidence">Låg</b></div></div>
+<div class="card"><div class="row"><div><b>Dagens adaptiva plan</b><small id="dataQuality">Datakvalitet 0 %</small></div><span class="badge" id="volumeFactor">100 % volym</span></div><div id="adaptiveHome" style="margin-top:10px"></div></div>
+<div class="card"><div class="row"><div><b>Nästa pass</b><p id="nextPass" style="margin:4px 0 0"></p></div><button class="btn smallbtn" data-go="train">Öppna</button></div></div>
+<div class="card"><b>Veckans fokus</b><div id="weeklyFocus"></div></div>
+</section>
+
+<section id="train" class="screen">
+<div class="card"><div class="row"><div><small>Aktivt program</small><h2 id="activeProgramName"></h2></div><button class="btn smallbtn" data-go="plan">Byt</button></div>
+<div id="workoutTabs" class="tabs"></div><label>Datum<input id="workoutDate" type="date"></label><div id="exerciseList"></div>
+<div class="form2"><label>Passkänsla 1–10<input id="sessionFeel" type="number" min="1" max="10" value="7"></label><label>Genomsnittlig RIR<input id="sessionRir" type="number" min="0" max="5" value="2"></label></div>
+<button id="saveWorkout" class="btn primary">Spara pass och analysera</button></div>
+</section>
+
+<section id="coach" class="screen">
+<div class="card hero"><span class="pill">🧠 Lärande coach</span><h2>Råd med förklaring.</h2><p>Coachen använder dina senaste resultat, vikttrend, återhämtning och aktivitet. Den gör små, reversibla ändringar.</p></div>
+<div id="coachCards"></div>
+<div class="card"><div class="row"><b>Veckorapport</b><button id="refreshCoach" class="btn smallbtn">Uppdatera</button></div><div id="weeklyReport"></div></div>
+<div class="card"><b>Personliga responsmönster</b><div id="learningInsights"></div></div>
+<div class="card"><b>Fråga coachen</b><div class="tabs"><button class="tab" data-question="increase">Höja vikten?</button><button class="tab" data-question="deload">Deload?</button><button class="tab" data-question="food">Ändra kalorier?</button><button class="tab" data-question="cardio">Mer cardio?</button></div><div id="coachAnswer" class="why">Välj en fråga.</div></div>
+</section>
+
+<section id="plan" class="screen">
+<div class="card"><h2>Träningsprogram</h2><p>Programmen filtreras efter antal dagar, erfarenhet och utrustning.</p><div id="programLibrary"></div></div>
+<div class="card"><h2>Övningsbibliotek</h2><label>Sök<input id="exerciseSearch" placeholder="Press, rodd, curl..."></label><div class="form2"><label>Muskel<select id="muscleFilter"><option value="">Alla</option></select></label><label>Utrustning<select id="equipmentFilter"><option value="">All utrustning</option></select></label></div><div id="exerciseLibrary"></div></div>
+<div class="card"><h2>Bygg eget schema</h2><label>Programnamn<input id="customName" placeholder="Mitt program"></label><label>Passnamn<input id="customDay" placeholder="Överkropp A"></label><div id="customExercises"></div><button id="addCustomExercise" class="btn secondary">+ Lägg till övning</button><button id="saveCustomProgram" class="btn primary" style="margin-top:8px">Spara program</button></div>
+<div class="card"><h2>Kostplan</h2><div class="choice" id="goalChoices"><button data-goal="cut">🔥 Deff</button><button data-goal="recomp">⚖️ Recomp</button><button data-goal="leanbulk">💪 Lean bulk</button><button data-goal="bulk">🚀 Bulk</button></div>
+<div class="form2"><label>Kön<select id="sex"><option value="male">Man</option><option value="female">Kvinna</option></select></label><label>Ålder<input id="age" type="number"></label><label>Längd cm<input id="height" type="number"></label><label>Vikt kg<input id="weight" type="number" step="0.1"></label><label>Aktivitet<select id="activity"><option value="1.2">Låg</option><option value="1.375">Lätt</option><option value="1.55">Medel</option><option value="1.725">Hög</option></select></label><label>Måltider<input id="meals" type="number" min="3" max="6" value="4"></label></div><button id="saveNutrition" class="btn primary">Skapa adaptiv kostplan</button><div id="nutritionResult" style="margin-top:12px"></div></div>
+</section>
+
+<section id="profile" class="screen">
+<div class="card"><h2>Personlig profil</h2><label>Namn<input id="name"></label><div class="form2"><label>Erfarenhet<select id="experience"><option value="beginner">Nybörjare</option><option value="intermediate">Medel</option><option value="advanced">Avancerad</option></select></label><label>Gränssnitt<select id="uiMode"><option value="simple">Enkel</option><option value="guided">Coachad</option><option value="advanced">Avancerad</option></select></label><label>Pass/vecka<select id="days"><option>3</option><option>4</option><option>5</option><option>6</option></select></label><label>Utrustning<select id="equipment"><option value="gym">Fullt gym</option><option value="home">Hemmagym</option><option value="dumbbells">Hantlar</option><option value="bodyweight">Kroppsvikt</option></select></label></div>
+<label>Primärt mål<select id="primaryGoal"><option value="muscle">Bygga muskler</option><option value="strength">Styrka</option><option value="fatloss">Fettminskning</option><option value="fitness">Kondition</option><option value="health">Hälsa</option></select></label>
+<div class="form2"><label>Sömnmål h<input id="sleepGoal" type="number" step="0.5" value="8"></label><label>Stegmål<input id="stepGoal" type="number" step="500" value="8000"></label><label>Max passlängd min<input id="maxDuration" type="number" value="75"></label><label>Cardioprioritet<select id="cardioPriority"><option value="low">Låg</option><option value="medium">Medel</option><option value="high">Hög</option></select></label></div>
+<label>Skador eller begränsningar<textarea id="limitations" rows="2"></textarea></label><label>Övningar att undvika<textarea id="avoidExercises" rows="2"></textarea></label>
+<div class="choice"><button id="autoTraining">Auto träning</button><button id="autoNutrition">Auto kost</button></div><button id="saveProfile" class="btn primary" style="margin-top:10px">Spara profil</button></div>
+
+<div class="card"><h2>Daglig återhämtning</h2><div class="form2"><label>Sömn h<input id="sleep" type="number" step="0.1"></label><label>Stress 1–5<input id="stress" type="number"></label><label>Energi 1–10<input id="energy" type="number"></label><label>Vikt kg<input id="bodyWeight" type="number" step="0.1"></label></div><button id="saveRecovery" class="btn secondary">Spara check</button></div>
+
+<div class="card"><h2>⌚ Hälsa & klockor</h2><p>Importera data från Apple Watch, Garmin, Fitbit, Polar, Samsung, Oura, WHOOP, Suunto och COROS.</p><div class="choice" id="wearableBrands"></div><div id="wearableGuide" class="why">Välj märke.</div><label>Importera fil<input id="healthFile" type="file" accept=".xml,.csv,.json,.tcx,.gpx,text/xml,text/csv,application/json"></label><button id="importHealth" class="btn secondary">Importera hälsodata</button><div id="healthSummary"></div></div>
+
+<div class="card"><h2>Guide</h2><div class="quest"><div class="ico">🎯</div><div><b>Progression</b><small>Höj vikt först när övre repgränsen nås med god teknik och RIR 1–2.</small></div></div><div class="quest"><div class="ico">😴</div><div><b>Deload</b><small>Aktuellt när prestation, återhämtning och motivation sjunker samtidigt.</small></div></div><div class="quest"><div class="ico">🛡️</div><div><b>Säkerhet</b><small>Avbryt vid skarp smärta. Appen ersätter inte medicinsk rådgivning.</small></div></div></div>
+<div class="card"><button id="exportData" class="btn secondary">Exportera säkerhetskopia</button><button id="resetData" class="btn secondary" style="margin-top:8px">Radera data</button></div>
+</section>
+</main>
+<nav class="nav"><button data-go="home" class="on"><span>⌂</span>Hem</button><button data-go="train"><span>＋</span>Träna</button><button data-go="coach"><span>✦</span>Coach</button><button data-go="plan"><span>▦</span>Plan</button><button data-go="profile"><span>●</span>Profil</button></nav>
+</div>
+<div class="timer" id="timer"><span>Vila</span><b id="timerText">01:30</b><button class="btn smallbtn" id="stopTimer">Stopp</button></div><div class="toast" id="toast"></div>
+<div class="modal" id="onboarding"><div class="sheet"><div class="stepdots"><i></i><i></i><i></i><i></i></div><div id="onboardContent"></div><button id="onboardNext" class="btn primary">Fortsätt</button></div></div>
+
+<script>
+const PROGRAMS={
+'PPL × 2':{days:6,level:'advanced',equipment:'gym',desc:'6 dagar • hypertrofi',workouts:{
+'Push A':[['Bänkpress',4,'5–8'],['Lutande hantelpress',3,'8–12'],['Militärpress',3,'6–10'],['Kabel-sidolyft',4,'12–20'],['Triceps pushdown',3,'10–15']],
+'Pull A':[['Viktade chins',4,'5–8'],['Bröststödd rodd',4,'6–10'],['Latsdrag neutralt',3,'8–12'],['Omvänd pec deck',4,'12–20'],['EZ-curl',3,'8–12']],
+'Legs A':[['Knäböj',4,'5–8'],['Rumänska marklyft',4,'6–10'],['Benpress',3,'10–15'],['Lårcurl',3,'10–15'],['Stående vadpress',4,'10–20']],
+'Push B':[['Lutande Smithpress',4,'8–12'],['Bröstpressmaskin',3,'10–15'],['Pec deck',3,'12–20'],['Sidolyft maskin',4,'12–20'],['Overhead triceps extension',3,'10–15']],
+'Pull B':[['Latsdrag',4,'8–12'],['Kabelrodd',4,'8–12'],['Enarmsrodd kabel',3,'10–15'],['Face pull',3,'12–20'],['Preachercurl',3,'10–15']],
+'Legs B':[['Hack squat',4,'8–12'],['Bulgarian split squat',3,'8–12'],['Benspark',3,'12–20'],['Sittande lårcurl',4,'10–15'],['Hip thrust',3,'8–12'],['Sittande vadpress',4,'12–20']]
+}},
+'Upper/Lower':{days:4,level:'intermediate',equipment:'gym',desc:'4 dagar • balanserat',workouts:{
+'Upper A':[['Bänkpress',4,'5–8'],['Latsdrag',4,'8–12'],['Bröststödd rodd',3,'8–12'],['Hantelpress',3,'8–12'],['Sidolyft',3,'12–20'],['Kabelcurl',2,'10–15'],['Pushdown',2,'10–15']],
+'Lower A':[['Knäböj',4,'5–8'],['Rumänska marklyft',4,'6–10'],['Benpress',3,'10–15'],['Lårcurl',3,'10–15'],['Vadpress',4,'12–20']],
+'Upper B':[['Lutande hantelpress',4,'8–12'],['Chins',4,'6–10'],['Kabelrodd',3,'10–15'],['Militärpress',3,'6–10'],['Omvänd pec deck',3,'12–20'],['Preachercurl',2,'10–15'],['Overhead extension',2,'10–15']],
+'Lower B':[['Hack squat',4,'8–12'],['Hip thrust',4,'8–12'],['Bulgarian split squat',3,'8–12'],['Benspark',3,'12–20'],['Sittande lårcurl',3,'10–15'],['Vadpress',4,'12–20']]
+}},
+'Full Body 3':{days:3,level:'beginner',equipment:'gym',desc:'3 dagar • enkelt och effektivt',workouts:{
+'Helkropp A':[['Knäböj',3,'6–10'],['Bänkpress',3,'6–10'],['Latsdrag',3,'8–12'],['Rumänska marklyft',2,'8–12'],['Sidolyft',2,'12–20']],
+'Helkropp B':[['Benpress',3,'10–15'],['Lutande hantelpress',3,'8–12'],['Kabelrodd',3,'8–12'],['Hip thrust',3,'8–12'],['Pushdown',2,'10–15']],
+'Helkropp C':[['Hack squat',3,'8–12'],['Bröstpressmaskin',3,'8–12'],['Chins assisterade',3,'8–12'],['Lårcurl',3,'10–15'],['Hammercurl',2,'10–15']]
+}},
+'Hantlar hemma':{days:3,level:'beginner',equipment:'dumbbells',desc:'3 dagar • endast hantlar',workouts:{
+'Pass A':[['Goblet squat',4,'8–15'],['Hantelpress golv',4,'8–15'],['Enarmsrodd hantel',4,'8–15'],['Rumänska marklyft hantlar',3,'8–15'],['Sidolyft',3,'12–20']],
+'Pass B':[['Bulgarian split squat',4,'8–15'],['Lutande hantelpress',4,'8–15'],['Hantelrodd bröststöd',4,'8–15'],['Hip thrust hantel',3,'10–20'],['Hammercurl',3,'10–20']],
+'Pass C':[['Utfall bakåt',4,'8–15'],['Hantelpress',4,'8–15'],['Pullover hantel',3,'10–20'],['Enbens RDL',3,'8–15'],['Overhead triceps hantel',3,'10–20']]
+}}};
+
+const EX=[
+['Bänkpress','Bröst','Skivstång','Medel','5–10','Bröstpressmaskin','Skulderblad bak, stabil fotposition och kontrollerad sänkning.'],
+['Lutande hantelpress','Bröst','Hantlar','Medel','8–15','Lutande maskinpress','Håll armbågar cirka 30–60 grader från kroppen.'],
+['Bröstpressmaskin','Bröst','Maskin','Nybörjare','8–15','Armhävningar','Justera sits så handtagen hamnar mitt på bröstet.'],
+['Pec deck','Bröst','Maskin','Nybörjare','10–20','Kabelflyes','Behåll lätt böjda armbågar och kontrollera stretchen.'],
+['Chins','Rygg','Kroppsvikt','Medel','5–12','Latsdrag','Dra armbågarna nedåt och undvik att kasta kroppen.'],
+['Latsdrag','Rygg','Kabel','Nybörjare','8–15','Assisterade chins','Dra stången mot övre bröstet utan att luta överdrivet.'],
+['Bröststödd rodd','Rygg','Maskin','Nybörjare','8–15','Kabelrodd','Håll bröstet mot stödet och dra med armbågarna.'],
+['Kabelrodd','Rygg','Kabel','Nybörjare','8–15','Maskinrodd','Undvik att gunga; pausa kort i kontraktionen.'],
+['Marklyft','Rygg','Skivstång','Avancerad','3–6','Trap bar-marklyft','Spänn bål och håll stången nära kroppen.'],
+['Militärpress','Axlar','Skivstång','Medel','5–10','Hantelpress','Spänn säte och bål; pressa vertikalt.'],
+['Hantelpress','Axlar','Hantlar','Nybörjare','8–15','Maskinpress','Håll handleder över armbågar.'],
+['Sidolyft','Axlar','Hantlar','Nybörjare','12–25','Kabel-sidolyft','Lyft med armbågen och undvik sving.'],
+['Omvänd pec deck','Axlar','Maskin','Nybörjare','12–25','Face pull','Fokusera på bakre axel, inte skulderbladens rörelse.'],
+['EZ-curl','Biceps','Skivstång','Nybörjare','8–15','Kabelcurl','Håll överarmarna stilla.'],
+['Preachercurl','Biceps','Maskin','Nybörjare','8–15','Kabelcurl','Kontrollera bottenläget och undvik hyperextension.'],
+['Hammercurl','Biceps','Hantlar','Nybörjare','10–20','Rep-curl','Neutral handled hela vägen.'],
+['Triceps pushdown','Triceps','Kabel','Nybörjare','10–20','Maskindips','Håll överarmarna nära kroppen.'],
+['Overhead triceps extension','Triceps','Kabel','Nybörjare','10–20','Hantel-extension','Låt triceps få full stretch utan att svanka.'],
+['Knäböj','Framsida lår','Skivstång','Medel','5–10','Hack squat','Håll foten stabil och knäna i samma riktning som tårna.'],
+['Hack squat','Framsida lår','Maskin','Nybörjare','8–15','Benpress','Använd ett djup du kan kontrollera utan att bäckenet lyfter.'],
+['Benpress','Framsida lår','Maskin','Nybörjare','10–20','Goblet squat','Kontrollera djup och lås inte knäna aggressivt.'],
+['Bulgarian split squat','Framsida lår','Hantlar','Medel','8–15','Utfall bakåt','Stabil fot och kontrollerad knärörelse.'],
+['Benspark','Framsida lår','Maskin','Nybörjare','12–25','Spanish squat','Pausa i toppläget.'],
+['Rumänska marklyft','Baksida lår','Skivstång','Medel','6–12','RDL hantlar','Skjut höften bakåt och behåll neutral rygg.'],
+['Sittande lårcurl','Baksida lår','Maskin','Nybörjare','10–20','Liggande lårcurl','Håll höften nere och kontrollera excentriskt.'],
+['Hip thrust','Säte','Skivstång','Nybörjare','8–15','Glute bridge','Pausa i toppläget utan att översträcka ryggen.'],
+['Stående vadpress','Vader','Maskin','Nybörjare','10–25','Enbens vadpress','Full stretch och tydlig paus i toppläget.'],
+['Cable crunch','Mage','Kabel','Nybörjare','10–20','Crunch','Rulla bröstkorgen mot bäckenet.'],
+['Planka','Mage','Kroppsvikt','Nybörjare','20–60 s','Dead bug','Spänn säte och håll neutral bäckenposition.']
+];
+
+const CARDIO={
+'Zone 2 bas':{goal:'Kondition och återhämtning',sessions:[['Cykel eller rask gång',35,'Låg–medel'],['Crosstrainer',35,'Låg–medel'],['Valfri Zone 2',45,'Låg–medel']]},
+'5K förbättring':{goal:'Löpning',sessions:[['Lugn löpning',35,'Låg'],['4×4 min intervaller',35,'Hög'],['Långpass',55,'Låg']]},
+'Fettminskning skonsam':{goal:'Energiförbrukning',sessions:[['Rask gång lutning',30,'Medel'],['Cykel',40,'Medel'],['Stegmål',45,'Låg']]},
+'HIIT kort':{goal:'Tidseffektiv kondition',sessions:[['10×1 min hårt/1 min lätt',25,'Hög'],['6×2 min hårt/2 min lätt',30,'Hög']]}
+};
+
+const K='rsg_ai_complete_v1';
+let D=JSON.parse(localStorage.getItem(K)||'null')||{
+profile:{name:'',experience:'intermediate',uiMode:'guided',days:4,equipment:'gym',primaryGoal:'muscle',sleepGoal:8,stepGoal:8000,maxDuration:75,cardioPriority:'medium',limitations:'',avoidExercises:'',autoTraining:true,autoNutrition:false},
+goal:'leanbulk',program:'Upper/Lower',customPrograms:{},sessions:[],recovery:[],health:[],weights:[],nutrition:{},next:0,xp:0,onboarded:false
+};
+let currentDay='',timerInt=null,timerLeft=90;
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const save=()=>localStorage.setItem(K,JSON.stringify(D));
+const fmt=n=>new Intl.NumberFormat('sv-SE',{maximumFractionDigits:1}).format(n);
+function toast(t){$('#toast').textContent=t;$('#toast').classList.add('on');setTimeout(()=>$('#toast').classList.remove('on'),1700)}
+function weekNo(d=new Date){let x=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));x.setUTCDate(x.getUTCDate()+4-(x.getUTCDay()||7));return Math.ceil((((x-new Date(Date.UTC(x.getUTCFullYear(),0,1)))/864e5)+1)/7)}
+function allPrograms(){return {...PROGRAMS,...D.customPrograms}}
+function activeProgram(){return allPrograms()[D.program]||PROGRAMS['Upper/Lower']}
+function dayNames(){return Object.keys(activeProgram().workouts)}
+function nextDay(){let a=dayNames();return a[D.next%a.length]}
+function level(){return Math.floor(D.xp/100)+1}
+function addXP(n,msg){D.xp+=n;save();toast(`${msg} +${n} XP`)}
+function go(id){$$('.screen').forEach(x=>x.classList.toggle('on',x.id===id));$$('.nav button').forEach(x=>x.classList.toggle('on',x.dataset.go===id));$('#pageTitle').textContent={home:'Hem',train:'Träna',coach:'Coach',plan:'Plan',profile:'Profil'}[id];scrollTo(0,0);render()}
+$$('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+
+function latestHealth(){return D.health.at(-1)||{}}
+function latestRecovery(){return D.recovery.at(-1)||{}}
+function dataQuality(){
+ let h=latestHealth(),r=latestRecovery(),n=0;
+ ['steps','sleep','restingHR','activeCalories'].forEach(k=>{if(h[k])n++});
+ ['score','bw'].forEach(k=>{if(r[k])n++});
+ if(D.sessions.length)n+=2;
+ return Math.round(n/8*100)
+}
+function adaptive(){
+ let h=latestHealth(),r=latestRecovery(),score=r.score??null;
+ if(score==null){
+   let sleep=h.sleep||0,rest=h.restingHR||0,steps=h.steps||0;
+   score=50+(sleep?Math.min(25,(sleep-5)*8):0)+(steps?Math.min(10,steps/1000):0)-(rest&&D.health.length>2?Math.max(0,(rest-average(D.health.slice(-7).map(x=>x.restingHR).filter(Boolean)))*3):0);
+ }
+ score=Math.max(20,Math.min(100,score||55));
+ let vol=score<45?.75:score<60?.85:score>85?1.05:1;
+ let cardio=D.profile.cardioPriority==='high'?150:D.profile.cardioPriority==='medium'?90:45;
+ if(score<50)cardio=Math.round(cardio*.6);
+ let kcalAdj=0;
+ let avgSteps=average(D.health.slice(-7).map(x=>x.steps).filter(Boolean));
+ if(avgSteps&&D.profile.stepGoal){kcalAdj=Math.max(-150,Math.min(150,Math.round((avgSteps-D.profile.stepGoal)/2000)*50))}
+ return{score:Math.round(score),vol,cardio,kcalAdj,quality:dataQuality()}
+}
+function average(a){return a.length?a.reduce((x,y)=>x+y,0)/a.length:0}
+
+function renderHome(){
+ let a=adaptive(),w=weekNo(),ws=D.sessions.filter(s=>weekNo(new Date(s.date))===w),weeks=new Set(D.sessions.map(s=>weekNo(new Date(s.date)))),st=0;while(weeks.has(w-st))st++;
+ $('#readiness').textContent=a.score+' %';$('#weekSessions').textContent=ws.length;$('#streak').textContent=st+' v';$('#confidence').textContent=a.quality<30?'Låg':a.quality<65?'Medel':'Hög';
+ $('#dataQuality').textContent=`Datakvalitet ${a.quality} %`;$('#volumeFactor').textContent=Math.round(a.vol*100)+' % volym';
+ $('#nextPass').textContent=`${nextDay()} • ${activeProgram().workouts[nextDay()].length} övningar`;
+ let g={cut:'🔥 Deff',recomp:'⚖️ Recomp',leanbulk:'💪 Bygga muskler',bulk:'🚀 Bulk'}[D.goal];$('#goalPill').textContent=g;
+ $('#hello').textContent=D.profile.name?`Din plan, ${D.profile.name}.`:'Din plan lär sig av dig.';
+ $('#avatar').textContent=(D.profile.name||'R')[0].toUpperCase();
+ $('#adaptiveHome').innerHTML=`<div class="listrow"><span>Styrketräning</span><b>${a.score<45?'Lätt pass':a.score<60?'Kontrollerat':'Planerat pass'}</b></div><div class="listrow"><span>Cardiomål</span><b>${a.cardio} min/vecka</b></div><div class="listrow"><span>Aktivitetsjustering</span><b>${a.kcalAdj>=0?'+':''}${a.kcalAdj} kcal</b></div><div class="why">Volymen justeras endast 5–25 % åt gången. Större ändringar kräver flera veckors data.</div>`;
+ $('#homeCoach').textContent=a.score<50?'Prioritera teknik, sömn och återhämtning idag.':'Följ planen och sikta på RIR 1–2 i arbetsseten.';
+ $('#weeklyFocus').innerHTML=weeklyFocus();
+ document.body.classList.toggle('simple',D.profile.uiMode==='simple');document.body.classList.toggle('advanced',D.profile.uiMode==='advanced')
+}
+function weeklyFocus(){
+ let a=adaptive(),ss=D.sessions.slice(-3),msg=[];
+ if(!ss.length)msg.push('Logga dina första två pass så börjar coachen lära sig dina styrkenivåer.');
+ if(a.quality<50)msg.push('Logga sömn, steg och återhämtning för säkrare rekommendationer.');
+ if(a.score<60)msg.push('Håll två repetitioner i reserv och undvik extra set.');
+ else msg.push('Prioritera rep-progression i de första två övningarna.');
+ return msg.map(x=>`<div class="quest"><div class="ico">→</div><div>${x}</div></div>`).join('')
+}
+
+function tabs(){
+ let days=dayNames();if(!currentDay||!days.includes(currentDay))currentDay=nextDay();
+ $('#workoutTabs').innerHTML=days.map(n=>`<button class="tab ${n===currentDay?'on':''}" data-day="${n}">${n}</button>`).join('');
+ $$('[data-day]').forEach(b=>b.onclick=()=>{currentDay=b.dataset.day;tabs();workout()})
+}
+function lastExercise(name){for(let i=D.sessions.length-1;i>=0;i--){let e=D.sessions[i].exercises.find(x=>x.name===name);if(e)return e}return null}
+function parseTop(x){return +(String(x).split(/[–-]/)[1]||String(x).match(/\d+/)?.[0]||10)}
+function suggestWeight(name,last,reps){
+ let top=parseTop(reps),all=last.sets.length&&last.sets.every(x=>x.reps>=top),avg=average(last.sets.map(x=>x.kg)),a=adaptive();
+ let factor=all&&a.score>=60?1.025:a.score<45?.95:1;
+ return Math.round(avg*factor*2)/2
+}
+function workout(){
+ let rows=activeProgram().workouts[currentDay]||[],factor=adaptive().vol;
+ $('#exerciseList').innerHTML=rows.map(([n,c,r])=>{
+   let l=lastExercise(n),sets=Math.max(1,Math.round(c*factor)),s=l?suggestWeight(n,l,r):null,info=EX.find(x=>x[0]===n);
+   return `<div class="exercise" data-name="${n}" data-reps="${r}"><div class="row"><h3>${n}</h3>${s?`<span class="badge">${fmt(s)} kg</span>`:''}</div><div class="meta">${sets} set × ${r}${info?` • ${info[1]}`:''}</div>${info&&D.profile.uiMode!=='simple'?`<div class="why">${info[6]}</div>`:''}${Array.from({length:sets},(_,i)=>`<div class="set"><b>${i+1}</b><input class="kg" type="number" step="0.5" placeholder="kg" value="${s||l?.sets?.[i]?.kg||''}"><input class="reps" type="number" placeholder="reps" value="${l?.sets?.[i]?.reps||''}"><button>✓</button></div>`).join('')}</div>`
+ }).join('');
+ $$('.set button').forEach(b=>b.onclick=e=>{e.preventDefault();b.classList.toggle('done');if(b.classList.contains('done'))startTimer(90)})
+}
+function startTimer(sec){clearInterval(timerInt);timerLeft=sec;$('#timer').classList.add('on');updateTimer();timerInt=setInterval(()=>{timerLeft--;updateTimer();if(timerLeft<=0){clearInterval(timerInt);$('#timer').classList.remove('on');toast('Vilan är klar')}},1000)}
+function updateTimer(){$('#timerText').textContent=`${String(Math.floor(timerLeft/60)).padStart(2,'0')}:${String(timerLeft%60).padStart(2,'0')}`}
+$('#stopTimer').onclick=()=>{clearInterval(timerInt);$('#timer').classList.remove('on')};
+$('#saveWorkout').onclick=()=>{
+ let ex=[];$$('.exercise').forEach(e=>{let sets=[...e.querySelectorAll('.set')].map(s=>({kg:+s.querySelector('.kg').value||0,reps:+s.querySelector('.reps').value||0})).filter(x=>x.kg&&x.reps);if(sets.length){let vol=sets.reduce((a,x)=>a+x.kg*x.reps,0),e1=Math.max(...sets.map(x=>x.kg*(1+x.reps/30)));ex.push({name:e.dataset.name,sets,vol,e1,reps:e.dataset.reps})}});
+ if(!ex.length)return toast('Logga minst ett set');
+ D.sessions.push({date:$('#workoutDate').value,program:D.program,day:currentDay,feel:+$('#sessionFeel').value,rir:+$('#sessionRir').value,volume:ex.reduce((a,x)=>a+x.vol,0),exercises:ex});
+ D.next=(dayNames().indexOf(currentDay)+1)%dayNames().length;addXP(ex.length>=3?20:10,'Pass sparat');currentDay=nextDay();render();go('coach')
+};
+
+function coachCards(){
+ let a=adaptive(),cards=[];
+ if(a.score<45)cards.push(['danger','Gör passet lättare','Minska vikten cirka 5–10 % och använd 75 % av planerad setvolym.','Låg readiness ökar sannolikheten att extra volym bara skapar trötthet.']);
+ else if(a.score<60)cards.push(['warn','Träna kontrollerat','Behåll belastningen men avsluta seten med RIR 2–3.','Du kan fortfarande stimulera muskeltillväxt utan att driva tröttheten för högt.']);
+ else cards.push(['good','Följ progressionen','Försök slå förra passet med en repetition eller en liten viktökning.','Readiness och datatrend stödjer normal belastning.']);
+ let plateaus=findPlateaus();if(plateaus.length)cards.push(['warn',`Platå: ${plateaus[0]}`,'Behåll vikten, förbättra reps eller byt repintervall i 2–3 veckor.','Tre liknande e1RM-resultat indikerar att direkt viktökning inte längre fungerar.']);
+ let weight=weightTrend();if(weight)cards.push(['good','Vikttrend',weight.text,weight.why]);
+ return cards
+}
+function findPlateaus(){
+ let map={};D.sessions.slice(-12).forEach(s=>s.exercises.forEach(e=>(map[e.name]??=[]).push(e.e1)));
+ return Object.entries(map).filter(([n,a])=>a.length>=3&&Math.max(...a.slice(-3))/Math.min(...a.slice(-3))<1.01).map(x=>x[0])
+}
+function weightTrend(){
+ let arr=D.recovery.filter(x=>x.bw).slice(-3);if(arr.length<2)return null;
+ let ch=(arr.at(-1).bw-arr[0].bw)/arr[0].bw,targets={cut:[-.015,-.004],recomp:[-.004,.004],leanbulk:[.001,.007],bulk:[.003,.012]}[D.goal];
+ if(ch<targets[0])return{text:'Vikten förändras snabbare nedåt än målområdet.',why:'Behåll träningen men överväg 100–150 kcal mer per dag.'};
+ if(ch>targets[1])return{text:'Vikten förändras snabbare uppåt än målområdet.',why:'Överväg 100–150 kcal mindre per dag efter minst två veckors bekräftad trend.'};
+ return{text:'Vikttrenden ligger inom målområdet.',why:'Ingen kostjustering behövs just nu.'}
+}
+function renderCoach(){
+ $('#coachCards').innerHTML=coachCards().map(c=>`<div class="card coachcard ${c[0]}"><h3>${c[1]}</h3><p>${c[2]}</p><div class="why"><b>Varför?</b><br>${c[3]}</div></div>`).join('');
+ let w=weekNo(),ss=D.sessions.filter(s=>weekNo(new Date(s.date))===w),vol=ss.reduce((a,s)=>a+s.volume,0),rir=average(ss.map(s=>s.rir));
+ $('#weeklyReport').innerHTML=`<div class="grid" style="margin-top:10px"><div class="metric"><span>Pass</span><b>${ss.length}</b></div><div class="metric"><span>Volym</span><b>${fmt(vol)} kg</b></div><div class="metric"><span>Snitt RIR</span><b>${ss.length?fmt(rir):'–'}</b></div><div class="metric"><span>Readiness</span><b>${adaptive().score}%</b></div></div>`;
+ $('#learningInsights').innerHTML=learningInsights()
+}
+function learningInsights(){
+ if(D.sessions.length<4)return '<p>Minst fyra pass behövs innan personliga responsmönster kan visas.</p>';
+ let hi=D.sessions.filter(x=>x.feel>=8),lo=D.sessions.filter(x=>x.feel<=5),items=[];
+ if(hi.length)items.push(`Dina bästa pass har i snitt RIR ${fmt(average(hi.map(x=>x.rir)))}.`);
+ if(lo.length)items.push(`Pass med låg känsla har i snitt ${fmt(average(lo.map(x=>x.volume)))} kg volym.`);
+ let r=D.recovery.filter(x=>x.score);if(r.length>=3)items.push(`Din genomsnittliga readiness är ${Math.round(average(r.map(x=>x.score)))} %.`);
+ return items.map(x=>`<div class="listrow"><span>${x}</span></div>`).join('')
+}
+$('#refreshCoach').onclick=()=>{renderCoach();toast('Analysen är uppdaterad')};
+$$('[data-question]').forEach(b=>b.onclick=()=>{
+ let ans={
+ increase:'Höj när samtliga set når övre repgränsen med stabil teknik och RIR 1–2. Vid lägre readiness behåller du vikten.',
+ deload:'Deload rekommenderas när styrka, motivation och readiness sjunker samtidigt i minst 7–10 dagar.',
+ food:'Ändra kalorier först efter minst två veckors vikttrend. Normalt görs förändringar på 100–150 kcal.',
+ cardio:`Ditt aktuella rekommenderade mål är cirka ${adaptive().cardio} minuter cardio per vecka.`
+ };$('#coachAnswer').textContent=ans[b.dataset.question]
+});
+
+function renderPrograms(){
+ let p=allPrograms(),profile=D.profile;
+ $('#programLibrary').innerHTML=Object.entries(p).sort((a,b)=>Math.abs((a[1].days||4)-profile.days)-Math.abs((b[1].days||4)-profile.days)).map(([n,x])=>`<div class="program ${D.program===n?'active':''}"><div class="row"><div><h3>${n}</h3><p>${x.desc||'Eget program'}</p><span class="badge">${x.days||Object.keys(x.workouts).length} dagar</span></div><button class="btn smallbtn" data-program="${n}">${D.program===n?'Aktivt':'Välj'}</button></div></div>`).join('');
+ $$('[data-program]').forEach(b=>b.onclick=()=>{D.program=b.dataset.program;D.next=0;currentDay='';save();render();toast('Program bytt')})
+}
+function renderExerciseLibrary(){
+ let ms=[...new Set(EX.map(x=>x[1]))],es=[...new Set(EX.map(x=>x[2]))];
+ if($('#muscleFilter').options.length===1)ms.forEach(x=>$('#muscleFilter').add(new Option(x,x)));
+ if($('#equipmentFilter').options.length===1)es.forEach(x=>$('#equipmentFilter').add(new Option(x,x)));
+ let q=$('#exerciseSearch').value.toLowerCase(),m=$('#muscleFilter').value,e=$('#equipmentFilter').value;
+ let arr=EX.filter(x=>(!q||x[0].toLowerCase().includes(q)||x[1].toLowerCase().includes(q))&&(!m||x[1]===m)&&(!e||x[2]===e));
+ $('#exerciseLibrary').innerHTML=arr.slice(0,30).map(x=>`<div class="library-item"><div class="row"><div><b>${x[0]}</b><small>${x[1]} • ${x[2]} • ${x[4]}</small></div><button class="btn smallbtn" data-add="${x[0]}">+</button></div><p>${x[6]}</p><small>Alternativ: ${x[5]}</small></div>`).join('');
+ $$('[data-add]').forEach(b=>b.onclick=()=>addBuilderRow(b.dataset.add))
+}
+['exerciseSearch','muscleFilter','equipmentFilter'].forEach(id=>$('#'+id).oninput=renderExerciseLibrary);
+function addBuilderRow(name='',sets=3,reps='8–12'){$('#customExercises').insertAdjacentHTML('beforeend',`<div class="set"><input class="ceName" placeholder="Övning" value="${name}"><input class="ceSets" type="number" value="${sets}"><input class="ceReps" value="${reps}"><button>×</button></div>`);$('#customExercises .set:last-child button').onclick=e=>e.target.parentElement.remove()}
+$('#addCustomExercise').onclick=()=>addBuilderRow();
+$('#saveCustomProgram').onclick=()=>{let name=$('#customName').value.trim(),day=$('#customDay').value.trim(),ex=$$('#customExercises .set').map(r=>[r.querySelector('.ceName').value.trim(),+r.querySelector('.ceSets').value,r.querySelector('.ceReps').value.trim()]).filter(x=>x[0]);if(!name||!day||!ex.length)return toast('Fyll i program, pass och övningar');let p=D.customPrograms[name]||{days:1,desc:'Eget program',workouts:{}};p.workouts[day]=ex;p.days=Object.keys(p.workouts).length;D.customPrograms[name]=p;D.program=name;save();render();toast('Eget program sparat')};
+
+function calcNutrition(){
+ let n=D.nutrition;if(!n.age||!n.height||!n.weight)return null;
+ let bmr=10*n.weight+6.25*n.height-5*n.age+(n.sex==='male'?5:-161),t=bmr*(+n.activity||1.55),mod={cut:-.18,recomp:-.04,leanbulk:.07,bulk:.13}[D.goal],a=adaptive(),cal=Math.round(t*(1+mod)+(D.profile.autoNutrition?a.kcalAdj:0)),pro=Math.round(n.weight*(D.goal==='cut'?2.2:2)),fat=Math.round(n.weight*.85),carb=Math.max(0,Math.round((cal-pro*4-fat*9)/4));return{cal,pro,fat,carb}
+}
+function nutrition(){
+ let n=D.nutrition;['sex','age','height','weight','activity','meals'].forEach(id=>{if(n[id]!=null)$('#'+id).value=n[id]});
+ $$('[data-goal]').forEach(b=>b.classList.toggle('on',b.dataset.goal===D.goal));
+ let x=calcNutrition();$('#nutritionResult').innerHTML=x?`<div class="why"><div class="row"><div><small>Kalorimål</small><h2>${x.cal} kcal</h2></div><span class="badge">${D.profile.autoNutrition?'Adaptivt':'Manuellt'}</span></div><div class="macro"><div>Protein<b>${x.pro} g</b></div><div>Kolhydrater<b>${x.carb} g</b></div><div>Fett<b>${x.fat} g</b></div></div><p>Justeringar begränsas till små steg och kräver vikttrend över minst två veckor.</p></div>`:'';
+}
+$$('[data-goal]').forEach(b=>b.onclick=()=>{D.goal=b.dataset.goal;save();nutrition();renderHome()});
+$('#saveNutrition').onclick=()=>{D.nutrition={sex:$('#sex').value,age:+$('#age').value,height:+$('#height').value,weight:+$('#weight').value,activity:+$('#activity').value,meals:+$('#meals').value};save();nutrition();toast('Kostplan sparad')};
+
+function readinessInput(){let s=+$('#sleep').value,t=+$('#stress').value,e=+$('#energy').value;if(!s||!t||!e)return null;return Math.max(0,Math.min(100,s/(D.profile.sleepGoal||8)*45+(6-t)/5*25+e/10*30))}
+$('#saveRecovery').onclick=()=>{let score=readinessInput();if(score==null)return toast('Fyll i sömn, stress och energi');D.recovery.push({date:new Date().toISOString().slice(0,10),score,bw:+$('#bodyWeight').value||null,sleep:+$('#sleep').value,stress:+$('#stress').value,energy:+$('#energy').value});save();addXP(5,'Check sparad');render()};
+
+function profile(){
+ let p=D.profile;['name','experience','uiMode','days','equipment','primaryGoal','sleepGoal','stepGoal','maxDuration','cardioPriority','limitations','avoidExercises'].forEach(id=>{if($('#'+id))$('#'+id).value=p[id]??''});
+ $('#autoTraining').classList.toggle('on',p.autoTraining);$('#autoNutrition').classList.toggle('on',p.autoNutrition)
+}
+$('#autoTraining').onclick=()=>{D.profile.autoTraining=!D.profile.autoTraining;profile()};
+$('#autoNutrition').onclick=()=>{D.profile.autoNutrition=!D.profile.autoNutrition;profile()};
+$('#saveProfile').onclick=()=>{D.profile={...D.profile,name:$('#name').value,experience:$('#experience').value,uiMode:$('#uiMode').value,days:+$('#days').value,equipment:$('#equipment').value,primaryGoal:$('#primaryGoal').value,sleepGoal:+$('#sleepGoal').value,stepGoal:+$('#stepGoal').value,maxDuration:+$('#maxDuration').value,cardioPriority:$('#cardioPriority').value,limitations:$('#limitations').value,avoidExercises:$('#avoidExercises').value};save();render();toast('Profil sparad')};
+
+const brands=['Apple Watch','Garmin','Fitbit','Polar','Samsung','Oura','WHOOP','Suunto','COROS'];
+const brandGuide={
+'Apple Watch':'Exportera Hälsodata från appen Hälsa eller använd den native HealthKit-versionen för automatisk synk.',
+'Garmin':'Exportera aktivitet som TCX/GPX eller CSV från Garmin Connect.',
+'Fitbit':'Exportera aktivitet, sömn och puls som CSV/JSON.',
+'Polar':'Exportera träningspass från Polar Flow som TCX/CSV.',
+'Samsung':'Exportera Samsung Health-data eller synka till Health Connect.',
+'Oura':'Exportera sömn och readiness som CSV/JSON.',
+'WHOOP':'Exportera recovery, strain och sömn som CSV.',
+'Suunto':'Exportera träningspass som GPX/FIT; använd GPX/TCX här.',
+'COROS':'Exportera aktivitet som FIT/TCX/GPX; använd TCX/GPX här.'
+};
+function wearables(){$('#wearableBrands').innerHTML=brands.map(x=>`<button data-brand="${x}">${x}</button>`).join('');$$('[data-brand]').forEach(b=>b.onclick=()=>{$$('#wearableBrands button').forEach(x=>x.classList.remove('on'));b.classList.add('on');$('#wearableGuide').textContent=brandGuide[b.dataset.brand]})}
+$('#importHealth').onclick=async()=>{
+ let f=$('#healthFile').files[0];if(!f)return toast('Välj en fil');let text=await f.text(),obj={date:new Date().toISOString().slice(0,10),source:f.name};
+ try{
+   if(f.name.endsWith('.json')){let j=JSON.parse(text);obj.steps=+j.steps||+j.stepCount||0;obj.sleep=+j.sleep||+j.sleepHours||0;obj.restingHR=+j.restingHR||+j.restingHeartRate||0;obj.activeCalories=+j.activeCalories||+j.calories||0}
+   else {let nums=s=>{let m=text.match(s);return m?+m[1]:0};obj.steps=nums(/steps[^0-9]{0,20}([0-9]+)/i);obj.sleep=nums(/sleep[^0-9]{0,20}([0-9.]+)/i);obj.restingHR=nums(/resting.?heart.?rate[^0-9]{0,20}([0-9.]+)/i);obj.activeCalories=nums(/active.?calories[^0-9]{0,20}([0-9.]+)/i)}
+ }catch(e){}
+ D.health.push(obj);save();$('#healthSummary').innerHTML=`<div class="why">Importerad: ${f.name}<br>Steg: ${obj.steps||'–'} • Sömn: ${obj.sleep||'–'} • Vilopuls: ${obj.restingHR||'–'} • kcal: ${obj.activeCalories||'–'}</div>`;render();toast('Hälsodata importerad')
+};
+
+$('#exportData').onclick=()=>{let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(D,null,2)],{type:'application/json'}));a.download='rsg-ai-coach-backup.json';a.click()};
+$('#resetData').onclick=()=>{if(confirm('Radera all data?')){localStorage.removeItem(K);location.reload()}};
+
+function onboarding(){
+ if(D.onboarded)return;let step=0;
+ const draw=()=>{let pages=[
+ `<h2>Välkommen 👋</h2><p>Appen anpassar träning, kost och återhämtning efter dina egna data.</p><label>Ditt namn<input id="obName" value="${D.profile.name||''}"></label>`,
+ `<h2>Vad är ditt huvudmål?</h2><div class="choice">${[['muscle','💪 Bygga muskler'],['strength','🏋️ Styrka'],['fatloss','🔥 Fettminskning'],['fitness','❤️ Kondition']].map(x=>`<button data-obgoal="${x[0]}">${x[1]}</button>`).join('')}</div>`,
+ `<h2>Hur erfaren är du?</h2><div class="choice"><button data-obexp="beginner">Nybörjare</button><button data-obexp="intermediate">Medel</button><button data-obexp="advanced">Avancerad</button></div>`,
+ `<h2>Hur många dagar?</h2><div class="choice">${[3,4,5,6].map(x=>`<button data-obdays="${x}">${x} dagar</button>`).join('')}</div><p>Vi väljer ett startprogram som kan ändras när som helst.</p>`
+ ][step];$('#onboardContent').innerHTML=pages;$$('.stepdots i').forEach((x,i)=>x.classList.toggle('on',i<=step));$$('[data-obgoal]').forEach(b=>b.onclick=()=>{D.profile.primaryGoal=b.dataset.obgoal;draw()});$$('[data-obexp]').forEach(b=>b.onclick=()=>{D.profile.experience=b.dataset.obexp;draw()});$$('[data-obdays]').forEach(b=>b.onclick=()=>{D.profile.days=+b.dataset.obdays;draw()});$('#onboardNext').textContent=step===3?'Skapa min plan':'Fortsätt'};
+ $('#onboarding').classList.add('on');draw();$('#onboardNext').onclick=()=>{if(step===0)D.profile.name=$('#obName').value.trim();if(step<3){step++;draw()}else{D.program=D.profile.days<=3?'Full Body 3':D.profile.days===4?'Upper/Lower':'PPL × 2';D.onboarded=true;save();$('#onboarding').classList.remove('on');render();toast('Din plan är klar')}}
+}
+function render(){tabs();workout();renderHome();renderCoach();renderPrograms();renderExerciseLibrary();nutrition();profile();wearables();$('#activeProgramName').textContent=D.program;$('#workoutDate').value=$('#workoutDate').value||new Date().toISOString().slice(0,10)}
+addBuilderRow();render();onboarding();
+</script>
+</body></html>
