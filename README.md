@@ -3,9 +3,11 @@
 
 RSG Coach är en privat iPhone-anpassad PWA för hård hypertrofiträning. Appen fungerar offline, sparar träningsdata lokalt på enheten och kan installeras från Safari utan App Store.
 
+**Appadress:** [https://jnyskg-ai.github.io/rsgiggaren1/](https://jnyskg-ai.github.io/rsgiggaren1/)
+
 ## Öppna och installera på iPhone
 
-1. Öppna appens webblänk i Safari.
+1. Öppna [appadressen](https://jnyskg-ai.github.io/rsgiggaren1/) i Safari. Rotadressen skickar vidare till den befintliga appfilen så att tidigare installationer fortsätter använda samma startsida.
 2. Tryck på Dela.
 3. Välj **Lägg till på hemskärmen**.
 4. Öppna därefter RSG Coach från hemskärmsikonen.
@@ -20,6 +22,8 @@ Appen kan delas med en vän genom att skicka samma webblänk via Meddelanden, e-
 - Skapa gärna en JSON-kopia under **Profil → Data & uppdateringar → Exportera säkerhetskopia**. Där kan kopian även återställas.
 
 Radera inte webbplatsdata för appens domän i iPhone-inställningarna; det tar bort lokalt sparad historik.
+
+Om hemskärmsappen visar en äldre version: öppna först appadressen i Safari med internetanslutning, vänta några sekunder och öppna sedan hemskärmsappen igen. Gå vid behov till **Profil → Data & uppdateringar → Sök efter appuppdatering**. Ta inte bort den gamla ikonen innan träningshistoriken har kontrollerats eller exporterats.
 
 ## Träningsfunktioner
 
@@ -39,4 +43,4 @@ node tests/validate.mjs
 node --check service-worker.js
 ```
 
-För webbläsartest kan katalogen serveras lokalt med valfri statisk webbserver. Huvudappen är fortsatt den befintliga filen `Coash 1.0.html`; ingen parallell appversion används.
+För webbläsartest kan katalogen serveras lokalt med valfri statisk webbserver. `index.html` är endast en stabil rotadress som skickar vidare till den befintliga huvudappen `Coash 1.0.html`; ingen parallell appversion används. GitHub Pages ska publicera `main` från `/(root)`.
