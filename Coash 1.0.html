@@ -7,6 +7,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="RSG AI Coach">
+<meta name="description" content="Privat, offline träningscoach för maximal hypertrofi.">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-192.png">
 <title>RSG AI Coach</title>
 <style>
 :root{--bg:#09101f;--card:#151e33;--card2:#1d2944;--input:#243351;--text:#f7fafc;--muted:#98a7bd;--green:#48e0a4;--blue:#65a7ff;--orange:#ffb454;--red:#ff6b79;--line:#ffffff14}
@@ -26,10 +29,12 @@ label{display:block;color:var(--muted);font-size:13px;margin-bottom:10px}input,s
 .macro{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.macro div{padding:10px;background:#0a1222;border-radius:13px;text-align:center;color:var(--muted);font-size:12px}.macro b{display:block;color:var(--text);font-size:19px;margin-top:4px}
 .quest{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.quest:last-child{border:0}.ico{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--input)}
 .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(460px,100%);display:grid;grid-template-columns:repeat(5,1fr);padding:7px 4px calc(7px + env(safe-area-inset-bottom));background:#09101ff2;border-top:1px solid var(--line);z-index:20}.nav button{border:0;background:none;color:var(--muted);font-size:9px;font-weight:800}.nav span{display:block;font-size:20px}.nav button.on{color:var(--green)}
-.timer{display:none;position:fixed;right:12px;bottom:92px;z-index:30;background:white;color:#111827;padding:10px 12px;border-radius:16px;align-items:center;gap:10px}.timer.on{display:flex}.toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:white;color:#111827;padding:10px 14px;border-radius:999px;opacity:0;pointer-events:none;z-index:50;transition:.2s}.toast.on{opacity:1}
+.timer{display:none;position:fixed;left:12px;right:12px;bottom:92px;z-index:30;background:white;color:#111827;padding:10px 12px;border-radius:16px;align-items:center;gap:9px;box-shadow:0 16px 40px #0008}.timer.on{display:flex}.timer-main{min-width:0;flex:1}.timer-main small{display:block;color:#526076;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.timer button{padding:9px 10px}.toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:white;color:#111827;padding:10px 14px;border-radius:999px;opacity:0;pointer-events:none;z-index:80;transition:.2s}.toast.on{opacity:1}
 .modal{display:none;position:fixed;inset:0;background:#000a;z-index:60;align-items:flex-end}.modal.on{display:flex}.sheet{width:min(460px,100%);margin:auto;background:var(--card);border-radius:28px 28px 0 0;padding:20px calc(18px + env(safe-area-inset-right)) calc(22px + env(safe-area-inset-bottom))}
 .stepdots{display:flex;gap:6px;margin-bottom:14px}.stepdots i{height:5px;flex:1;border-radius:9px;background:#ffffff16}.stepdots i.on{background:var(--green)}
 .listrow{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.tiny{font-size:11px;color:var(--muted)}.hidden-advanced{display:none}.advanced .hidden-advanced{display:block}.simple .advanced-only{display:none}
+.exercise-head{align-items:flex-start}.exercise-actions{display:flex;gap:6px;align-items:center}.swapbox{margin:9px 0;padding:11px;border-radius:14px;background:#0a1222;border:1px solid var(--line)}.swapbox[hidden]{display:none}.swapbox .form2{grid-template-columns:1fr auto}.rest-select{width:auto;min-width:86px;margin:0;padding:8px;font-size:13px}.set input.invalid{border-color:var(--red);box-shadow:0 0 0 2px #ff6b7933}.set button.done{position:relative}.set button.done::after{content:' Loggat';font-size:0}.program.active{border-color:var(--green)}
+.update-banner{display:none;position:fixed;left:12px;right:12px;bottom:92px;z-index:70;max-width:436px;margin:auto;padding:13px;background:#f7fafc;color:#111827;border-radius:17px;box-shadow:0 16px 40px #0008}.update-banner.on{display:block}.update-banner p{color:#526076;margin:3px 0 10px}.update-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.update-actions .btn{padding:10px}.version{font-size:11px;color:var(--muted);text-align:center;margin-top:12px}.hard-note{border-left:4px solid var(--green)}
 @media(max-width:360px){.form2,.choice{grid-template-columns:1fr}.hero h2{font-size:28px}}
 </style>
 </head>
@@ -61,7 +66,8 @@ label{display:block;color:var(--muted);font-size:13px;margin-bottom:10px}input,s
 </section>
 
 <section id="plan" class="screen">
-<div class="card"><h2>Träningsprogram</h2><p>Programmen filtreras efter antal dagar, erfarenhet och utrustning.</p><div id="programLibrary"></div></div>
+<div class="card hard-note"><h2>Maximal hypertrofi</h2><p>Programmen är byggda för riktigt hårda pass med 10–15 klassiska bodybuildingövningar. Angivna set är arbetsset; uppvärmningsset tillkommer. Anpassa volymen efter återhämtning och håll normalt RIR 0–2.</p></div>
+<div class="card"><h2>Träningsprogram</h2><p>Programmen sorteras efter dina val för antal dagar och utrustning.</p><div id="programLibrary"></div></div>
 <div class="card"><h2>Övningsbibliotek</h2><label>Sök<input id="exerciseSearch" placeholder="Press, rodd, curl..."></label><div class="form2"><label>Muskel<select id="muscleFilter"><option value="">Alla</option></select></label><label>Utrustning<select id="equipmentFilter"><option value="">All utrustning</option></select></label></div><div id="exerciseLibrary"></div></div>
 <div class="card"><h2>Bygg eget schema</h2><label>Programnamn<input id="customName" placeholder="Mitt program"></label><label>Passnamn<input id="customDay" placeholder="Överkropp A"></label><div id="customExercises"></div><button id="addCustomExercise" class="btn secondary">+ Lägg till övning</button><button id="saveCustomProgram" class="btn primary" style="margin-top:8px">Spara program</button></div>
 <div class="card"><h2>Kostplan</h2><div class="choice" id="goalChoices"><button data-goal="cut">🔥 Deff</button><button data-goal="recomp">⚖️ Recomp</button><button data-goal="leanbulk">💪 Lean bulk</button><button data-goal="bulk">🚀 Bulk</button></div>
@@ -80,71 +86,204 @@ label{display:block;color:var(--muted);font-size:13px;margin-bottom:10px}input,s
 <div class="card"><h2>⌚ Hälsa & klockor</h2><p>Importera data från Apple Watch, Garmin, Fitbit, Polar, Samsung, Oura, WHOOP, Suunto och COROS.</p><div class="choice" id="wearableBrands"></div><div id="wearableGuide" class="why">Välj märke.</div><label>Importera fil<input id="healthFile" type="file" accept=".xml,.csv,.json,.tcx,.gpx,text/xml,text/csv,application/json"></label><button id="importHealth" class="btn secondary">Importera hälsodata</button><div id="healthSummary"></div></div>
 
 <div class="card"><h2>Guide</h2><div class="quest"><div class="ico">🎯</div><div><b>Progression</b><small>Höj vikt först när övre repgränsen nås med god teknik och RIR 1–2.</small></div></div><div class="quest"><div class="ico">😴</div><div><b>Deload</b><small>Aktuellt när prestation, återhämtning och motivation sjunker samtidigt.</small></div></div><div class="quest"><div class="ico">🛡️</div><div><b>Säkerhet</b><small>Avbryt vid skarp smärta. Appen ersätter inte medicinsk rådgivning.</small></div></div></div>
-<div class="card"><button id="exportData" class="btn secondary">Exportera säkerhetskopia</button><button id="resetData" class="btn secondary" style="margin-top:8px">Radera data</button></div>
+<div class="card"><h2>Data & uppdateringar</h2><p>Träningsdata sparas lokalt och ligger kvar när appen uppdateras.</p><button id="exportData" class="btn secondary">Exportera säkerhetskopia</button><label style="margin-top:10px">Återställ säkerhetskopia<input id="backupFile" type="file" accept="application/json,.json"></label><button id="importBackup" class="btn secondary">Importera säkerhetskopia</button><button id="checkUpdate" class="btn secondary" style="margin-top:8px">Sök efter appuppdatering</button><button id="resetData" class="btn secondary" style="margin-top:8px">Radera data</button><div class="version" id="appVersion"></div></div>
 </section>
 </main>
 <nav class="nav"><button data-go="home" class="on"><span>⌂</span>Hem</button><button data-go="train"><span>＋</span>Träna</button><button data-go="coach"><span>✦</span>Coach</button><button data-go="plan"><span>▦</span>Plan</button><button data-go="profile"><span>●</span>Profil</button></nav>
 </div>
-<div class="timer" id="timer"><span>Vila</span><b id="timerText">01:30</b><button class="btn smallbtn" id="stopTimer">Stopp</button></div><div class="toast" id="toast"></div>
+<div class="timer" id="timer"><div class="timer-main"><small id="timerExercise">Vila</small><b id="timerText">01:30</b></div><button class="btn smallbtn" id="addTimer">+30 s</button><button class="btn smallbtn" id="stopTimer">Stopp</button></div><div class="toast" id="toast"></div>
+<div class="update-banner" id="updateBanner"><b>Ny version av RSG Coach finns</b><p>Ditt pågående pass och all historik bevaras.</p><div class="update-actions"><button class="btn secondary" id="laterUpdate">Senare</button><button class="btn primary" id="applyUpdate">Uppdatera</button></div></div>
 <div class="modal" id="onboarding"><div class="sheet"><div class="stepdots"><i></i><i></i><i></i><i></i></div><div id="onboardContent"></div><button id="onboardNext" class="btn primary">Fortsätt</button></div></div>
 
 <script>
+const W={
+pushA:[['Bänkpress',4,'5–8'],['Lutande hantelpress',4,'8–12'],['Bröstpressmaskin',3,'10–15'],['Pec deck',3,'12–20'],['Militärpress',3,'6–10'],['Kabel-sidolyft',4,'12–20'],['Sidolyft maskin',3,'15–25'],['Omvänd pec deck',3,'15–25'],['Smal bänkpress',3,'6–10'],['Triceps pushdown',3,'10–15'],['Overhead triceps extension',3,'10–15'],['Dips',3,'8–15']],
+pushB:[['Lutande Smithpress',4,'6–10'],['Hantelpress plan bänk',4,'8–12'],['Bröstpress Hammer Strength',3,'8–15'],['Kabelflyes låg-till-hög',3,'12–20'],['Sittande hantelpress',3,'8–12'],['Sidolyft hantlar',4,'12–25'],['Kabel upprätt rodd',3,'10–15'],['Face pull',3,'15–25'],['JM-press',3,'8–12'],['Triceps rep-pushdown',3,'10–20'],['Enarms overhead kabel',3,'12–20'],['Maskindips',3,'10–15']],
+pullA:[['Viktade chins',4,'5–8'],['T-bar rodd',4,'6–10'],['Latsdrag neutralt',3,'8–12'],['Bröststödd hantelrodd',3,'8–12'],['Enarmsrodd kabel',3,'10–15'],['Pullover kabel',3,'12–20'],['Omvänd pec deck',3,'15–25'],['Face pull',3,'15–25'],['Skivstångsshrugs',4,'8–15'],['Lutande hantelcurl',3,'8–12'],['EZ-curl',3,'8–12'],['Omvänd curl',3,'12–20']],
+pullB:[['Latsdrag brett',4,'8–12'],['Skivstångsrodd',4,'6–10'],['Kabelrodd smalt',3,'8–12'],['Maskinrodd',3,'10–15'],['Enarms latsdrag',3,'10–15'],['Rakarmsdrag',3,'12–20'],['Bakre axel kabel',4,'15–25'],['Hantelshrugs',4,'10–15'],['Preachercurl',3,'8–12'],['Kabelcurl',3,'10–15'],['Hammercurl',3,'10–15'],['Handledscurl',3,'15–25']],
+legsA:[['Knäböj',4,'5–8'],['Benpress',4,'10–15'],['Bulgarian split squat',3,'8–12'],['Benspark',4,'12–20'],['Rumänska marklyft',4,'6–10'],['Sittande lårcurl',4,'10–15'],['Liggande lårcurl',3,'10–15'],['Hip thrust',3,'8–12'],['Adduktormaskin',3,'12–20'],['Stående vadpress',4,'10–15'],['Sittande vadpress',4,'12–20'],['Cable crunch',3,'10–20']],
+legsB:[['Hack squat',4,'8–12'],['Frontböj',3,'6–10'],['Utfall bakåt',3,'8–12'],['Benspark enbens',3,'12–20'],['Good mornings',3,'8–12'],['Nordic hamstring curl',3,'6–10'],['Glute kickback kabel',3,'12–20'],['Abduktormaskin',3,'15–25'],['Donkey calf raise',4,'10–20'],['Vadpress i benpress',4,'12–20'],['Hängande benlyft',3,'10–20'],['Ab wheel',3,'8–15']],
+upperA:[['Bänkpress',4,'5–8'],['Viktade chins',4,'5–8'],['Lutande hantelpress',3,'8–12'],['Bröststödd rodd',3,'8–12'],['Militärpress',3,'6–10'],['Latsdrag neutralt',3,'8–12'],['Pec deck',3,'12–20'],['Kabel-sidolyft',4,'12–20'],['Omvänd pec deck',3,'15–25'],['EZ-curl',3,'8–12'],['Lutande hantelcurl',3,'10–15'],['Triceps pushdown',3,'10–15'],['Overhead triceps extension',3,'10–15']],
+upperB:[['Lutande Smithpress',4,'6–10'],['T-bar rodd',4,'6–10'],['Dips',3,'8–12'],['Enarms latsdrag',3,'10–15'],['Sittande hantelpress',3,'8–12'],['Kabelrodd smalt',3,'8–12'],['Kabelflyes hög-till-låg',3,'12–20'],['Sidolyft maskin',4,'15–25'],['Bakre axel kabel',3,'15–25'],['Preachercurl',3,'8–12'],['Hammercurl',3,'10–15'],['Smal bänkpress',3,'6–10'],['Enarms pushdown',3,'12–20']],
+lowerA:[['Knäböj',4,'5–8'],['Rumänska marklyft',4,'6–10'],['Benpress',4,'10–15'],['Bulgarian split squat',3,'8–12'],['Benspark',4,'12–20'],['Sittande lårcurl',4,'10–15'],['Liggande lårcurl',3,'10–15'],['Hip thrust',3,'8–12'],['Adduktormaskin',3,'12–20'],['Stående vadpress',4,'10–20'],['Sittande vadpress',4,'12–20'],['Cable crunch',3,'10–20']],
+lowerB:[['Hack squat',4,'8–12'],['Good mornings',3,'8–12'],['Frontböj',3,'6–10'],['Utfall bakåt',3,'8–12'],['Benspark enbens',3,'12–20'],['Nordic hamstring curl',3,'6–10'],['Glute kickback kabel',3,'12–20'],['Abduktormaskin',3,'15–25'],['Donkey calf raise',4,'10–20'],['Vadpress i benpress',4,'12–20'],['Hängande benlyft',3,'10–20'],['Ab wheel',3,'8–15']],
+fullA:[['Knäböj',3,'6–10'],['Bänkpress',3,'6–10'],['Viktade chins',3,'6–10'],['Rumänska marklyft',3,'8–12'],['Bröststödd rodd',3,'8–12'],['Militärpress',3,'8–12'],['Benspark',3,'12–20'],['Sittande lårcurl',3,'10–15'],['Sidolyft hantlar',3,'15–25'],['EZ-curl',3,'10–15'],['Triceps pushdown',3,'10–15'],['Stående vadpress',3,'12–20']],
+fullB:[['Hack squat',3,'8–12'],['Lutande hantelpress',3,'8–12'],['T-bar rodd',3,'8–12'],['Hip thrust',3,'8–12'],['Latsdrag neutralt',3,'10–15'],['Sittande hantelpress',3,'8–12'],['Utfall bakåt',3,'10–15'],['Liggande lårcurl',3,'10–15'],['Omvänd pec deck',3,'15–25'],['Hammercurl',3,'10–15'],['Overhead triceps extension',3,'10–15'],['Cable crunch',3,'12–20']],
+fullC:[['Benpress',3,'10–15'],['Dips',3,'8–15'],['Chins',3,'6–12'],['Good mornings',3,'8–12'],['Kabelrodd smalt',3,'8–12'],['Bröstpressmaskin',3,'10–15'],['Bulgarian split squat',3,'8–12'],['Benspark',3,'15–25'],['Kabel-sidolyft',3,'15–25'],['Preachercurl',3,'10–15'],['Maskindips',3,'10–15'],['Sittande vadpress',3,'12–20']],
+homeA:[['Goblet squat',4,'8–15'],['Hantelpress golv',4,'8–15'],['Enarmsrodd hantel',4,'8–15'],['Rumänska marklyft hantlar',4,'8–15'],['Armhävningar',3,'AMRAP'],['Hantelpress',3,'8–15'],['Sidolyft hantlar',3,'12–25'],['Omvända hantelflyes',3,'12–25'],['Lutande hantelcurl',3,'10–20'],['Overhead triceps hantel',3,'10–20'],['Enbens vadpress',4,'12–25'],['Dead bug',3,'10–20']],
+homeB:[['Bulgarian split squat',4,'8–15'],['Lutande hantelpress',4,'8–15'],['Hantelrodd bröststöd',4,'8–15'],['Hip thrust hantel',4,'10–20'],['Hälförhöjd goblet squat',3,'10–20'],['Pullover hantel',3,'10–20'],['Arnoldpress',3,'8–15'],['Hammercurl',3,'10–20'],['Liggande hantel-extension',3,'10–20'],['Stående vadpress hantlar',4,'12–25'],['Omvänd crunch',3,'12–25']],
+homeC:[['Utfall bakåt',4,'8–15'],['Hantelpress plan bänk',4,'8–15'],['Hantelrodd bröststöd',4,'8–15'],['Enbens RDL',3,'8–15'],['Step-up',3,'8–15'],['Renegade row',3,'8–15'],['Z-press',3,'8–15'],['Koncentrationscurl',3,'10–20'],['Triceps kickback',3,'12–25'],['Frog pumps',3,'15–30'],['Farmers carry',4,'30–60 s'],['Planka',3,'30–60 s']],
+chest:[['Bänkpress',4,'5–8'],['Lutande Smithpress',4,'6–10'],['Hantelpress plan bänk',4,'8–12'],['Dips',3,'8–12'],['Bröstpress Hammer Strength',3,'8–15'],['Pec deck',3,'12–20'],['Kabelflyes hög-till-låg',3,'12–20'],['Kabelflyes låg-till-hög',3,'12–20'],['Hantelflyes',3,'10–15'],['Armhävningar',3,'AMRAP'],['Pullover hantel',3,'10–15']],
+back:[['Viktade chins',4,'5–8'],['Skivstångsrodd',4,'6–10'],['T-bar rodd',4,'8–12'],['Latsdrag neutralt',3,'8–12'],['Latsdrag brett',3,'8–12'],['Bröststödd rodd',3,'8–12'],['Kabelrodd smalt',3,'10–15'],['Enarms latsdrag',3,'10–15'],['Pullover kabel',3,'12–20'],['Skivstångsshrugs',4,'8–15'],['Omvänd pec deck',3,'15–25'],['Ryggresningar',3,'10–20']],
+shoulders:[['Militärpress',4,'5–8'],['Sittande hantelpress',4,'8–12'],['Maskinpress axlar',3,'8–15'],['Kabel-sidolyft',4,'12–20'],['Sidolyft hantlar',4,'15–25'],['Sidolyft maskin',3,'15–25'],['Kabel upprätt rodd',3,'10–15'],['Omvänd pec deck',4,'15–25'],['Bakre axel kabel',4,'15–25'],['Face pull',3,'15–25'],['Hantelshrugs',4,'10–15']],
+armsA:[['Smal bänkpress',4,'6–10'],['EZ-curl',4,'6–10'],['Overhead triceps extension',3,'10–15'],['Preachercurl',3,'8–12'],['Triceps pushdown',3,'10–15'],['Lutande hantelcurl',3,'10–15'],['Liggande tricepspress',3,'8–12'],['Hammercurl',3,'10–15'],['Enarms pushdown',3,'12–20'],['Kabelcurl bakom kroppen',3,'12–20'],['Omvänd curl',3,'12–20'],['Handledscurl',3,'15–25'],['Omvänd handledscurl',3,'15–25']],
+chestBackA:[['Bänkpress',4,'5–8'],['Viktade chins',4,'5–8'],['Lutande hantelpress',4,'8–12'],['T-bar rodd',4,'8–12'],['Bröstpressmaskin',3,'10–15'],['Latsdrag neutralt',3,'10–15'],['Pec deck',3,'12–20'],['Bröststödd rodd',3,'10–15'],['Kabelflyes hög-till-låg',3,'15–20'],['Pullover kabel',3,'12–20'],['Armhävningar',2,'AMRAP'],['Ryggresningar',3,'12–20']],
+chestBackB:[['Lutande Smithpress',4,'6–10'],['Skivstångsrodd',4,'6–10'],['Dips',4,'8–12'],['Latsdrag brett',4,'8–12'],['Hantelpress plan bänk',3,'8–15'],['Enarms latsdrag',3,'10–15'],['Kabelflyes låg-till-hög',3,'12–20'],['Kabelrodd smalt',3,'10–15'],['Hantelflyes',3,'12–20'],['Rakarmsdrag',3,'12–20'],['Bröstpress Hammer Strength',3,'10–15'],['Omvänd pec deck',3,'15–25']],
+shouldersArmsA:[['Militärpress',4,'5–8'],['Smal bänkpress',4,'6–10'],['EZ-curl',4,'6–10'],['Sittande hantelpress',3,'8–12'],['Kabel-sidolyft',4,'12–20'],['Omvänd pec deck',4,'15–25'],['Overhead triceps extension',3,'10–15'],['Preachercurl',3,'8–12'],['Triceps pushdown',3,'10–15'],['Lutande hantelcurl',3,'10–15'],['Enarms pushdown',3,'12–20'],['Hammercurl',3,'10–15'],['Handledscurl',3,'15–25']],
+shouldersArmsB:[['Maskinpress axlar',4,'8–12'],['Liggande tricepspress',4,'8–12'],['Kabelcurl',4,'8–12'],['Sidolyft hantlar',4,'15–25'],['Bakre axel kabel',4,'15–25'],['Kabel upprätt rodd',3,'10–15'],['JM-press',3,'8–12'],['Kabelcurl bakom kroppen',3,'12–20'],['Triceps rep-pushdown',3,'12–20'],['Koncentrationscurl',3,'10–15'],['Enarms overhead kabel',3,'12–20'],['Omvänd curl',3,'12–20'],['Omvänd handledscurl',3,'15–25']],
+limbsA:[['Knäböj',4,'5–8'],['Rumänska marklyft',4,'6–10'],['Benpress',3,'10–15'],['Sittande lårcurl',3,'10–15'],['Benspark',3,'12–20'],['Stående vadpress',4,'10–20'],['Smal bänkpress',3,'6–10'],['EZ-curl',3,'8–12'],['Overhead triceps extension',3,'10–15'],['Lutande hantelcurl',3,'10–15'],['Enarms pushdown',3,'12–20'],['Hammercurl',3,'10–15']],
+limbsB:[['Hack squat',4,'8–12'],['Good mornings',3,'8–12'],['Bulgarian split squat',3,'8–12'],['Liggande lårcurl',3,'10–15'],['Benspark enbens',3,'12–20'],['Sittande vadpress',4,'12–20'],['Liggande tricepspress',3,'8–12'],['Preachercurl',3,'8–12'],['Triceps pushdown',3,'10–15'],['Kabelcurl bakom kroppen',3,'12–20'],['Enarms overhead kabel',3,'12–20'],['Omvänd curl',3,'12–20']],
+quadFocus:[['Frontböj',4,'5–8'],['Hack squat',4,'8–12'],['Benpress smal fot',4,'10–15'],['Bulgarian split squat',3,'8–12'],['Hälförhöjd goblet squat',3,'10–15'],['Benspark',4,'12–20'],['Benspark enbens',3,'15–25'],['Adduktormaskin',3,'12–20'],['Sittande lårcurl',3,'10–15'],['Stående vadpress',4,'10–20'],['Sittande vadpress',4,'12–20'],['Cable crunch',3,'12–20']],
+posteriorFocus:[['Rumänska marklyft',4,'6–10'],['Hip thrust',4,'8–12'],['Good mornings',3,'8–12'],['Nordic hamstring curl',3,'6–10'],['Liggande lårcurl',4,'10–15'],['Sittande lårcurl',3,'12–20'],['Utfall bakåt',3,'8–12'],['Glute kickback kabel',3,'12–20'],['Abduktormaskin',3,'15–25'],['Donkey calf raise',4,'10–20'],['Vadpress i benpress',4,'12–20'],['Hängande benlyft',3,'10–20']]
+};
+
 const PROGRAMS={
-'PPL × 2':{days:6,level:'advanced',equipment:'gym',desc:'6 dagar • hypertrofi',workouts:{
-'Push A':[['Bänkpress',4,'5–8'],['Lutande hantelpress',3,'8–12'],['Militärpress',3,'6–10'],['Kabel-sidolyft',4,'12–20'],['Triceps pushdown',3,'10–15']],
-'Pull A':[['Viktade chins',4,'5–8'],['Bröststödd rodd',4,'6–10'],['Latsdrag neutralt',3,'8–12'],['Omvänd pec deck',4,'12–20'],['EZ-curl',3,'8–12']],
-'Legs A':[['Knäböj',4,'5–8'],['Rumänska marklyft',4,'6–10'],['Benpress',3,'10–15'],['Lårcurl',3,'10–15'],['Stående vadpress',4,'10–20']],
-'Push B':[['Lutande Smithpress',4,'8–12'],['Bröstpressmaskin',3,'10–15'],['Pec deck',3,'12–20'],['Sidolyft maskin',4,'12–20'],['Overhead triceps extension',3,'10–15']],
-'Pull B':[['Latsdrag',4,'8–12'],['Kabelrodd',4,'8–12'],['Enarmsrodd kabel',3,'10–15'],['Face pull',3,'12–20'],['Preachercurl',3,'10–15']],
-'Legs B':[['Hack squat',4,'8–12'],['Bulgarian split squat',3,'8–12'],['Benspark',3,'12–20'],['Sittande lårcurl',4,'10–15'],['Hip thrust',3,'8–12'],['Sittande vadpress',4,'12–20']]
-}},
-'Upper/Lower':{days:4,level:'intermediate',equipment:'gym',desc:'4 dagar • balanserat',workouts:{
-'Upper A':[['Bänkpress',4,'5–8'],['Latsdrag',4,'8–12'],['Bröststödd rodd',3,'8–12'],['Hantelpress',3,'8–12'],['Sidolyft',3,'12–20'],['Kabelcurl',2,'10–15'],['Pushdown',2,'10–15']],
-'Lower A':[['Knäböj',4,'5–8'],['Rumänska marklyft',4,'6–10'],['Benpress',3,'10–15'],['Lårcurl',3,'10–15'],['Vadpress',4,'12–20']],
-'Upper B':[['Lutande hantelpress',4,'8–12'],['Chins',4,'6–10'],['Kabelrodd',3,'10–15'],['Militärpress',3,'6–10'],['Omvänd pec deck',3,'12–20'],['Preachercurl',2,'10–15'],['Overhead extension',2,'10–15']],
-'Lower B':[['Hack squat',4,'8–12'],['Hip thrust',4,'8–12'],['Bulgarian split squat',3,'8–12'],['Benspark',3,'12–20'],['Sittande lårcurl',3,'10–15'],['Vadpress',4,'12–20']]
-}},
-'Full Body 3':{days:3,level:'beginner',equipment:'gym',desc:'3 dagar • enkelt och effektivt',workouts:{
-'Helkropp A':[['Knäböj',3,'6–10'],['Bänkpress',3,'6–10'],['Latsdrag',3,'8–12'],['Rumänska marklyft',2,'8–12'],['Sidolyft',2,'12–20']],
-'Helkropp B':[['Benpress',3,'10–15'],['Lutande hantelpress',3,'8–12'],['Kabelrodd',3,'8–12'],['Hip thrust',3,'8–12'],['Pushdown',2,'10–15']],
-'Helkropp C':[['Hack squat',3,'8–12'],['Bröstpressmaskin',3,'8–12'],['Chins assisterade',3,'8–12'],['Lårcurl',3,'10–15'],['Hammercurl',2,'10–15']]
-}},
-'Hantlar hemma':{days:3,level:'beginner',equipment:'dumbbells',desc:'3 dagar • endast hantlar',workouts:{
-'Pass A':[['Goblet squat',4,'8–15'],['Hantelpress golv',4,'8–15'],['Enarmsrodd hantel',4,'8–15'],['Rumänska marklyft hantlar',3,'8–15'],['Sidolyft',3,'12–20']],
-'Pass B':[['Bulgarian split squat',4,'8–15'],['Lutande hantelpress',4,'8–15'],['Hantelrodd bröststöd',4,'8–15'],['Hip thrust hantel',3,'10–20'],['Hammercurl',3,'10–20']],
-'Pass C':[['Utfall bakåt',4,'8–15'],['Hantelpress',4,'8–15'],['Pullover hantel',3,'10–20'],['Enbens RDL',3,'8–15'],['Overhead triceps hantel',3,'10–20']]
-}}};
+'PPL × 2':{days:6,level:'advanced',equipment:'gym',desc:'6 dagar • maxvolym • 12 övningar/pass',workouts:{'Push A':W.pushA,'Pull A':W.pullA,'Legs A':W.legsA,'Push B':W.pushB,'Pull B':W.pullB,'Legs B':W.legsB}},
+'Upper/Lower':{days:4,level:'intermediate',equipment:'gym',desc:'4 dagar • tung hypertrofi • 12–13 övningar/pass',workouts:{'Upper A':W.upperA,'Lower A':W.lowerA,'Upper B':W.upperB,'Lower B':W.lowerB}},
+'Full Body 3':{days:3,level:'intermediate',equipment:'gym',desc:'3 dagar • hög helkroppsvolym • 12 övningar/pass',workouts:{'Helkropp A':W.fullA,'Helkropp B':W.fullB,'Helkropp C':W.fullC}},
+'Hantlar hemma':{days:3,level:'intermediate',equipment:'dumbbells',desc:'3 dagar • hårda hemmapass • 11–12 övningar/pass',workouts:{'Pass A':W.homeA,'Pass B':W.homeB,'Pass C':W.homeC}},
+'Bro Split 5':{days:5,level:'advanced',equipment:'gym',desc:'5 dagar • klassisk bodybuilding • 11–13 övningar/pass',workouts:{'Bröst':W.chest,'Rygg':W.back,'Axlar':W.shoulders,'Armar':W.armsA,'Ben':W.legsA}},
+'Arnold Split × 2':{days:6,level:'advanced',equipment:'gym',desc:'6 dagar • bröst/rygg, axlar/armar, ben',workouts:{'Bröst & rygg A':W.chestBackA,'Axlar & armar A':W.shouldersArmsA,'Ben A':W.legsA,'Bröst & rygg B':W.chestBackB,'Axlar & armar B':W.shouldersArmsB,'Ben B':W.legsB}},
+'PPL Max 5':{days:5,level:'advanced',equipment:'gym',desc:'5 dagar • PPL plus extra över/underkropp',workouts:{'Push':W.pushA,'Pull':W.pullA,'Legs':W.legsA,'Upper':W.upperB,'Lower':W.lowerB}},
+'Torso/Extremiteter 4':{days:4,level:'advanced',equipment:'gym',desc:'4 dagar • hög frekvens för hela kroppen',workouts:{'Torso A':W.upperA,'Extremiteter A':W.limbsA,'Torso B':W.upperB,'Extremiteter B':W.limbsB}},
+'Bröstspecialisering 5':{days:5,level:'advanced',equipment:'gym',desc:'5 dagar • tre bröststimuli • max hypertrofi',workouts:{'Bröst tungt':W.chest,'Rygg & biceps':W.pullA,'Ben':W.lowerA,'Bröst & rygg':W.chestBackB,'Axlar, armar & bröst':W.pushB}},
+'Ryggspecialisering 5':{days:5,level:'advanced',equipment:'gym',desc:'5 dagar • tre ryggstimuli • bredd och tjocklek',workouts:{'Rygg tungt':W.back,'Push':W.pushB,'Ben':W.lowerA,'Rygg volym':W.pullB,'Torso':W.upperA}},
+'Armspecialisering 5':{days:5,level:'advanced',equipment:'gym',desc:'5 dagar • tre armstimuli • biceps och triceps',workouts:{'Armar tungt':W.armsA,'Ben A':W.lowerA,'Torso A':W.upperA,'Armar volym':W.shouldersArmsB,'Ben B':W.lowerB}},
+'Benspecialisering 5':{days:5,level:'advanced',equipment:'gym',desc:'5 dagar • tre benstimuli • quads och baksida',workouts:{'Ben tungt':W.legsA,'Upper A':W.upperA,'Quads':W.quadFocus,'Upper B':W.upperB,'Baksida & säte':W.posteriorFocus}}
+};
 
 const EX=[
-['Bänkpress','Bröst','Skivstång','Medel','5–10','Bröstpressmaskin','Skulderblad bak, stabil fotposition och kontrollerad sänkning.'],
-['Lutande hantelpress','Bröst','Hantlar','Medel','8–15','Lutande maskinpress','Håll armbågar cirka 30–60 grader från kroppen.'],
-['Bröstpressmaskin','Bröst','Maskin','Nybörjare','8–15','Armhävningar','Justera sits så handtagen hamnar mitt på bröstet.'],
-['Pec deck','Bröst','Maskin','Nybörjare','10–20','Kabelflyes','Behåll lätt böjda armbågar och kontrollera stretchen.'],
-['Chins','Rygg','Kroppsvikt','Medel','5–12','Latsdrag','Dra armbågarna nedåt och undvik att kasta kroppen.'],
-['Latsdrag','Rygg','Kabel','Nybörjare','8–15','Assisterade chins','Dra stången mot övre bröstet utan att luta överdrivet.'],
-['Bröststödd rodd','Rygg','Maskin','Nybörjare','8–15','Kabelrodd','Håll bröstet mot stödet och dra med armbågarna.'],
-['Kabelrodd','Rygg','Kabel','Nybörjare','8–15','Maskinrodd','Undvik att gunga; pausa kort i kontraktionen.'],
-['Marklyft','Rygg','Skivstång','Avancerad','3–6','Trap bar-marklyft','Spänn bål och håll stången nära kroppen.'],
-['Militärpress','Axlar','Skivstång','Medel','5–10','Hantelpress','Spänn säte och bål; pressa vertikalt.'],
-['Hantelpress','Axlar','Hantlar','Nybörjare','8–15','Maskinpress','Håll handleder över armbågar.'],
-['Sidolyft','Axlar','Hantlar','Nybörjare','12–25','Kabel-sidolyft','Lyft med armbågen och undvik sving.'],
-['Omvänd pec deck','Axlar','Maskin','Nybörjare','12–25','Face pull','Fokusera på bakre axel, inte skulderbladens rörelse.'],
-['EZ-curl','Biceps','Skivstång','Nybörjare','8–15','Kabelcurl','Håll överarmarna stilla.'],
-['Preachercurl','Biceps','Maskin','Nybörjare','8–15','Kabelcurl','Kontrollera bottenläget och undvik hyperextension.'],
-['Hammercurl','Biceps','Hantlar','Nybörjare','10–20','Rep-curl','Neutral handled hela vägen.'],
-['Triceps pushdown','Triceps','Kabel','Nybörjare','10–20','Maskindips','Håll överarmarna nära kroppen.'],
-['Overhead triceps extension','Triceps','Kabel','Nybörjare','10–20','Hantel-extension','Låt triceps få full stretch utan att svanka.'],
-['Knäböj','Framsida lår','Skivstång','Medel','5–10','Hack squat','Håll foten stabil och knäna i samma riktning som tårna.'],
-['Hack squat','Framsida lår','Maskin','Nybörjare','8–15','Benpress','Använd ett djup du kan kontrollera utan att bäckenet lyfter.'],
-['Benpress','Framsida lår','Maskin','Nybörjare','10–20','Goblet squat','Kontrollera djup och lås inte knäna aggressivt.'],
-['Bulgarian split squat','Framsida lår','Hantlar','Medel','8–15','Utfall bakåt','Stabil fot och kontrollerad knärörelse.'],
-['Benspark','Framsida lår','Maskin','Nybörjare','12–25','Spanish squat','Pausa i toppläget.'],
-['Rumänska marklyft','Baksida lår','Skivstång','Medel','6–12','RDL hantlar','Skjut höften bakåt och behåll neutral rygg.'],
-['Sittande lårcurl','Baksida lår','Maskin','Nybörjare','10–20','Liggande lårcurl','Håll höften nere och kontrollera excentriskt.'],
-['Hip thrust','Säte','Skivstång','Nybörjare','8–15','Glute bridge','Pausa i toppläget utan att översträcka ryggen.'],
-['Stående vadpress','Vader','Maskin','Nybörjare','10–25','Enbens vadpress','Full stretch och tydlig paus i toppläget.'],
-['Cable crunch','Mage','Kabel','Nybörjare','10–20','Crunch','Rulla bröstkorgen mot bäckenet.'],
-['Planka','Mage','Kroppsvikt','Nybörjare','20–60 s','Dead bug','Spänn säte och håll neutral bäckenposition.']
+['Bänkpress','Bröst','Skivstång','Medel','5–10','Hantelpress plan bänk','Dra skulderbladen bakåt och sänk kontrollerat.','compound',180],
+['Lutande bänkpress','Bröst','Skivstång','Medel','6–12','Lutande Smithpress','Använd låg till måttlig lutning och stabil bröstrygg.','compound',150],
+['Lutande Smithpress','Bröst','Smithmaskin','Medel','6–12','Lutande hantelpress','Placera bänken så stången träffar övre bröstet.','compound',150],
+['Hantelpress plan bänk','Bröst','Hantlar','Medel','8–15','Bänkpress','Kontrollera bottenläget och pressa utan att tappa skulderposition.','compound',120],
+['Lutande hantelpress','Bröst','Hantlar','Medel','8–15','Lutande Smithpress','Håll armbågarna cirka 30–60 grader från kroppen.','compound',120],
+['Hantelpress golv','Bröst','Hantlar','Nybörjare','8–15','Armhävningar','Pausa lätt mot golvet och behåll spänningen.','compound',120],
+['Bröstpressmaskin','Bröst','Maskin','Nybörjare','8–15','Hantelpress plan bänk','Justera sitsen så handtagen hamnar mitt på bröstet.','compound',120],
+['Bröstpress Hammer Strength','Bröst','Maskin','Nybörjare','8–15','Bröstpressmaskin','Håll bröstet uppe och armbågarna under handtagen.','compound',120],
+['Pec deck','Bröst','Maskin','Nybörjare','10–20','Kabelflyes hög-till-låg','Behåll lätt böjda armbågar och kontrollera stretchen.','isolation',75],
+['Kabelflyes','Bröst','Kabel','Nybörjare','10–20','Pec deck','För ihop överarmarna och behåll jämn kabelspänning.','isolation',75],
+['Kabelflyes hög-till-låg','Bröst','Kabel','Nybörjare','12–20','Pec deck','För händerna nedåt och inåt utan att tappa bröstposition.','isolation',75],
+['Kabelflyes låg-till-hög','Bröst','Kabel','Nybörjare','12–20','Lutande hantelflyes','För händerna upp mot övre bröstet med mjuka armbågar.','isolation',75],
+['Hantelflyes','Bröst','Hantlar','Medel','10–20','Pec deck','Använd kontrollerat rörelseomfång och undvik djup du inte äger.','isolation',90],
+['Lutande hantelflyes','Bröst','Hantlar','Medel','10–20','Kabelflyes låg-till-hög','Sänk långsamt och håll samma armbågsvinkel.','isolation',90],
+['Dips','Bröst','Kroppsvikt','Medel','6–15','Bröstpressmaskin','Luta lätt framåt och sänk bara så djupt axeln tolererar.','compound',150],
+['Armhävningar','Bröst','Kroppsvikt','Nybörjare','8–30','Bröstpressmaskin','Håll kroppen rak och för bröstet mellan händerna.','compound',90],
+['Pullover hantel','Bröst','Hantlar','Medel','10–20','Pullover kabel','Håll revbenen nere och armbågarna lätt böjda.','isolation',90],
+['Chins','Rygg','Kroppsvikt','Medel','5–12','Latsdrag neutralt','Dra armbågarna nedåt utan att kasta kroppen.','compound',150],
+['Viktade chins','Rygg','Kroppsvikt','Avancerad','4–10','Latsdrag neutralt','Starta från stabil skuldra och håll kroppen kontrollerad.','compound',180],
+['Assisterade chins','Rygg','Maskin','Nybörjare','8–15','Latsdrag','Välj hjälp som låter dig hålla full kontroll.','compound',120],
+['Chins assisterade','Rygg','Maskin','Nybörjare','8–15','Latsdrag','Välj hjälp som låter dig hålla full kontroll.','compound',120],
+['Latsdrag','Rygg','Kabel','Nybörjare','8–15','Assisterade chins','Dra stången mot övre bröstet utan överdriven lutning.','compound',120],
+['Latsdrag brett','Rygg','Kabel','Nybörjare','8–15','Latsdrag neutralt','Använd ett grepp där underarmarna kan vara vertikala.','compound',120],
+['Latsdrag neutralt','Rygg','Kabel','Nybörjare','8–15','Chins','För armbågarna mot höfterna och kontrollera toppläget.','compound',120],
+['Enarms latsdrag','Rygg','Kabel','Nybörjare','10–20','Latsdrag neutralt','Låt skuldran rotera upp och dra armbågen mot höften.','compound',90],
+['Skivstångsrodd','Rygg','Skivstång','Medel','6–12','T-bar rodd','Behåll bål och höft stabila genom hela setet.','compound',150],
+['Pendlayrodd','Rygg','Skivstång','Avancerad','5–10','Skivstångsrodd','Starta varje repetition från golvet med neutral rygg.','compound',180],
+['T-bar rodd','Rygg','Maskin','Medel','6–12','Bröststödd rodd','Dra armbågarna bakåt utan att rycka.','compound',150],
+['Bröststödd rodd','Rygg','Maskin','Nybörjare','8–15','Kabelrodd','Håll bröstet mot stödet och dra med armbågarna.','compound',120],
+['Bröststödd hantelrodd','Rygg','Hantlar','Nybörjare','8–15','Bröststödd rodd','Behåll bröstet mot bänken och pausa i toppläget.','compound',120],
+['Hantelrodd bröststöd','Rygg','Hantlar','Nybörjare','8–15','Bröststödd rodd','Behåll bröstet mot bänken och pausa i toppläget.','compound',120],
+['Enarmsrodd hantel','Rygg','Hantlar','Nybörjare','8–15','Enarmsrodd kabel','Håll bäckenet stabilt och dra armbågen mot höften.','compound',120],
+['Enarmsrodd kabel','Rygg','Kabel','Nybörjare','10–20','Enarmsrodd hantel','Låt skuldran röra sig kontrollerat utan att vrida bålen.','compound',90],
+['Kabelrodd','Rygg','Kabel','Nybörjare','8–15','Maskinrodd','Undvik att gunga och pausa kort i kontraktionen.','compound',120],
+['Kabelrodd smalt','Rygg','Kabel','Nybörjare','8–15','T-bar rodd','Dra handtaget mot nedre bröst eller övre mage.','compound',120],
+['Maskinrodd','Rygg','Maskin','Nybörjare','8–15','Bröststödd rodd','Ställ in bröststödet och arbeta genom fullt kontrollerat omfång.','compound',120],
+['Pullover kabel','Rygg','Kabel','Nybörjare','10–20','Rakarmsdrag','För överarmarna mot sidan av kroppen med stilla bål.','isolation',75],
+['Rakarmsdrag','Rygg','Kabel','Nybörjare','12–20','Pullover kabel','Håll armarna nästan raka och revbenen nere.','isolation',75],
+['Renegade row','Rygg','Hantlar','Medel','6–12','Enarmsrodd hantel','Spänn bålen och minimera rotation.','compound',120],
+['Marklyft','Rygg','Skivstång','Avancerad','3–6','Trap bar-marklyft','Spänn bålen och håll stången nära kroppen.','compound',210],
+['Trap bar-marklyft','Rygg','Skivstång','Medel','4–8','Marklyft','Pressa golvet ifrån dig och håll bålen hård.','compound',180],
+['Ryggresningar','Rygg','Kroppsvikt','Nybörjare','10–20','Good mornings','Rör dig från höften och undvik översträckning.','compound',90],
+['Skivstångsshrugs','Trapezius','Skivstång','Nybörjare','8–15','Hantelshrugs','Lyft axlarna rakt upp och pausa kort.','isolation',90],
+['Hantelshrugs','Trapezius','Hantlar','Nybörjare','10–20','Skivstångsshrugs','Undvik att rulla axlarna och använd full elevation.','isolation',90],
+['Smithshrugs','Trapezius','Smithmaskin','Nybörjare','10–20','Hantelshrugs','Håll stången nära kroppen och pausa i toppen.','isolation',90],
+['Farmers carry','Trapezius','Hantlar','Medel','30–60 s','Hantelshrugs','Gå upprätt med hårt grepp och stabil bål.','compound',120],
+['Militärpress','Axlar','Skivstång','Medel','5–10','Sittande hantelpress','Spänn säte och bål och pressa vertikalt.','compound',180],
+['Sittande hantelpress','Axlar','Hantlar','Nybörjare','8–15','Maskinpress axlar','Håll handlederna över armbågarna.','compound',120],
+['Hantelpress','Axlar','Hantlar','Nybörjare','8–15','Sittande hantelpress','Pressa kontrollerat utan att överdriva svanken.','compound',120],
+['Arnoldpress','Axlar','Hantlar','Medel','8–15','Sittande hantelpress','Rotera mjukt och håll revbenen nere.','compound',120],
+['Z-press','Axlar','Hantlar','Medel','8–15','Sittande hantelpress','Sitt högt, spänn bålen och undvik bakåtlutning.','compound',120],
+['Maskinpress axlar','Axlar','Maskin','Nybörjare','8–15','Sittande hantelpress','Justera sitsen så handtagen startar nära öronhöjd.','compound',120],
+['Landminepress','Axlar','Skivstång','Nybörjare','8–15','Sittande hantelpress','Pressa uppåt och framåt med stabil bål.','compound',120],
+['Kabel-sidolyft','Axlar','Kabel','Nybörjare','12–25','Sidolyft hantlar','Led rörelsen med armbågen och håll kabeln spänd.','isolation',60],
+['Sidolyft hantlar','Axlar','Hantlar','Nybörjare','12–25','Kabel-sidolyft','Lyft med armbågen och undvik sving.','isolation',60],
+['Sidolyft','Axlar','Hantlar','Nybörjare','12–25','Kabel-sidolyft','Lyft med armbågen och undvik sving.','isolation',60],
+['Sidolyft maskin','Axlar','Maskin','Nybörjare','12–25','Kabel-sidolyft','Håll axlarna nere och pausa kort upptill.','isolation',60],
+['Kabel upprätt rodd','Axlar','Kabel','Medel','10–20','Sidolyft maskin','Dra bara så högt som axeln känns fri.','compound',90],
+['Omvänd pec deck','Axlar','Maskin','Nybörjare','12–25','Bakre axel kabel','För överarmarna bakåt utan att rycka.','isolation',60],
+['Bakre axel kabel','Axlar','Kabel','Nybörjare','12–25','Omvänd pec deck','Korsa kablarna och håll spänningen på bakre axeln.','isolation',60],
+['Omvända hantelflyes','Axlar','Hantlar','Nybörjare','12–25','Omvänd pec deck','Håll bålen stilla och för armarna utåt.','isolation',60],
+['Face pull','Axlar','Kabel','Nybörjare','12–25','Omvänd pec deck','Dra repet mot ansiktet med armbågarna högt.','isolation',60],
+['EZ-curl','Biceps','Skivstång','Nybörjare','8–15','Kabelcurl','Håll överarmarna stilla och sänk kontrollerat.','isolation',75],
+['Skivstångscurl','Biceps','Skivstång','Medel','6–12','EZ-curl','Undvik att luta bålen bakåt.','isolation',90],
+['Preachercurl','Biceps','Maskin','Nybörjare','8–15','Kabelcurl bakom kroppen','Kontrollera bottenläget och undvik hyperextension.','isolation',75],
+['Lutande hantelcurl','Biceps','Hantlar','Nybörjare','8–15','Kabelcurl bakom kroppen','Håll axeln bakom kroppen och sänk långsamt.','isolation',75],
+['Hammercurl','Biceps','Hantlar','Nybörjare','10–20','Rep-curl','Behåll neutral handled hela vägen.','isolation',75],
+['Kabelcurl','Biceps','Kabel','Nybörjare','10–20','EZ-curl','Håll armbågarna stilla och kabeln spänd.','isolation',60],
+['Kabelcurl bakom kroppen','Biceps','Kabel','Nybörjare','10–20','Lutande hantelcurl','Låt överarmen ligga strax bakom kroppen.','isolation',60],
+['Rep-curl','Biceps','Kabel','Nybörjare','10–20','Hammercurl','Dra isär repet lätt i toppläget.','isolation',60],
+['Koncentrationscurl','Biceps','Hantlar','Nybörjare','10–20','Preachercurl','Fixera överarmen mot låret och undvik momentum.','isolation',60],
+['Bayesian curl','Biceps','Kabel','Medel','10–20','Kabelcurl bakom kroppen','Håll axeln stilla och arbeta i långt muskelläge.','isolation',60],
+['Omvänd curl','Biceps','Skivstång','Nybörjare','10–20','Hammercurl','Håll handleden rak och armbågarna stilla.','isolation',60],
+['Smal bänkpress','Triceps','Skivstång','Medel','5–10','JM-press','Håll armbågarna under stången och pressa kontrollerat.','compound',150],
+['JM-press','Triceps','Skivstång','Avancerad','6–12','Smal bänkpress','Sänk stången mot övre bröst/hals med kontrollerade armbågar.','compound',120],
+['Triceps pushdown','Triceps','Kabel','Nybörjare','10–20','Triceps rep-pushdown','Håll överarmarna nära kroppen.','isolation',60],
+['Pushdown','Triceps','Kabel','Nybörjare','10–20','Triceps pushdown','Håll överarmarna nära kroppen.','isolation',60],
+['Triceps rep-pushdown','Triceps','Kabel','Nybörjare','10–20','Triceps pushdown','Dra isär repet i botten utan att flytta överarmen.','isolation',60],
+['Overhead triceps extension','Triceps','Kabel','Nybörjare','10–20','Enarms overhead kabel','Låt triceps få full stretch utan att svanka.','isolation',75],
+['Overhead extension','Triceps','Kabel','Nybörjare','10–20','Overhead triceps extension','Låt triceps få full stretch utan att svanka.','isolation',75],
+['Enarms overhead kabel','Triceps','Kabel','Nybörjare','10–20','Overhead triceps extension','Håll överarmen stabil och sök full stretch.','isolation',60],
+['Enarms pushdown','Triceps','Kabel','Nybörjare','10–20','Triceps pushdown','Sträck armbågen helt utan att flytta axeln.','isolation',60],
+['Liggande tricepspress','Triceps','Skivstång','Medel','8–15','Overhead triceps extension','För stången bakom pannan för längre muskelläge.','isolation',90],
+['Liggande hantel-extension','Triceps','Hantlar','Medel','10–20','Liggande tricepspress','Håll överarmarna stabila och sänk kontrollerat.','isolation',75],
+['Overhead triceps hantel','Triceps','Hantlar','Nybörjare','10–20','Overhead triceps extension','Håll revbenen nere och armbågarna framåt.','isolation',75],
+['Triceps kickback','Triceps','Hantlar','Nybörjare','12–25','Enarms pushdown','Fixera överarmen parallellt med golvet.','isolation',60],
+['Maskindips','Triceps','Maskin','Nybörjare','8–15','Smal bänkpress','Håll överkroppen stabil och pressa till full armbågssträckning.','compound',120],
+['Handledscurl','Underarmar','Skivstång','Nybörjare','15–30','Handledscurl hantlar','Rör bara handleden och sänk kontrollerat.','isolation',60],
+['Handledscurl hantlar','Underarmar','Hantlar','Nybörjare','15–30','Handledscurl','Stöd underarmarna och använd fullt omfång.','isolation',60],
+['Omvänd handledscurl','Underarmar','Skivstång','Nybörjare','15–30','Handledsextension kabel','Lyft handryggen utan att flytta underarmen.','isolation',60],
+['Handledsextension kabel','Underarmar','Kabel','Nybörjare','15–30','Omvänd handledscurl','Håll jämn spänning genom hela repetitionen.','isolation',60],
+['Wrist roller','Underarmar','Maskin','Nybörjare','2–4 varv','Handledscurl','Rulla kontrollerat åt båda håll.','isolation',60],
+['Pinch grip hold','Underarmar','Viktskiva','Nybörjare','20–60 s','Farmers carry','Nyp ihop viktskivorna och håll axeln stabil.','isolation',90],
+['Knäböj','Framsida lår','Skivstång','Medel','5–10','Hack squat','Håll foten stabil och knäna i tårnas riktning.','compound',180],
+['Frontböj','Framsida lår','Skivstång','Avancerad','5–10','Hack squat','Håll armbågarna högt och bålen upprätt.','compound',180],
+['Hack squat','Framsida lår','Maskin','Nybörjare','8–15','Benpress','Använd ett djup du kan kontrollera utan att bäckenet lyfter.','compound',150],
+['Benpress','Framsida lår','Maskin','Nybörjare','10–20','Hack squat','Kontrollera djupet och lås inte knäna aggressivt.','compound',150],
+['Benpress smal fot','Framsida lår','Maskin','Nybörjare','10–20','Hack squat','Placera fötterna så knäna kan färdas fritt framåt.','compound',150],
+['Bulgarian split squat','Framsida lår','Hantlar','Medel','8–15','Utfall bakåt','Håll främre foten stabil och knät i tårnas riktning.','compound',120],
+['Utfall bakåt','Framsida lår','Hantlar','Nybörjare','8–15','Bulgarian split squat','Ta ett kontrollerat steg bakåt och pressa genom främre foten.','compound',120],
+['Step-up','Framsida lår','Hantlar','Nybörjare','8–15','Utfall bakåt','Använd en höjd där du kan driva med arbetsbenet.','compound',120],
+['Goblet squat','Framsida lår','Hantlar','Nybörjare','8–20','Hälförhöjd goblet squat','Håll vikten nära bröstet och sjunk mellan höfterna.','compound',120],
+['Hälförhöjd goblet squat','Framsida lår','Hantlar','Nybörjare','10–20','Goblet squat','Låt knäna färdas framåt med stabila fötter.','compound',120],
+['Benspark','Framsida lår','Maskin','Nybörjare','12–25','Benspark enbens','Pausa i toppläget och sänk kontrollerat.','isolation',75],
+['Benspark enbens','Framsida lår','Maskin','Nybörjare','12–25','Benspark','Håll höften mot dynan och sträck knät kontrollerat.','isolation',60],
+['Spanish squat','Framsida lår','Band','Nybörjare','12–25','Benspark','Sitt bak mot bandet och håll bålen upprätt.','compound',90],
+['Sissy squat','Framsida lår','Kroppsvikt','Avancerad','10–20','Benspark','Använd stöd och bara ett smärtfritt rörelseomfång.','compound',90],
+['Rumänska marklyft','Baksida lår','Skivstång','Medel','6–12','Rumänska marklyft hantlar','Skjut höften bakåt och behåll neutral rygg.','compound',180],
+['Rumänska marklyft hantlar','Baksida lår','Hantlar','Nybörjare','8–15','Rumänska marklyft','Håll hantlarna nära benen och sök stretch.','compound',150],
+['Enbens RDL','Baksida lår','Hantlar','Medel','8–15','Rumänska marklyft hantlar','Håll höfterna parallella och använd stöd vid behov.','compound',120],
+['Good mornings','Baksida lår','Skivstång','Avancerad','8–15','Rumänska marklyft','Skjut höften bakåt med lätt knäböj och hård bål.','compound',150],
+['Sittande lårcurl','Baksida lår','Maskin','Nybörjare','10–20','Liggande lårcurl','Håll höften nere och kontrollera excentriskt.','isolation',75],
+['Liggande lårcurl','Baksida lår','Maskin','Nybörjare','10–20','Sittande lårcurl','Håll bäckenet mot dynan och sänk långsamt.','isolation',75],
+['Lårcurl','Baksida lår','Maskin','Nybörjare','10–20','Sittande lårcurl','Kontrollera hela rörelsen och undvik höftlyft.','isolation',75],
+['Nordic hamstring curl','Baksida lår','Kroppsvikt','Avancerad','4–10','Liggande lårcurl','Bromsa nedvägen och använd hjälp för att hålla kvalitet.','compound',120],
+['Glute-ham raise','Baksida lår','Maskin','Avancerad','6–15','Nordic hamstring curl','Håll kroppen rak och arbeta med knäflexion.','compound',120],
+['Hip thrust','Säte','Skivstång','Nybörjare','8–15','Glute bridge','Pausa i toppläget utan att översträcka ryggen.','compound',120],
+['Hip thrust hantel','Säte','Hantlar','Nybörjare','10–20','Glute bridge','Håll hakan lätt indragen och pausa i toppen.','compound',120],
+['Glute bridge','Säte','Kroppsvikt','Nybörjare','12–25','Hip thrust','Pressa genom hela foten och håll revbenen nere.','compound',90],
+['Glute kickback kabel','Säte','Kabel','Nybörjare','12–25','Glute bridge','För benet bakåt utan att rotera bäckenet.','isolation',60],
+['Frog pumps','Säte','Kroppsvikt','Nybörjare','15–40','Glute bridge','Håll fotsulorna ihop och pausa i toppläget.','isolation',60],
+['Abduktormaskin','Säte','Maskin','Nybörjare','15–30','Sidogång band','Pressa knäna utåt och återgå kontrollerat.','isolation',60],
+['Sidogång band','Säte','Band','Nybörjare','12–25','Abduktormaskin','Håll knäna lätt böjda och bäckenet stabilt.','isolation',60],
+['Adduktormaskin','Säte','Maskin','Nybörjare','12–25','Copenhagen plank','Stäng benen kontrollerat och undvik att studsa.','isolation',60],
+['Stående vadpress','Vader','Maskin','Nybörjare','10–25','Sittande vadpress','Använd full stretch och tydlig paus i toppläget.','isolation',75],
+['Stående vadpress hantlar','Vader','Hantlar','Nybörjare','12–25','Enbens vadpress','Använd stöd och full rörelse.','isolation',60],
+['Sittande vadpress','Vader','Maskin','Nybörjare','12–25','Stående vadpress','Pausa i botten och pressa upp genom stortån.','isolation',60],
+['Donkey calf raise','Vader','Maskin','Nybörjare','10–25','Stående vadpress','Behåll höften böjd och använd full stretch.','isolation',60],
+['Vadpress i benpress','Vader','Maskin','Nybörjare','12–25','Stående vadpress','Rör bara fotleden och håll knäna stabila.','isolation',60],
+['Enbens vadpress','Vader','Kroppsvikt','Nybörjare','12–30','Stående vadpress','Använd stöd och pausa i båda ändlägena.','isolation',60],
+['Vadpress','Vader','Maskin','Nybörjare','12–25','Stående vadpress','Använd full stretch och kontrollerad topp.','isolation',60],
+['Cable crunch','Mage','Kabel','Nybörjare','10–20','Crunch','Rulla bröstkorgen mot bäckenet.','core',60],
+['Hängande benlyft','Mage','Kroppsvikt','Medel','8–20','Omvänd crunch','Rulla bäckenet uppåt utan att svinga.','core',75],
+['Ab wheel','Mage','Kroppsvikt','Medel','6–15','Planka','Håll revbenen nere och vänd innan ländryggen svankar.','core',75],
+['Planka','Mage','Kroppsvikt','Nybörjare','20–60 s','Dead bug','Spänn säte och håll neutral bäckenposition.','core',60],
+['Dead bug','Mage','Kroppsvikt','Nybörjare','8–20','Planka','Pressa ländryggen lätt mot golvet och andas ut.','core',60],
+['Omvänd crunch','Mage','Kroppsvikt','Nybörjare','12–25','Hängande benlyft','Rulla bäckenet mot bröstkorgen utan momentum.','core',60],
+['Crunch','Mage','Kroppsvikt','Nybörjare','12–30','Cable crunch','Rulla bröstkorgen upp och håll nacken neutral.','core',60],
+['Pallof press','Mage','Kabel','Nybörjare','10–20','Planka','Motstå rotation och håll bäckenet rakt.','core',60],
+['Copenhagen plank','Mage','Kroppsvikt','Medel','15–45 s','Sidoplanka','Håll kroppen rak och dosera hävarmen.','core',75],
+['Sidoplanka','Mage','Kroppsvikt','Nybörjare','20–60 s','Pallof press','Håll kroppen i en rak linje och höften uppe.','core',60]
 ];
 
 const CARDIO={
@@ -154,24 +293,58 @@ const CARDIO={
 'HIIT kort':{goal:'Tidseffektiv kondition',sessions:[['10×1 min hårt/1 min lätt',25,'Hög'],['6×2 min hårt/2 min lätt',30,'Hög']]}
 };
 
-const K='rsg_ai_complete_v1';
-let D=JSON.parse(localStorage.getItem(K)||'null')||{
-profile:{name:'',experience:'intermediate',uiMode:'guided',days:4,equipment:'gym',primaryGoal:'muscle',sleepGoal:8,stepGoal:8000,maxDuration:75,cardioPriority:'medium',limitations:'',avoidExercises:'',autoTraining:true,autoNutrition:false},
-goal:'leanbulk',program:'Upper/Lower',customPrograms:{},sessions:[],recovery:[],health:[],weights:[],nutrition:{},next:0,xp:0,onboarded:false
+const APP_VERSION='4.7.0',DATA_SCHEMA=3,K='rsg_ai_complete_v1',TIMER_KEY='rsg_ai_rest_timer_v2';
+const DEFAULT_DATA={
+schemaVersion:DATA_SCHEMA,
+profile:{name:'',experience:'intermediate',uiMode:'guided',days:4,equipment:'gym',primaryGoal:'muscle',sleepGoal:8,stepGoal:8000,maxDuration:110,cardioPriority:'medium',limitations:'',avoidExercises:'',autoTraining:true,autoNutrition:false},
+goal:'leanbulk',program:'Upper/Lower',customPrograms:{},sessions:[],recovery:[],health:[],weights:[],nutrition:{},exerciseSwaps:{},workoutDrafts:{},restOverrides:{},next:0,xp:0,onboarded:false
 };
-let currentDay='',timerInt=null,timerLeft=90;
+const freshData=()=>JSON.parse(JSON.stringify(DEFAULT_DATA));
+function normaliseData(raw={}){
+ const d={...freshData(),...raw,profile:{...DEFAULT_DATA.profile,...(raw.profile||{})},nutrition:{...(raw.nutrition||{})}};
+ ['sessions','recovery','health','weights'].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]});
+ ['customPrograms','exerciseSwaps','workoutDrafts','restOverrides'].forEach(k=>{if(!d[k]||typeof d[k]!=='object'||Array.isArray(d[k]))d[k]={}});
+ d.schemaVersion=DATA_SCHEMA;return d
+}
+function loadData(){
+ const raw=localStorage.getItem(K);if(!raw)return freshData();
+ try{const parsed=JSON.parse(raw),backupKey=`rsg_ai_backup_before_schema_${DATA_SCHEMA}`;if(parsed.schemaVersion!==DATA_SCHEMA&&!localStorage.getItem(backupKey))localStorage.setItem(backupKey,raw);return normaliseData(parsed)}
+ catch(error){try{localStorage.setItem(`rsg_ai_unreadable_${Date.now()}`,raw)}catch(_){}return freshData()}
+}
+let D=loadData(),currentDay='',timerInt=null,timerEndAt=0,timerExercise='',draftSaveTimer=null,swRegistration=null,refreshingForUpdate=false;
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const save=()=>localStorage.setItem(K,JSON.stringify(D));
+const save=()=>{D.schemaVersion=DATA_SCHEMA;try{localStorage.setItem(K,JSON.stringify(D))}catch(error){console.error('Kunde inte spara RSG-data',error)}};
 const fmt=n=>new Intl.NumberFormat('sv-SE',{maximumFractionDigits:1}).format(n);
+const esc=x=>String(x??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
 function toast(t){$('#toast').textContent=t;$('#toast').classList.add('on');setTimeout(()=>$('#toast').classList.remove('on'),1700)}
 function weekNo(d=new Date){let x=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));x.setUTCDate(x.getUTCDate()+4-(x.getUTCDay()||7));return Math.ceil((((x-new Date(Date.UTC(x.getUTCFullYear(),0,1)))/864e5)+1)/7)}
 function allPrograms(){return {...PROGRAMS,...D.customPrograms}}
-function activeProgram(){return allPrograms()[D.program]||PROGRAMS['Upper/Lower']}
+function activeProgram(){let p=allPrograms()[D.program];return p?.workouts&&Object.keys(p.workouts).length?p:PROGRAMS['Upper/Lower']}
 function dayNames(){return Object.keys(activeProgram().workouts)}
 function nextDay(){let a=dayNames();return a[D.next%a.length]}
+function exerciseInfo(name){return EX.find(x=>x[0].toLocaleLowerCase('sv-SE')===String(name).toLocaleLowerCase('sv-SE'))}
+function swapKey(index){return JSON.stringify([D.program,currentDay,index])}
+function workoutRows(){return (activeProgram().workouts[currentDay]||[]).map((row,index)=>{let selected=D.exerciseSwaps[swapKey(index)];return [selected||row[0],row[1],row[2],row[0],index]})}
+function draftKey(){return JSON.stringify([D.program,currentDay,$('#workoutDate')?.value||new Date().toISOString().slice(0,10)])}
+function exerciseAlternatives(name,original){
+ let info=exerciseInfo(name)||exerciseInfo(original);if(!info)return [];
+ let avoided=(D.profile.avoidExercises||'').toLocaleLowerCase('sv-SE').split(/[,;\n]/).map(x=>x.trim()).filter(Boolean);
+ return EX.filter(x=>x[1]===info[1]&&!avoided.some(a=>x[0].toLocaleLowerCase('sv-SE').includes(a))).sort((a,b)=>(b[2]===info[2])-(a[2]===info[2])||a[0].localeCompare(b[0],'sv')).slice(0,24)
+}
+function defaultRestSeconds(name,reps){
+ let info=exerciseInfo(name),preset=info?.[8];if(preset)return preset;
+ let top=parseTop(reps);return top<=8?180:info?.[7]==='compound'?120:75
+}
+function restSeconds(name,reps){return +(D.restOverrides[name]||defaultRestSeconds(name,reps))}
+function saveWorkoutDraft(){
+ let container=$('#exerciseList');if(!container?.children.length)return;
+ let exercises={};$$('.exercise').forEach(e=>{exercises[e.dataset.slot]={name:e.dataset.name,rest:+e.querySelector('.rest-select')?.value||restSeconds(e.dataset.name,e.dataset.reps),sets:[...e.querySelectorAll('.set')].map(s=>({kg:s.querySelector('.kg').value,reps:s.querySelector('.reps').value,done:s.querySelector('button').classList.contains('done')}))}});
+ D.workoutDrafts[draftKey()]={updatedAt:Date.now(),exercises};save()
+}
+function clearWorkoutDraft(){delete D.workoutDrafts[draftKey()];save()}
 function level(){return Math.floor(D.xp/100)+1}
 function addXP(n,msg){D.xp+=n;save();toast(`${msg} +${n} XP`)}
-function go(id){$$('.screen').forEach(x=>x.classList.toggle('on',x.id===id));$$('.nav button').forEach(x=>x.classList.toggle('on',x.dataset.go===id));$('#pageTitle').textContent={home:'Hem',train:'Träna',coach:'Coach',plan:'Plan',profile:'Profil'}[id];scrollTo(0,0);render()}
+function go(id){if($('#train').classList.contains('on'))saveWorkoutDraft();$$('.screen').forEach(x=>x.classList.toggle('on',x.id===id));$$('.nav button').forEach(x=>x.classList.toggle('on',x.dataset.go===id));$('#pageTitle').textContent={home:'Hem',train:'Träna',coach:'Coach',plan:'Plan',profile:'Profil'}[id];scrollTo(0,0);render()}
 $$('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
 
 function latestHealth(){return D.health.at(-1)||{}}
@@ -224,8 +397,8 @@ function weeklyFocus(){
 
 function tabs(){
  let days=dayNames();if(!currentDay||!days.includes(currentDay))currentDay=nextDay();
- $('#workoutTabs').innerHTML=days.map(n=>`<button class="tab ${n===currentDay?'on':''}" data-day="${n}">${n}</button>`).join('');
- $$('[data-day]').forEach(b=>b.onclick=()=>{currentDay=b.dataset.day;tabs();workout()})
+ $('#workoutTabs').innerHTML=days.map(n=>`<button class="tab ${n===currentDay?'on':''}" data-day="${esc(n)}">${esc(n)}</button>`).join('');
+ $$('[data-day]').forEach(b=>b.onclick=()=>{saveWorkoutDraft();currentDay=b.dataset.day;tabs();workout()})
 }
 function lastExercise(name){for(let i=D.sessions.length-1;i>=0;i--){let e=D.sessions[i].exercises.find(x=>x.name===name);if(e)return e}return null}
 function parseTop(x){return +(String(x).split(/[–-]/)[1]||String(x).match(/\d+/)?.[0]||10)}
@@ -235,21 +408,32 @@ function suggestWeight(name,last,reps){
  return Math.round(avg*factor*2)/2
 }
 function workout(){
- let rows=activeProgram().workouts[currentDay]||[],factor=adaptive().vol;
- $('#exerciseList').innerHTML=rows.map(([n,c,r])=>{
-   let l=lastExercise(n),sets=Math.max(1,Math.round(c*factor)),s=l?suggestWeight(n,l,r):null,info=EX.find(x=>x[0]===n);
-   return `<div class="exercise" data-name="${n}" data-reps="${r}"><div class="row"><h3>${n}</h3>${s?`<span class="badge">${fmt(s)} kg</span>`:''}</div><div class="meta">${sets} set × ${r}${info?` • ${info[1]}`:''}</div>${info&&D.profile.uiMode!=='simple'?`<div class="why">${info[6]}</div>`:''}${Array.from({length:sets},(_,i)=>`<div class="set"><b>${i+1}</b><input class="kg" type="number" step="0.5" placeholder="kg" value="${s||l?.sets?.[i]?.kg||''}"><input class="reps" type="number" placeholder="reps" value="${l?.sets?.[i]?.reps||''}"><button>✓</button></div>`).join('')}</div>`
+ let rows=workoutRows(),factor=adaptive().vol,draft=D.workoutDrafts[draftKey()]?.exercises||{};
+ $('#exerciseList').innerHTML=rows.map(([n,c,r,original,index])=>{
+   let l=lastExercise(n),sets=Math.max(1,Math.round(c*factor)),s=l?suggestWeight(n,l,r):null,info=exerciseInfo(n),saved=draft[String(index)]?.name===n?draft[String(index)]:null,rest=+(D.restOverrides[n]||saved?.rest||defaultRestSeconds(n,r)),alternatives=exerciseAlternatives(n,original),restOptions=[60,75,90,120,150,180,210,rest].filter((x,i,a)=>a.indexOf(x)===i).sort((a,b)=>a-b);
+   let optionNames=[original,...alternatives.map(x=>x[0])].filter((x,i,a)=>a.indexOf(x)===i);
+   let setRows=Array.from({length:sets},(_,i)=>{let prev=l?.sets?.[i],d=saved?.sets?.[i],kg=d?.kg??s??prev?.kg??'',reps=d?.reps??prev?.reps??'',done=!!d?.done;return `<div class="set"><b>${i+1}</b><input class="kg" type="number" min="0" step="0.5" inputmode="decimal" aria-label="Vikt set ${i+1}" placeholder="kg" value="${esc(kg)}"><input class="reps" type="number" min="1" step="1" inputmode="numeric" aria-label="Reps set ${i+1}" placeholder="reps" value="${esc(reps)}"><button class="${done?'done':''}" aria-label="Logga set ${i+1}">✓</button></div>`}).join('');
+   return `<div class="exercise" data-slot="${index}" data-name="${esc(n)}" data-original="${esc(original)}" data-reps="${esc(r)}"><div class="row exercise-head"><div><h3>${esc(n)}</h3>${n!==original?`<small>Bytt från ${esc(original)}</small>`:''}</div><div class="exercise-actions">${s?`<span class="badge">${fmt(s)} kg</span>`:''}${info?`<button class="btn smallbtn swap-btn" type="button">Byt</button>`:''}</div></div><div class="meta">${sets} arbetsset × ${esc(r)}${info?` • ${esc(info[1])}`:''} • automatisk vila <select class="rest-select" aria-label="Vilotid">${restOptions.map(x=>`<option value="${x}" ${x===rest?'selected':''}>${Math.floor(x/60)}:${String(x%60).padStart(2,'0')}</option>`).join('')}</select></div>${info&&D.profile.uiMode!=='simple'?`<div class="why">${esc(info[6])}</div>`:''}${info?`<div class="swapbox" hidden><label>Välj likvärdig övning<select class="swap-select">${optionNames.map(x=>`<option value="${esc(x)}" ${x===n?'selected':''}>${esc(x)}${exerciseInfo(x)?` • ${esc(exerciseInfo(x)[2])}`:''}</option>`).join('')}</select></label><div class="form2"><button class="btn primary apply-swap" type="button">Använd alternativ</button><button class="btn secondary reset-swap" type="button">Original</button></div></div>`:''}${setRows}</div>`
  }).join('');
- $$('.set button').forEach(b=>b.onclick=e=>{e.preventDefault();b.classList.toggle('done');if(b.classList.contains('done'))startTimer(90)})
+ $$('#exerciseList .swap-btn').forEach(b=>b.onclick=()=>{let box=b.closest('.exercise').querySelector('.swapbox');box.hidden=!box.hidden});
+ $$('#exerciseList .apply-swap').forEach(b=>b.onclick=()=>{saveWorkoutDraft();let e=b.closest('.exercise'),choice=e.querySelector('.swap-select').value,key=swapKey(+e.dataset.slot);if(choice===e.dataset.original)delete D.exerciseSwaps[key];else D.exerciseSwaps[key]=choice;save();workout();toast('Övningen är bytt')});
+ $$('#exerciseList .reset-swap').forEach(b=>b.onclick=()=>{saveWorkoutDraft();let e=b.closest('.exercise');delete D.exerciseSwaps[swapKey(+e.dataset.slot)];save();workout();toast('Originalövningen är återställd')});
+ $$('#exerciseList .rest-select').forEach(s=>s.onchange=()=>{let e=s.closest('.exercise');D.restOverrides[e.dataset.name]=+s.value;saveWorkoutDraft()});
+ $$('#exerciseList input').forEach(input=>input.oninput=()=>{input.classList.remove('invalid');clearTimeout(draftSaveTimer);draftSaveTimer=setTimeout(saveWorkoutDraft,250)});
+ $$('#exerciseList .set button').forEach(b=>b.onclick=e=>{e.preventDefault();let row=b.closest('.set'),exercise=b.closest('.exercise'),kg=+row.querySelector('.kg').value,reps=+row.querySelector('.reps').value;if(!(kg>0&&reps>0)){row.querySelectorAll('input').forEach(x=>x.classList.toggle('invalid',!(+x.value>0)));toast('Fyll i både vikt och reps först');return}b.classList.toggle('done');saveWorkoutDraft();if(b.classList.contains('done'))startTimer(+exercise.querySelector('.rest-select').value,exercise.dataset.name)})
 }
-function startTimer(sec){clearInterval(timerInt);timerLeft=sec;$('#timer').classList.add('on');updateTimer();timerInt=setInterval(()=>{timerLeft--;updateTimer();if(timerLeft<=0){clearInterval(timerInt);$('#timer').classList.remove('on');toast('Vilan är klar')}},1000)}
-function updateTimer(){$('#timerText').textContent=`${String(Math.floor(timerLeft/60)).padStart(2,'0')}:${String(timerLeft%60).padStart(2,'0')}`}
-$('#stopTimer').onclick=()=>{clearInterval(timerInt);$('#timer').classList.remove('on')};
+function persistTimer(){localStorage.setItem(TIMER_KEY,JSON.stringify({endAt:timerEndAt,exercise:timerExercise}))}
+function startTimer(sec,exercise){clearInterval(timerInt);timerEndAt=Date.now()+sec*1000;timerExercise=exercise||'Nästa set';persistTimer();$('#timer').classList.add('on');updateTimer();timerInt=setInterval(updateTimer,500)}
+function finishTimer(notify=true){clearInterval(timerInt);timerInt=null;timerEndAt=0;localStorage.removeItem(TIMER_KEY);$('#timer').classList.remove('on');if(notify){if(navigator.vibrate)navigator.vibrate([180,80,180]);toast('Vilan är klar – kör nästa set')}}
+function updateTimer(){let left=Math.max(0,Math.ceil((timerEndAt-Date.now())/1000));$('#timerExercise').textContent=`Vila efter ${timerExercise}`;$('#timerText').textContent=`${String(Math.floor(left/60)).padStart(2,'0')}:${String(left%60).padStart(2,'0')}`;if(left<=0&&timerEndAt)finishTimer(true)}
+function restoreTimer(){try{let t=JSON.parse(localStorage.getItem(TIMER_KEY)||'null');if(!t)return;if(t.endAt>Date.now()){timerEndAt=t.endAt;timerExercise=t.exercise||'Nästa set';clearInterval(timerInt);$('#timer').classList.add('on');updateTimer();timerInt=setInterval(updateTimer,500)}else finishTimer(true)}catch(_){localStorage.removeItem(TIMER_KEY)}}
+$('#addTimer').onclick=()=>{if(!timerEndAt)return;timerEndAt+=30000;persistTimer();updateTimer()};
+$('#stopTimer').onclick=()=>finishTimer(false);
 $('#saveWorkout').onclick=()=>{
- let ex=[];$$('.exercise').forEach(e=>{let sets=[...e.querySelectorAll('.set')].map(s=>({kg:+s.querySelector('.kg').value||0,reps:+s.querySelector('.reps').value||0})).filter(x=>x.kg&&x.reps);if(sets.length){let vol=sets.reduce((a,x)=>a+x.kg*x.reps,0),e1=Math.max(...sets.map(x=>x.kg*(1+x.reps/30)));ex.push({name:e.dataset.name,sets,vol,e1,reps:e.dataset.reps})}});
+ let ex=[];$$('#exerciseList .exercise').forEach(e=>{let sets=[...e.querySelectorAll('.set')].map(s=>({kg:+s.querySelector('.kg').value||0,reps:+s.querySelector('.reps').value||0,done:s.querySelector('button').classList.contains('done')})).filter(x=>x.done&&x.kg&&x.reps).map(({kg,reps})=>({kg,reps}));if(sets.length){let vol=sets.reduce((a,x)=>a+x.kg*x.reps,0),e1=Math.max(...sets.map(x=>x.kg*(1+x.reps/30)));ex.push({name:e.dataset.name,originalName:e.dataset.original,sets,vol,e1,reps:e.dataset.reps})}});
  if(!ex.length)return toast('Logga minst ett set');
- D.sessions.push({date:$('#workoutDate').value,program:D.program,day:currentDay,feel:+$('#sessionFeel').value,rir:+$('#sessionRir').value,volume:ex.reduce((a,x)=>a+x.vol,0),exercises:ex});
- D.next=(dayNames().indexOf(currentDay)+1)%dayNames().length;addXP(ex.length>=3?20:10,'Pass sparat');currentDay=nextDay();render();go('coach')
+ D.sessions.push({date:$('#workoutDate').value,program:D.program,day:currentDay,feel:+$('#sessionFeel').value,rir:+$('#sessionRir').value,volume:ex.reduce((a,x)=>a+x.vol,0),exercises:ex,appVersion:APP_VERSION});
+ clearWorkoutDraft();D.next=(dayNames().indexOf(currentDay)+1)%dayNames().length;addXP(ex.length>=8?30:ex.length>=3?20:10,'Pass sparat');currentDay=nextDay();render();go('coach')
 };
 
 function coachCards(){
@@ -298,8 +482,8 @@ $$('[data-question]').forEach(b=>b.onclick=()=>{
 
 function renderPrograms(){
  let p=allPrograms(),profile=D.profile;
- $('#programLibrary').innerHTML=Object.entries(p).sort((a,b)=>Math.abs((a[1].days||4)-profile.days)-Math.abs((b[1].days||4)-profile.days)).map(([n,x])=>`<div class="program ${D.program===n?'active':''}"><div class="row"><div><h3>${n}</h3><p>${x.desc||'Eget program'}</p><span class="badge">${x.days||Object.keys(x.workouts).length} dagar</span></div><button class="btn smallbtn" data-program="${n}">${D.program===n?'Aktivt':'Välj'}</button></div></div>`).join('');
- $$('[data-program]').forEach(b=>b.onclick=()=>{D.program=b.dataset.program;D.next=0;currentDay='';save();render();toast('Program bytt')})
+ $('#programLibrary').innerHTML=Object.entries(p).sort((a,b)=>((a[1].equipment!==profile.equipment)*3+Math.abs((a[1].days||4)-profile.days))-((b[1].equipment!==profile.equipment)*3+Math.abs((b[1].days||4)-profile.days))).map(([n,x])=>{let counts=Object.values(x.workouts||{}).map(w=>w.length),min=counts.length?Math.min(...counts):0,max=counts.length?Math.max(...counts):0,range=`${min}${max!==min?`–${max}`:''} övningar/pass`;return `<div class="program ${D.program===n?'active':''}"><div class="row"><div><h3>${esc(n)}</h3><p>${esc(x.desc||'Eget program')}</p><span class="badge">${x.days||Object.keys(x.workouts||{}).length} dagar</span> <span class="badge">${range}</span></div><button class="btn smallbtn" data-program="${esc(n)}">${D.program===n?'Aktivt':'Välj'}</button></div></div>`}).join('');
+ $$('[data-program]').forEach(b=>b.onclick=()=>{saveWorkoutDraft();D.program=b.dataset.program;D.next=0;currentDay='';save();render();toast('Program bytt')})
 }
 function renderExerciseLibrary(){
  let ms=[...new Set(EX.map(x=>x[1]))],es=[...new Set(EX.map(x=>x[2]))];
@@ -307,11 +491,11 @@ function renderExerciseLibrary(){
  if($('#equipmentFilter').options.length===1)es.forEach(x=>$('#equipmentFilter').add(new Option(x,x)));
  let q=$('#exerciseSearch').value.toLowerCase(),m=$('#muscleFilter').value,e=$('#equipmentFilter').value;
  let arr=EX.filter(x=>(!q||x[0].toLowerCase().includes(q)||x[1].toLowerCase().includes(q))&&(!m||x[1]===m)&&(!e||x[2]===e));
- $('#exerciseLibrary').innerHTML=arr.slice(0,30).map(x=>`<div class="library-item"><div class="row"><div><b>${x[0]}</b><small>${x[1]} • ${x[2]} • ${x[4]}</small></div><button class="btn smallbtn" data-add="${x[0]}">+</button></div><p>${x[6]}</p><small>Alternativ: ${x[5]}</small></div>`).join('');
+ $('#exerciseLibrary').innerHTML=`<p class="tiny">${arr.length} övningar hittades${arr.length>80?' • de första 80 visas, sök eller filtrera för resten':''}</p>`+arr.slice(0,80).map(x=>`<div class="library-item"><div class="row"><div><b>${esc(x[0])}</b><small>${esc(x[1])} • ${esc(x[2])} • ${esc(x[4])} • vila ${Math.floor(x[8]/60)}:${String(x[8]%60).padStart(2,'0')}</small></div><button class="btn smallbtn" data-add="${esc(x[0])}">+</button></div><p>${esc(x[6])}</p><small>Alternativ: ${esc(x[5])}</small></div>`).join('');
  $$('[data-add]').forEach(b=>b.onclick=()=>addBuilderRow(b.dataset.add))
 }
 ['exerciseSearch','muscleFilter','equipmentFilter'].forEach(id=>$('#'+id).oninput=renderExerciseLibrary);
-function addBuilderRow(name='',sets=3,reps='8–12'){$('#customExercises').insertAdjacentHTML('beforeend',`<div class="set"><input class="ceName" placeholder="Övning" value="${name}"><input class="ceSets" type="number" value="${sets}"><input class="ceReps" value="${reps}"><button>×</button></div>`);$('#customExercises .set:last-child button').onclick=e=>e.target.parentElement.remove()}
+function addBuilderRow(name='',sets=3,reps='8–12'){$('#customExercises').insertAdjacentHTML('beforeend',`<div class="set"><input class="ceName" placeholder="Övning" value="${esc(name)}"><input class="ceSets" type="number" value="${esc(sets)}"><input class="ceReps" value="${esc(reps)}"><button>×</button></div>`);$('#customExercises .set:last-child button').onclick=e=>e.target.parentElement.remove()}
 $('#addCustomExercise').onclick=()=>addBuilderRow();
 $('#saveCustomProgram').onclick=()=>{let name=$('#customName').value.trim(),day=$('#customDay').value.trim(),ex=$$('#customExercises .set').map(r=>[r.querySelector('.ceName').value.trim(),+r.querySelector('.ceSets').value,r.querySelector('.ceReps').value.trim()]).filter(x=>x[0]);if(!name||!day||!ex.length)return toast('Fyll i program, pass och övningar');let p=D.customPrograms[name]||{days:1,desc:'Eget program',workouts:{}};p.workouts[day]=ex;p.days=Object.keys(p.workouts).length;D.customPrograms[name]=p;D.program=name;save();render();toast('Eget program sparat')};
 
@@ -360,8 +544,9 @@ $('#importHealth').onclick=async()=>{
  D.health.push(obj);save();$('#healthSummary').innerHTML=`<div class="why">Importerad: ${f.name}<br>Steg: ${obj.steps||'–'} • Sömn: ${obj.sleep||'–'} • Vilopuls: ${obj.restingHR||'–'} • kcal: ${obj.activeCalories||'–'}</div>`;render();toast('Hälsodata importerad')
 };
 
-$('#exportData').onclick=()=>{let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(D,null,2)],{type:'application/json'}));a.download='rsg-ai-coach-backup.json';a.click()};
-$('#resetData').onclick=()=>{if(confirm('Radera all data?')){localStorage.removeItem(K);location.reload()}};
+$('#exportData').onclick=()=>{saveWorkoutDraft();let url=URL.createObjectURL(new Blob([JSON.stringify(D,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download=`rsg-coach-backup-${new Date().toISOString().slice(0,10)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+$('#importBackup').onclick=async()=>{let file=$('#backupFile').files[0];if(!file)return toast('Välj en säkerhetskopia');try{let imported=JSON.parse(await file.text());if(!imported||typeof imported!=='object'||(!Array.isArray(imported.sessions)&&!imported.profile))throw new Error('Ogiltig RSG-fil');if(!confirm('Ersätta appens nuvarande data med säkerhetskopian?'))return;localStorage.setItem(`rsg_ai_backup_before_import_${Date.now()}`,JSON.stringify(D));D=normaliseData(imported);save();location.reload()}catch(error){toast('Filen kunde inte importeras')}};
+$('#resetData').onclick=()=>{if(confirm('Radera all träningsdata permanent?')){localStorage.removeItem(K);localStorage.removeItem(TIMER_KEY);location.reload()}};
 
 function onboarding(){
  if(D.onboarded)return;let step=0;
@@ -371,9 +556,25 @@ function onboarding(){
  `<h2>Hur erfaren är du?</h2><div class="choice"><button data-obexp="beginner">Nybörjare</button><button data-obexp="intermediate">Medel</button><button data-obexp="advanced">Avancerad</button></div>`,
  `<h2>Hur många dagar?</h2><div class="choice">${[3,4,5,6].map(x=>`<button data-obdays="${x}">${x} dagar</button>`).join('')}</div><p>Vi väljer ett startprogram som kan ändras när som helst.</p>`
  ][step];$('#onboardContent').innerHTML=pages;$$('.stepdots i').forEach((x,i)=>x.classList.toggle('on',i<=step));$$('[data-obgoal]').forEach(b=>b.onclick=()=>{D.profile.primaryGoal=b.dataset.obgoal;draw()});$$('[data-obexp]').forEach(b=>b.onclick=()=>{D.profile.experience=b.dataset.obexp;draw()});$$('[data-obdays]').forEach(b=>b.onclick=()=>{D.profile.days=+b.dataset.obdays;draw()});$('#onboardNext').textContent=step===3?'Skapa min plan':'Fortsätt'};
- $('#onboarding').classList.add('on');draw();$('#onboardNext').onclick=()=>{if(step===0)D.profile.name=$('#obName').value.trim();if(step<3){step++;draw()}else{D.program=D.profile.days<=3?'Full Body 3':D.profile.days===4?'Upper/Lower':'PPL × 2';D.onboarded=true;save();$('#onboarding').classList.remove('on');render();toast('Din plan är klar')}}
+ $('#onboarding').classList.add('on');draw();$('#onboardNext').onclick=()=>{if(step===0)D.profile.name=$('#obName').value.trim();if(step<3){step++;draw()}else{D.program=D.profile.days<=3?'Full Body 3':D.profile.days===4?'Upper/Lower':D.profile.days===5?'PPL Max 5':'PPL × 2';D.onboarded=true;save();$('#onboarding').classList.remove('on');render();toast('Din plan är klar')}}
 }
-function render(){tabs();workout();renderHome();renderCoach();renderPrograms();renderExerciseLibrary();nutrition();profile();wearables();$('#activeProgramName').textContent=D.program;$('#workoutDate').value=$('#workoutDate').value||new Date().toISOString().slice(0,10)}
-addBuilderRow();render();onboarding();
+function showUpdate(reg=swRegistration){swRegistration=reg||swRegistration;$('#updateBanner').classList.add('on')}
+async function registerPWA(){
+ if(!('serviceWorker' in navigator)||location.protocol==='file:')return;
+ try{
+  swRegistration=await navigator.serviceWorker.register('./service-worker.js',{updateViaCache:'none'});
+  if(swRegistration.waiting)showUpdate(swRegistration);
+  swRegistration.addEventListener('updatefound',()=>{let worker=swRegistration.installing;if(!worker)return;worker.addEventListener('statechange',()=>{if(worker.state==='installed'&&navigator.serviceWorker.controller)showUpdate(swRegistration)})});
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(refreshingForUpdate)location.reload()});
+  setInterval(()=>swRegistration?.update(),60*60*1000)
+ }catch(error){console.warn('PWA-läget kunde inte startas',error)}
+}
+$('#applyUpdate').onclick=()=>{saveWorkoutDraft();let worker=swRegistration?.waiting;if(!worker)return location.reload();refreshingForUpdate=true;worker.postMessage({type:'SKIP_WAITING'})};
+$('#laterUpdate').onclick=()=>$('#updateBanner').classList.remove('on');
+$('#checkUpdate').onclick=async()=>{if(!swRegistration)return toast('Uppdatering kräver att appen öppnas via webblänken');try{await swRegistration.update();if(swRegistration.waiting)showUpdate(swRegistration);else toast('Du har senaste versionen')}catch(_){toast('Kunde inte söka efter uppdatering')}};
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){restoreTimer();swRegistration?.update()}});
+$('#workoutDate').onfocus=saveWorkoutDraft;$('#workoutDate').onchange=workout;
+function render(){$('#workoutDate').value=$('#workoutDate').value||new Date().toISOString().slice(0,10);tabs();workout();renderHome();renderCoach();renderPrograms();renderExerciseLibrary();nutrition();profile();wearables();$('#activeProgramName').textContent=D.program;$('#appVersion').textContent=`RSG Coach ${APP_VERSION} • dataschema ${DATA_SCHEMA}`}
+addBuilderRow();render();restoreTimer();onboarding();registerPWA();
 </script>
 </body></html>
