@@ -1,0 +1,27 @@
+{
+  "name": "RSG AI Coach",
+  "short_name": "RSG Coach",
+  "description": "Privat, offline träningscoach för maximal hypertrofi.",
+  "id": "./Coash%201.0.html",
+  "start_url": "./Coash%201.0.html",
+  "scope": "./",
+  "lang": "sv-SE",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#09101f",
+  "theme_color": "#09101f",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
