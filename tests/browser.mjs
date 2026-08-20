@@ -3,7 +3,7 @@ import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
-const url = 'http://127.0.0.1:4173/Coash%201.0.html';
+const url = 'http://127.0.0.1:4173/';
 let browser;
 try {
   browser = await chromium.launch({ headless: true });
@@ -23,6 +23,7 @@ try {
   page.on('pageerror', error => browserErrors.push(error.message));
 
   await page.goto(url, { waitUntil: 'networkidle' });
+  assert.equal(new URL(page.url()).pathname, '/Coash%201.0.html', 'Rotadressen skickade inte vidare till den befintliga appen');
   assert((await page.locator('body').innerText()).trim().length > 200, 'Sidan är tom');
   assert.equal(await page.locator('[data-nextjs-dialog], .vite-error-overlay, #webpack-dev-server-client-overlay').count(), 0, 'Fel-overlay visas');
   assert(await page.locator('#onboarding.on').isVisible(), 'Onboarding ska visas för en ny användare');
@@ -78,7 +79,7 @@ try {
     return { controlled: Boolean(navigator.serviceWorker.controller), active: Boolean(registration.active), caches: await caches.keys() };
   });
   assert(pwa.controlled && pwa.active, 'Service worker styr inte sidan efter omladdning');
-  assert(pwa.caches.includes('rsg-coach-shell-4.7.0'), 'Versionerad app-cache saknas');
+  assert(pwa.caches.includes('rsg-coach-shell-4.7.1'), 'Versionerad app-cache saknas');
 
   await page.screenshot({ path: '/tmp/rsg-coach-mobile.png', fullPage: false });
   await context.setOffline(true);

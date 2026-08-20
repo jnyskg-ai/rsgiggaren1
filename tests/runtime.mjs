@@ -95,7 +95,7 @@ assert.equal((elements.get('#exerciseList').innerHTML.match(/class="exercise"/g)
 assert(elements.get('#exerciseList').innerHTML.includes('swap-select'), 'Väljaren för övningsalternativ renderades inte');
 assert(elements.get('#programLibrary').innerHTML.includes('Benspecialisering 5'), 'Programbiblioteket renderades inte komplett');
 assert(elements.get('#exerciseLibrary').innerHTML.includes('141 övningar hittades'), 'Det stora övningsbiblioteket renderades inte');
-assert.equal(elements.get('#appVersion').textContent, 'RSG Coach 4.7.0 • dataschema 3');
+assert.equal(elements.get('#appVersion').textContent, 'RSG Coach 4.7.1 • dataschema 3');
 
 assert.equal(api.defaultRestSeconds('Bänkpress', '5–8'), 180, 'Tung press ska ge tre minuters vila');
 assert.equal(api.defaultRestSeconds('Sidolyft hantlar', '12–25'), 60, 'Isolationsövning ska ge en minuts vila');
