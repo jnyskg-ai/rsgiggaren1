@@ -33,7 +33,9 @@ label{display:block;color:var(--muted);font-size:13px;margin-bottom:10px}input,s
 .modal{display:none;position:fixed;inset:0;background:#000a;z-index:60;align-items:flex-end}.modal.on{display:flex}.sheet{width:min(460px,100%);margin:auto;background:var(--card);border-radius:28px 28px 0 0;padding:20px calc(18px + env(safe-area-inset-right)) calc(22px + env(safe-area-inset-bottom))}
 .stepdots{display:flex;gap:6px;margin-bottom:14px}.stepdots i{height:5px;flex:1;border-radius:9px;background:#ffffff16}.stepdots i.on{background:var(--green)}
 .listrow{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.tiny{font-size:11px;color:var(--muted)}.hidden-advanced{display:none}.advanced .hidden-advanced{display:block}.simple .advanced-only{display:none}
-.exercise-head{align-items:flex-start}.exercise-actions{display:flex;gap:6px;align-items:center}.swapbox{margin:9px 0;padding:11px;border-radius:14px;background:#0a1222;border:1px solid var(--line)}.swapbox[hidden]{display:none}.swapbox .form2{grid-template-columns:1fr auto}.rest-select{width:auto;min-width:86px;margin:0;padding:8px;font-size:13px}.set input.invalid{border-color:var(--red);box-shadow:0 0 0 2px #ff6b7933}.set button.done{position:relative}.set button.done::after{content:' Loggat';font-size:0}.program.active{border-color:var(--green)}
+.exercise-head{align-items:flex-start}.exercise-actions{display:flex;gap:6px;align-items:center}.info-btn{width:36px;height:36px;min-width:36px;padding:0;border-radius:50%;display:grid;place-items:center;font-family:Georgia,serif;font-size:18px;font-weight:900;color:var(--blue);border:1px solid #65a7ff55;background:#65a7ff14}.swapbox{margin:9px 0;padding:11px;border-radius:14px;background:#0a1222;border:1px solid var(--line)}.swapbox[hidden]{display:none}.swapbox .form2{grid-template-columns:1fr auto}.rest-select{width:auto;min-width:86px;margin:0;padding:8px;font-size:13px}.set input.invalid{border-color:var(--red);box-shadow:0 0 0 2px #ff6b7933}.set button.done{position:relative}.set button.done::after{content:' Loggat';font-size:0}.program.active{border-color:var(--green)}
+.weight-rec{margin:9px 0 11px;padding:11px 12px;border-radius:14px;background:#0a1222;border:1px solid #65a7ff33}.weight-rec .row{align-items:flex-start}.weight-rec small{display:block}.weight-rec b{display:block;margin-top:3px;line-height:1.35}.weight-rec p{font-size:12px;margin:7px 0 0;line-height:1.4}.weight-rec.raise{border-left:4px solid var(--green)}.weight-rec.hold{border-left:4px solid var(--blue)}.weight-rec.reduce{border-left:4px solid var(--orange)}.last-load{color:var(--blue);font-size:11px;font-weight:800;margin:-3px 0 8px}
+.guide-modal{z-index:85}.guide-sheet{max-height:94vh;overflow-y:auto;overscroll-behavior:contain;padding-top:14px}.guide-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;position:sticky;top:-14px;z-index:2;margin:-14px -2px 10px;padding:14px 2px 10px;background:linear-gradient(var(--card) 82%,transparent)}.guide-top h2{margin:6px 0 0}.guide-close{width:42px;height:42px;min-width:42px;padding:0;border-radius:50%;font-size:25px;line-height:1}.guide-summary{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.guide-frames{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,84%);gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 10px}.guide-frame{scroll-snap-align:center;margin:0;padding:10px;background:#0a1222;border:1px solid var(--line);border-radius:18px}.guide-frame svg{display:block;width:100%;height:auto;aspect-ratio:4/3;border-radius:13px;background:radial-gradient(circle at 50% 24%,#243351,#0a1222 72%)}.guide-frame figcaption{display:flex;gap:8px;align-items:center;margin-top:8px;color:var(--text);font-size:13px;font-weight:800}.guide-frame figcaption b{width:25px;height:25px;display:grid;place-items:center;border-radius:50%;background:var(--green);color:#062d20}.guide-dots{text-align:center;color:var(--muted);font-size:11px;margin:-4px 0 12px}.guide-steps{margin:0 0 12px;padding:0;list-style:none;counter-reset:guide}.guide-steps li{counter-increment:guide;display:grid;grid-template-columns:30px 1fr;gap:9px;align-items:start;padding:9px 0;border-bottom:1px solid var(--line);line-height:1.4}.guide-steps li::before{content:counter(guide);width:27px;height:27px;display:grid;place-items:center;border-radius:50%;background:var(--input);color:var(--green);font-size:12px;font-weight:900}.guide-warning{margin-top:9px;border-left:4px solid var(--orange)}.guide-safety{font-size:11px;line-height:1.4;margin:11px 2px 0}.guide-body{stroke:#f7fafc;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;fill:none}.guide-joint{fill:#f7fafc}.guide-head{fill:#f7fafc}.guide-equipment{stroke:#65a7ff;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;fill:none}.guide-weight{fill:#65a7ff}.guide-bench{fill:#526076}.guide-floor{stroke:#526076;stroke-width:3}.guide-arrow{stroke:#48e0a4;stroke-width:5;stroke-linecap:round;fill:none}.guide-muscle{stroke:#ffb454;stroke-width:10;stroke-linecap:round;opacity:.8}
 .update-banner{display:none;position:fixed;left:12px;right:12px;bottom:92px;z-index:70;max-width:436px;margin:auto;padding:13px;background:#f7fafc;color:#111827;border-radius:17px;box-shadow:0 16px 40px #0008}.update-banner.on{display:block}.update-banner p{color:#526076;margin:3px 0 10px}.update-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.update-actions .btn{padding:10px}.version{font-size:11px;color:var(--muted);text-align:center;margin-top:12px}.hard-note{border-left:4px solid var(--green)}
 @media(max-width:360px){.form2,.choice{grid-template-columns:1fr}.hero h2{font-size:28px}}
 </style>
@@ -94,6 +96,18 @@ label{display:block;color:var(--muted);font-size:13px;margin-bottom:10px}input,s
 <div class="timer" id="timer"><div class="timer-main"><small id="timerExercise">Vila</small><b id="timerText">01:30</b></div><button class="btn smallbtn" id="addTimer">+30 s</button><button class="btn smallbtn" id="stopTimer">Stopp</button></div><div class="toast" id="toast"></div>
 <div class="update-banner" id="updateBanner"><b>Ny version av RSG Coach finns</b><p>Ditt pågående pass och all historik bevaras.</p><div class="update-actions"><button class="btn secondary" id="laterUpdate">Senare</button><button class="btn primary" id="applyUpdate">Uppdatera</button></div></div>
 <div class="modal" id="onboarding"><div class="sheet"><div class="stepdots"><i></i><i></i><i></i><i></i></div><div id="onboardContent"></div><button id="onboardNext" class="btn primary">Fortsätt</button></div></div>
+<div class="modal guide-modal" id="exerciseGuide" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
+ <div class="sheet guide-sheet">
+  <div class="guide-top"><div><span class="pill">Övningsguide</span><h2 id="guideTitle">Övning</h2></div><button class="btn smallbtn guide-close" id="closeGuide" type="button" aria-label="Stäng övningsguiden">×</button></div>
+  <div class="guide-summary" id="guideSummary"></div>
+  <div class="guide-frames" id="guideFrames" aria-label="Bildserie för övningen"></div>
+  <div class="guide-dots">Svep i sidled för hela bildserien • 1 → 2 → 3</div>
+  <ol class="guide-steps" id="guideSteps"></ol>
+  <div class="why" id="guideCue"></div>
+  <div class="why guide-warning" id="guideWarning"></div>
+  <p class="guide-safety">Illustrationerna är en teknisk översikt. Anpassa rörelseomfånget efter din kropp och avbryt vid skarp smärta.</p>
+ </div>
+</div>
 
 <script>
 const W={
@@ -293,7 +307,7 @@ const CARDIO={
 'HIIT kort':{goal:'Tidseffektiv kondition',sessions:[['10×1 min hårt/1 min lätt',25,'Hög'],['6×2 min hårt/2 min lätt',30,'Hög']]}
 };
 
-const APP_VERSION='4.7.1',DATA_SCHEMA=3,K='rsg_ai_complete_v1',TIMER_KEY='rsg_ai_rest_timer_v2';
+const APP_VERSION='4.8.0',DATA_SCHEMA=3,K='rsg_ai_complete_v1',TIMER_KEY='rsg_ai_rest_timer_v2';
 const DEFAULT_DATA={
 schemaVersion:DATA_SCHEMA,
 profile:{name:'',experience:'intermediate',uiMode:'guided',days:4,equipment:'gym',primaryGoal:'muscle',sleepGoal:8,stepGoal:8000,maxDuration:110,cardioPriority:'medium',limitations:'',avoidExercises:'',autoTraining:true,autoNutrition:false},
@@ -323,6 +337,232 @@ function activeProgram(){let p=allPrograms()[D.program];return p?.workouts&&Obje
 function dayNames(){return Object.keys(activeProgram().workouts)}
 function nextDay(){let a=dayNames();return a[D.next%a.length]}
 function exerciseInfo(name){return EX.find(x=>x[0].toLocaleLowerCase('sv-SE')===String(name).toLocaleLowerCase('sv-SE'))}
+const GUIDE_TEMPLATES={
+ 'horizontal-press':{scene:'press',steps:['Ställ in bänk eller sits så vikten är i linje med mitten av bröstet. Sätt fötterna stabilt och dra skulderbladen lätt bakåt.','Sänk vikten kontrollerat med underarmarna nära lodräta och armbågarna i en bekväm vinkel från kroppen.','Pressa i samma bana utan studs och avsluta med kontrollerad armbågssträckning.'],warning:'Undvik studs, tappad skulderposition och ett djup som ger skarp axelsmärta.'},
+ fly:{scene:'fly',steps:['Ställ dig eller lägg dig stabilt med bröstet högt och armbågarna lätt böjda.','Öppna armarna kontrollerat tills bröstet är sträckt utan att axeln glider fram.','För överarmarna mot varandra i en mjuk båge och behåll samma armbågsvinkel.'],warning:'Gör inte rörelsen till en press och jaga inte mer djup än axeln kan kontrollera.'},
+ dip:{scene:'dip',steps:['Greppa handtagen, sänk axlarna och skapa en stabil bål. Luta lätt framåt för mer bröst eller håll dig rakare för mer triceps.','Böj armbågarna och sänk kroppen lugnt till ett smärtfritt djup.','Pressa handtagen nedåt tills armarna är raka utan att tappa axelkontrollen.'],warning:'Sjunk inte ned i axlarna och avbryt om bottenläget ger skarp smärta.'},
+ pushup:{scene:'pushup',steps:['Placera händerna strax utanför axelbredd och håll huvud, höft och häl i en rak linje.','Sänk hela kroppen som en enhet tills bröstet närmar sig händerna.','Pressa golvet ifrån dig och behåll spänd bål genom hela repetitionen.'],warning:'Undvik svank, framskjutet huvud och armbågar rakt ut åt sidan.'},
+ 'vertical-pull':{scene:'vertical-pull',steps:['Ta ett stabilt grepp och börja med lång bål och kontrollerat uppdragna skuldror.','Sätt skuldrorna och dra armbågarna ned mot sidorna eller höfterna.','Nå bröstet mot handtaget och återgå långsamt till full, kontrollerad stretch.'],warning:'Undvik kraftig bakåtlutning, sving och att dra bakom nacken.'},
+ row:{scene:'row',steps:['Stabilisera fötter, höft och bål. Låt armarna nå fram utan att tappa neutral rygg.','Dra armbågarna bakåt mot höften eller nedre bröstet och låt skulderbladen röra sig kontrollerat.','Pausa kort nära kroppen och sträck sedan ut armarna utan att gunga.'],warning:'Ryck inte med ländryggen och låt inte axlarna dras upp mot öronen.'},
+ pullover:{scene:'pullover',steps:['Spänn magen, håll revbenen nere och armbågarna lätt böjda.','För armarna från ett sträckt läge ovanför eller framför kroppen i en lång båge.','Dra överarmarna mot sidorna av kroppen och återgå långsamt utan att svanka.'],warning:'Rörelsen ska komma från axeln; undvik att göra den till en tricepsövning.'},
+ hinge:{scene:'hinge',steps:['Stå stabilt, spänn bålen och håll vikten nära kroppen. Mjuka upp knäna.','Skjut höften bakåt medan ryggen hålls neutral och vikten följer benen.','Vänd när baksidan är ordentligt sträckt och driv höften fram till upprätt läge.'],warning:'Runda inte ryggen, låt inte vikten driva fram och översträck inte i toppläget.'},
+ 'back-extension':{scene:'hinge',steps:['Ställ stödet så höften kan böjas fritt och håll ryggen neutral.','Fäll kontrollerat i höften tills baksidan är sträckt.','Spänn säte och baksida lår för att återgå till rak kropp.'],warning:'Gå inte förbi en rak kropp och kasta inte upp överkroppen.'},
+ shrug:{scene:'shrug',steps:['Stå högt med raka armar, stabil bål och vikten nära sidorna.','Lyft axlarna rakt upp mot öronen utan att böja armbågarna.','Pausa i toppen och sänk hela vägen under kontroll.'],warning:'Rulla inte axlarna och hjälp inte till genom att studsa med knäna.'},
+ carry:{scene:'carry',steps:['Greppa vikterna hårt, stå högt och spänn magen.','Gå med korta kontrollerade steg medan axlar och bäcken hålls jämna.','Behåll hållningen hela tiden och sätt ned vikterna kontrollerat.'],warning:'Luta inte åt sidan och fortsätt inte när greppet gör att hållningen bryts.'},
+ 'overhead-press':{scene:'overhead-press',steps:['Placera vikten kring axelhöjd med handlederna över armbågarna och spänd bål.','Pressa uppåt, eller uppåt-framåt vid landminepress, utan att överdriva svanken.','Avsluta stabilt över axlarna och sänk sedan kontrollerat samma väg.'],warning:'Undvik att kompensera med ländryggen eller pressa genom skarp axelsmärta.'},
+ raise:{scene:'raise',steps:['Stå stabilt med lätta vikter, mjuka armbågar och axlarna nere.','Led med armbågarna och lyft armarna utåt till ungefär axelhöjd.','Pausa kort och sänk långsamt utan att tappa spänningen.'],warning:'Svinga inte vikten och ryck inte axlarna upp mot öronen.'},
+ 'rear-raise':{scene:'rear-raise',steps:['Stabilisera bålen och håll armbågarna lätt böjda.','För överarmarna utåt och bakåt med fokus på bakre axeln.','Pausa utan att dra upp axlarna och återgå kontrollerat.'],warning:'Undvik att göra rörelsen till en rodd eller kasta vikten med bålen.'},
+ 'upright-row':{scene:'raise',steps:['Håll kabel eller stång nära kroppen med stabil bål.','Dra armbågarna uppåt och utåt i ett smärtfritt rörelseomfång.','Stanna innan axeln kläms och sänk kontrollerat.'],warning:'Dra inte högre än axeln känns fri och håll handlederna neutrala.'},
+ 'face-pull':{scene:'face-pull',steps:['Ställ kabeln kring ansiktshöjd, ta repet och stå stabilt med raka armar.','Dra repet mot ögon eller panna samtidigt som armbågarna går utåt.','Separera repändarna, pausa med stabila skuldror och återgå långsamt.'],warning:'Svanka inte och låt inte axlarna åka upp mot öronen.'},
+ curl:{scene:'curl',steps:['Stå eller sitt stabilt med överarmen fixerad och handleden rak.','Böj armbågen och för vikten mot axeln utan att flytta överarmen.','Spänn kort i toppen och sänk hela vägen under kontroll.'],warning:'Undvik sving, bakåtlutning och att handleden viker sig.'},
+ pushdown:{scene:'pushdown',steps:['Stå nära kabeln med överarmarna stilla intill kroppen.','Sträck armbågarna och för handtaget nedåt utan att flytta axeln.','Nå full kontrollerad sträckning och låt sedan underarmen återgå långsamt.'],warning:'Låt inte armbågarna glida fram och använd inte kroppsvikten för att trycka ned.'},
+ 'overhead-extension':{scene:'overhead-extension',steps:['Placera överarmarna nära huvudet, spänn bålen och låt armbågarna böjas.','Sänk vikten bakom huvudet tills triceps är sträckt och överarmen fortfarande är stabil.','Sträck armbågen utan att svanka eller låta armbågarna fladdra ut.'],warning:'Minska rörelseomfånget om armbåge eller axel känns irriterad.'},
+ 'lying-extension':{scene:'lying-extension',steps:['Ligg stabilt med vikten över axlarna och överarmarna lätt vinklade bakåt.','Böj armbågarna och för vikten mot eller strax bakom huvudet.','Sträck armbågarna medan överarmarna hålls så stilla som möjligt.'],warning:'Tappa inte kontrollen nära huvudet och använd en vikt du kan bromsa.'},
+ kickback:{scene:'kickback',steps:['Fäll i höften och fixera överarmen parallellt med bålen.','Sträck armbågen tills armen är rak utan att flytta axeln.','Pausa kort och böj sedan armbågen kontrollerat.'],warning:'Svinga inte överarmen och rotera inte kroppen för att få upp vikten.'},
+ wrist:{scene:'wrist',steps:['Stöd underarmarna och låt bara händerna röra sig utanför stödet.','Rulla eller böj handleden genom ett kontrollerat rörelseomfång.','Pausa kort och återgå långsamt utan att lyfta underarmen.'],warning:'Använd lätt belastning och undvik snabba ryck i handledens ändlägen.'},
+ grip:{scene:'carry',steps:['Placera viktskivorna mellan fingrar och tumme och skapa ett hårt nypgrepp.','Håll kroppen hög, skuldran stabil och vikten stilla vid sidan.','Sätt ned vikten kontrollerat när greppet börjar öppnas.'],warning:'Tappa inte vikten nära fötterna; använd fri yta och säkert grepp.'},
+ squat:{scene:'squat',steps:['Ställ fötterna stabilt och spänn bålen. Låt knän och tår peka i samma riktning.','Sänk höften kontrollerat medan hela foten behåller kontakt och bålen hålls stabil.','Pressa golvet eller plattan ifrån dig och res dig utan att knäna faller in.'],warning:'Tvinga inte fram ett djup du inte kan kontrollera och lås inte knäna aggressivt.'},
+ lunge:{scene:'lunge',steps:['Ta en stabil delad stans med främre foten helt i golvet.','Sänk kroppen rakt ned och låt främre knät följa tårnas riktning.','Pressa genom främre foten tillbaka till start utan att tappa balansen.'],warning:'Undvik att skjuta ifrån kraftigt med det bakre benet eller låta knät falla in.'},
+ 'step-up':{scene:'step-up',steps:['Placera hela arbetsfoten på en stabil låda och håll bäckenet rakt.','Luta lätt fram och driv kroppen upp med benet på lådan.','Sträck höft och knä kontrollerat och sänk tillbaka utan att falla ned.'],warning:'Välj inte högre låda än att arbetsbenet kan göra jobbet utan frånskjut.'},
+ 'leg-extension':{scene:'leg-extension',steps:['Justera maskinens axel mot knäleden och placera dynan ovanför fotleden.','Sträck knäna kontrollerat tills benen nästan är raka.','Pausa med spända lår och sänk långsamt till ett bekvämt bottenläge.'],warning:'Sparka inte upp vikten och låt inte höften lyfta från sitsen.'},
+ 'leg-curl':{scene:'leg-curl',steps:['Justera maskinen så knäleden linjerar med rotationsaxeln och fixera bäckenet.','Böj knäna och för hälarna mot sätet eller ned under sitsen.','Pausa i kontraktionen och återgå långsamt till full kontrollerad sträckning.'],warning:'Undvik höftlyft och att släppa vikten snabbt i den excentriska fasen.'},
+ nordic:{scene:'nordic',steps:['Fixera anklarna säkert och håll knä, höft och axel i en rak linje.','Bromsa kroppen framåt med baksida lår så långt du kan kontrollera.','Ta emot med händerna vid behov och använd hjälp för att återgå med god kvalitet.'],warning:'Försök inte hålla emot längre än du kan kontrollera; dosera belastningen försiktigt.'},
+ 'hip-thrust':{scene:'hip-thrust',steps:['Placera skulderbladen mot bänk eller ryggen på golvet och fötterna stabilt.','Sänk höften kontrollerat med revbenen nere.','Pressa genom hela foten tills höft och knä bildar en stabil topplinje och spänn sätet.'],warning:'Översträck inte ländryggen och placera belastningen säkert över höften.'},
+ 'glute-kickback':{scene:'glute-isolation',steps:['Stå stabilt med bäckenet rakt och ett lätt böjt stödben.','För arbetsbenet bakåt från höften utan att vrida kroppen.','Pausa med spänt säte och återgå kontrollerat utan att låta vikten dra dig fram.'],warning:'Jaga inte höjd genom att svanka eller rotera bäckenet.'},
+ abduction:{scene:'glute-isolation',steps:['Håll bäckenet stabilt och skapa lätt spänning i maskin eller band.','För knä eller ben utåt utan att luta kroppen åt sidan.','Pausa och återgå långsamt medan spänningen behålls.'],warning:'Använd inte studs och låt inte knäna falla okontrollerat inåt.'},
+ adduction:{scene:'glute-isolation',steps:['Sitt stabilt med kontrollerat utgångsläge och neutral rygg.','För benen inåt med jämnt tryck och stilla bäcken.','Pausa lätt och öppna sedan långsamt till ett bekvämt läge.'],warning:'Studsa inte ur ytterläget och tvinga inte fram en obehaglig stretch.'},
+ calf:{scene:'calf',steps:['Placera framfoten stadigt på plattan och håll knäet i avsedd position.','Sänk hälen till en tydlig, kontrollerad stretch.','Pressa upp genom stortån, nå ett högt tåläge och pausa innan du sänker.'],warning:'Studsa inte i botten och låt inte fotleden rulla utåt.'},
+ crunch:{scene:'crunch',steps:['Ställ in kroppen så bäcken och bröstkorg kan röra sig mot varandra.','Andas ut och rulla bröstkorgen mot bäckenet utan att dra i nacken.','Pausa med spänd mage och återgå långsamt utan att släppa bålkontrollen.'],warning:'Gör inte rörelsen främst i höften och ryck inte med huvudet.'},
+ 'leg-raise':{scene:'leg-raise',steps:['Häng eller ligg stabilt och starta med kontrollerat bäcken.','Lyft benen och rulla bäckenet mot bröstkorgen utan sving.','Sänk långsamt tills magen fortfarande kan hålla ländryggen stabil.'],warning:'Avsluta setet när du behöver svinga eller svanka för att lyfta benen.'},
+ 'ab-wheel':{scene:'ab-wheel',steps:['Stå på knä med hjulet under axlarna, spänd mage och lätt rundat bäcken.','Rulla fram genom axlarna medan revben och bäcken hålls ihop.','Vänd innan ländryggen svankar och dra tillbaka med magen spänd.'],warning:'Kortare rörelse med neutral rygg är bättre än långt läge med svank.'},
+ plank:{scene:'plank',steps:['Placera armbågar eller händer under axlarna och sträck kroppen.','Spänn säte, lår och mage så huvud, höft och häl bildar en linje.','Andas lugnt och håll samma position under hela arbetstiden.'],warning:'Avsluta när höften sjunker eller ländryggen börjar ta över.'},
+ 'dead-bug':{scene:'dead-bug',steps:['Ligg på rygg med höft och knä böjda samt armarna upp. Pressa ländryggen lätt mot golvet.','Sträck motsatt arm och ben långsamt utan att ryggen lämnar golvet.','Återgå till mitten och växla sida med samma bålkontroll.'],warning:'Gör rörelsen kortare om ländryggen lyfter från golvet.'},
+ pallof:{scene:'pallof',steps:['Stå vinkelrätt mot kabeln med stabila fötter och handtaget nära bröstet.','Pressa armarna rakt fram utan att låta bålen rotera.','Pausa längst ut och för händerna lugnt tillbaka till bröstet.'],warning:'Välj en vikt som låter höfter och axlar förbli riktade rakt fram.'},
+ 'side-plank':{scene:'side-plank',steps:['Placera armbågen under axeln och stapla kroppen i sidled.','Lyft höften tills huvud, bål och ben bildar en rak linje.','Håll positionen med spänd sida och kontrollerad andning.'],warning:'Låt inte axeln sjunka eller höften rotera bakåt.'}
+};
+function exerciseGuideDefinition(info){
+ if(!info)return null;
+ let n=info[0].toLocaleLowerCase('sv-SE'),kind='';
+ if(/armhäv/.test(n))kind='pushup';
+ else if(/pec deck|flyes/.test(n))kind=info[1]==='Axlar'?'rear-raise':'fly';
+ else if(/dips/.test(n))kind='dip';
+ else if(/pullover|rakarmsdrag/.test(n))kind='pullover';
+ else if(/chins|latsdrag/.test(n))kind='vertical-pull';
+ else if(/rodd|row/.test(n))kind='row';
+ else if(/marklyft|rumänska|rdl|good mornings/.test(n))kind='hinge';
+ else if(/ryggresningar/.test(n))kind='back-extension';
+ else if(/shrugs/.test(n))kind='shrug';
+ else if(/farmers carry/.test(n))kind='carry';
+ else if(/militärpress|hantelpress|arnoldpress|z-press|maskinpress axlar|landminepress/.test(n)&&info[1]==='Axlar')kind='overhead-press';
+ else if(/sidolyft/.test(n))kind='raise';
+ else if(/omvänd pec deck|bakre axel|omvända hantelflyes/.test(n))kind='rear-raise';
+ else if(/upprätt rodd/.test(n))kind='upright-row';
+ else if(/face pull/.test(n))kind='face-pull';
+ else if(info[1]==='Biceps')kind='curl';
+ else if(/pushdown/.test(n))kind='pushdown';
+ else if(/overhead/.test(n)&&info[1]==='Triceps')kind='overhead-extension';
+ else if(/jm-press|liggande triceps|liggande hantel/.test(n))kind='lying-extension';
+ else if(/kickback/.test(n)&&info[1]==='Triceps')kind='kickback';
+ else if(/smal bänkpress/.test(n))kind='horizontal-press';
+ else if(info[1]==='Underarmar')kind=/pinch/.test(n)?'grip':'wrist';
+ else if(/bulgarian|utfall/.test(n))kind='lunge';
+ else if(/step-up/.test(n))kind='step-up';
+ else if(/benspark/.test(n))kind='leg-extension';
+ else if(/lårcurl/.test(n))kind='leg-curl';
+ else if(/nordic|glute-ham/.test(n))kind='nordic';
+ else if(info[1]==='Framsida lår')kind='squat';
+ else if(/hip thrust|glute bridge|frog pumps/.test(n))kind='hip-thrust';
+ else if(/glute kickback/.test(n))kind='glute-kickback';
+ else if(/abduktor|sidogång/.test(n))kind='abduction';
+ else if(/adduktor/.test(n))kind='adduction';
+ else if(info[1]==='Vader')kind='calf';
+ else if(/hängande benlyft/.test(n))kind='leg-raise';
+ else if(/ab wheel/.test(n))kind='ab-wheel';
+ else if(n==='planka')kind='plank';
+ else if(/dead bug/.test(n))kind='dead-bug';
+ else if(/pallof/.test(n))kind='pallof';
+ else if(/copenhagen|sidoplanka/.test(n))kind='side-plank';
+ else if(info[1]==='Mage')kind='crunch';
+ else if(info[1]==='Triceps')kind='pushdown';
+ else kind='horizontal-press';
+ return{...GUIDE_TEMPLATES[kind],kind,name:info[0],muscle:info[1],equipment:info[2],level:info[3],range:info[4],cue:info[6]}
+}
+function guideMuscle(muscle,p,side=false){
+ let line=(a,b)=>`<line class="guide-muscle" x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/>`;
+ if(side){
+  if(['Bröst','Rygg','Axlar','Trapezius'].includes(muscle))return line(p.shoulder,p.hip);
+  if(['Biceps','Triceps','Underarmar'].includes(muscle))return line(p.shoulder,p.elbow)+line(p.elbow,p.wrist);
+  if(['Framsida lår','Baksida lår','Säte'].includes(muscle))return line(p.hip,p.knee);
+  if(muscle==='Vader')return line(p.knee,p.ankle);
+  return line(p.shoulder,p.hip)
+ }
+ if(['Bröst','Rygg','Axlar','Trapezius'].includes(muscle))return line(p.shoulderL,p.shoulderR);
+ if(['Biceps','Triceps','Underarmar'].includes(muscle))return line(p.shoulderL,p.elbowL)+line(p.shoulderR,p.elbowR);
+ if(['Framsida lår','Baksida lår','Säte'].includes(muscle))return line(p.hipL,p.kneeL)+line(p.hipR,p.kneeR);
+ if(muscle==='Vader')return line(p.kneeL,p.ankleL)+line(p.kneeR,p.ankleR);
+ return line([(p.shoulderL[0]+p.shoulderR[0])/2,(p.shoulderL[1]+p.shoulderR[1])/2],[(p.hipL[0]+p.hipR[0])/2,(p.hipL[1]+p.hipR[1])/2])
+}
+function guideFrontBody(changes={},muscle='Mage'){
+ let p={head:[110,31],shoulderL:[88,58],shoulderR:[132,58],elbowL:[78,86],elbowR:[142,86],wristL:[76,116],wristR:[144,116],hipL:[99,110],hipR:[121,110],kneeL:[96,146],kneeR:[124,146],ankleL:[91,177],ankleR:[129,177],...changes};
+ let l=(a,b)=>`<line class="guide-body" x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/>`,j=a=>`<circle class="guide-joint" cx="${a[0]}" cy="${a[1]}" r="4"/>`;
+ return guideMuscle(muscle,p)+`<circle class="guide-head" cx="${p.head[0]}" cy="${p.head[1]}" r="12"/>${l(p.shoulderL,p.shoulderR)}${l([(p.shoulderL[0]+p.shoulderR[0])/2,(p.shoulderL[1]+p.shoulderR[1])/2],[(p.hipL[0]+p.hipR[0])/2,(p.hipL[1]+p.hipR[1])/2])}${l(p.hipL,p.hipR)}${l(p.shoulderL,p.elbowL)}${l(p.elbowL,p.wristL)}${l(p.shoulderR,p.elbowR)}${l(p.elbowR,p.wristR)}${l(p.hipL,p.kneeL)}${l(p.kneeL,p.ankleL)}${l(p.hipR,p.kneeR)}${l(p.kneeR,p.ankleR)}${[p.shoulderL,p.shoulderR,p.elbowL,p.elbowR,p.hipL,p.hipR,p.kneeL,p.kneeR].map(j).join('')}`
+}
+function guideSideBody(changes={},muscle='Mage'){
+ let p={head:[112,31],shoulder:[108,57],elbow:[91,85],wrist:[82,112],hip:[112,108],knee:[114,146],ankle:[116,177],...changes};
+ let l=(a,b)=>`<line class="guide-body" x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/>`,j=a=>`<circle class="guide-joint" cx="${a[0]}" cy="${a[1]}" r="4"/>`;
+ return guideMuscle(muscle,p,true)+`<circle class="guide-head" cx="${p.head[0]}" cy="${p.head[1]}" r="12"/>${l(p.shoulder,p.hip)}${l(p.shoulder,p.elbow)}${l(p.elbow,p.wrist)}${l(p.hip,p.knee)}${l(p.knee,p.ankle)}${[p.shoulder,p.elbow,p.hip,p.knee].map(j).join('')}`
+}
+function guideSvg(scene,phase,guide){
+ let id=`move-${scene}-${phase}`,arrow=(x1,y1,x2,y2)=>`<line class="guide-arrow" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" marker-end="url(#${id})"/>`,db=(x,y)=>`<g class="guide-equipment"><line x1="${x-9}" y1="${y}" x2="${x+9}" y2="${y}"/><rect class="guide-weight" x="${x-13}" y="${y-7}" width="5" height="14" rx="2"/><rect class="guide-weight" x="${x+8}" y="${y-7}" width="5" height="14" rx="2"/></g>`,load=points=>{
+  let eq=guide.equipment||'',ps=points.filter(Boolean);if(!ps.length||/Kroppsvikt/.test(eq))return'';
+  if(/Hantlar/.test(eq))return ps.map(p=>db(p[0],p[1])).join('');
+  if(/Skivstång|Smithmaskin/.test(eq)){let x=ps.reduce((a,p)=>a+p[0],0)/ps.length,y=ps.reduce((a,p)=>a+p[1],0)/ps.length;return `<g class="guide-equipment"><line x1="${x-40}" y1="${y}" x2="${x+40}" y2="${y}"/><rect class="guide-weight" x="${x-45}" y="${y-9}" width="7" height="18" rx="2"/><rect class="guide-weight" x="${x+38}" y="${y-9}" width="7" height="18" rx="2"/></g>`}
+  if(/Kabel/.test(eq))return ps.map((p,i)=>`<path class="guide-equipment" d="M${i%2?202:18} ${Math.max(18,p[1]-34)}L${p[0]} ${p[1]}"/>`).join('');
+  if(/Band/.test(eq))return ps.map(p=>`<path class="guide-equipment" stroke-dasharray="5 5" d="M202 160L${p[0]} ${p[1]}"/>`).join('');
+  if(/Maskin/.test(eq))return `<path class="guide-equipment" d="M28 165V42H48M192 165V42H172"/>`+ps.map(p=>`<circle class="guide-weight" cx="${p[0]}" cy="${p[1]}" r="6"/>`).join('');
+  if(/Viktskiva/.test(eq))return ps.map(p=>`<circle class="guide-equipment" cx="${p[0]}" cy="${p[1]}" r="13"/>`).join('');
+  return ps.map(p=>db(p[0],p[1])).join('')
+ };
+ let floor='<line class="guide-floor" x1="20" y1="181" x2="200" y2="181"/>',body='',gear='',motion='';
+ if(scene==='press'||scene==='lying-extension'){
+  let wy=scene==='press'?[92,64,38][phase]:[73,50,33][phase],ey=scene==='press'?[110,88,66][phase]:[84,67,56][phase],wx=scene==='press'?96:[62,76,91][phase];
+  body=guideSideBody({head:[45,105],shoulder:[72,108],elbow:[82,ey],wrist:[wx,wy],hip:[128,111],knee:[157,132],ankle:[188,133]},guide.muscle);gear='<rect class="guide-bench" x="35" y="119" width="112" height="10" rx="4"/>'+load([[wx,wy]]);motion=arrow(159,92,159,44)
+ }else if(scene==='fly'){
+  let wx=[42,72,101][phase],rx=220-wx,ex=[68,79,94][phase],rex=220-ex;
+  body=guideFrontBody({elbowL:[ex,72],elbowR:[rex,72],wristL:[wx,77],wristR:[rx,77]},guide.muscle);gear=load([[wx,77],[rx,77]]);motion=arrow(44,42,94,42)
+ }else if(scene==='dip'){
+  let sy=[57,78,56][phase],dy=sy-57;
+  body=guideFrontBody({head:[110,31+dy],shoulderL:[88,sy],shoulderR:[132,sy],elbowL:[75,88],elbowR:[145,88],wristL:[72,112],wristR:[148,112],hipL:[99,110+dy],hipR:[121,110+dy],kneeL:[99,145+dy],kneeR:[121,145+dy],ankleL:[105,174+dy],ankleR:[115,174+dy]},guide.muscle);gear='<path class="guide-equipment" d="M48 110h28M144 110h28"/>';motion=arrow(188,55,188,105)
+ }else if(scene==='pushup'||scene==='plank'||scene==='side-plank'){
+  let low=scene==='pushup'?[0,20,0][phase]:scene==='side-plank'?[18,0,0][phase]:0;
+  body=guideSideBody({head:[48,77+low],shoulder:[70,84+low],elbow:[70,112],wrist:[70,150],hip:[121,96+low],knee:[158,108+low],ankle:[193,119+low]},guide.muscle);motion=scene==='pushup'?arrow(32,78,32,120):scene==='side-plank'?arrow(120,135,120,95):arrow(108,58,108,92)
+ }else if(scene==='vertical-pull'){
+  let wy=[27,49,70][phase],ey=[52,66,77][phase];
+  body=guideFrontBody({elbowL:[78,ey],elbowR:[142,ey],wristL:[72,wy],wristR:[148,wy]},guide.muscle);gear='<line class="guide-equipment" x1="56" y1="22" x2="164" y2="22"/>';motion=arrow(188,32,188,88)
+ }else if(scene==='row'){
+  let wx=[170,137,112][phase],ex=[136,117,102][phase];
+  body=guideSideBody({head:[88,61],shoulder:[99,77],elbow:[ex,88],wrist:[wx,91],hip:[98,113],knee:[135,145],ankle:[176,146]},guide.muscle);gear=load([[wx,91]]);motion=arrow(174,49,118,49)
+ }else if(scene==='pullover'){
+  let wx=[88,67,78][phase],wy=[24,55,102][phase];
+  body=guideFrontBody({elbowL:[84,52+phase*13],elbowR:[136,52+phase*13],wristL:[wx,wy],wristR:[220-wx,wy]},guide.muscle);gear=load([[wx,wy],[220-wx,wy]]);motion=arrow(187,35,187,103)
+ }else if(scene==='hinge'){
+  let sx=[108,67,108][phase],sy=[57,90,57][phase],hx=[112,108,112][phase];
+  body=guideSideBody({head:[sx+4,sy-26],shoulder:[sx,sy],elbow:[sx-3,90+phase*8],wrist:[sx-2,121+phase*7],hip:[hx,108],knee:[121,146],ankle:[123,177]},guide.muscle);gear=load([[sx-2,121+phase*7]]);motion=arrow(58,46,58,101)
+ }else if(scene==='shrug'||scene==='carry'){
+  let sy=scene==='shrug'?[59,48,48][phase]:58,step=scene==='carry'?[0,7,-7][phase]:0;
+  body=guideFrontBody({shoulderL:[88,sy],shoulderR:[132,sy],elbowL:[82,88],elbowR:[138,88],wristL:[78,120],wristR:[142,120],ankleL:[91-step,177],ankleR:[129+step,177]},guide.muscle);gear=load([[78,124],[142,124]]);motion=scene==='shrug'?arrow(185,76,185,43):arrow(49,156,176,156)
+ }else if(scene==='overhead-press'){
+  let wy=[69,42,23][phase],wx=[79,89,98][phase],ex=[78,81,91][phase];
+  body=guideFrontBody({elbowL:[ex,68],elbowR:[220-ex,68],wristL:[wx,wy],wristR:[220-wx,wy]},guide.muscle);gear=/landmine/i.test(guide.name)?`<line class="guide-equipment" x1="18" y1="172" x2="${220-wx}" y2="${wy}"/>`:load([[wx,wy],[220-wx,wy]]);motion=arrow(184,78,184,27)
+ }else if(scene==='raise'||scene==='rear-raise'){
+  let wx=[80,58,35][phase],rx=220-wx,wy=[116,88,62][phase];
+  body=guideFrontBody({elbowL:[76-phase*7,87-phase*6],elbowR:[144+phase*7,87-phase*6],wristL:[wx,wy],wristR:[rx,wy]},guide.muscle);gear=load([[wx,wy],[rx,wy]]);motion=arrow(31,115,31,64)
+ }else if(scene==='face-pull'){
+  let wx=[108,91,80][phase],rx=220-wx,wy=[86,66,54][phase];
+  body=guideFrontBody({elbowL:[76,68],elbowR:[144,68],wristL:[wx,wy],wristR:[rx,wy]},guide.muscle);gear='<path class="guide-equipment" d="M20 84L'+wx+' '+wy+'M200 84L'+rx+' '+wy+'"/>';motion=arrow(110,93,110,53)
+ }else if(scene==='curl'||scene==='pushdown'){
+  let up=scene==='curl',wy=up?[118,88,62][phase]:[70,94,121][phase];
+  body=guideFrontBody({elbowL:[82,86],elbowR:[138,86],wristL:[82,wy],wristR:[138,wy]},guide.muscle);gear=load([[82,wy],[138,wy]]);motion=arrow(183,up?119:66,183,up?61:121)
+ }else if(scene==='overhead-extension'){
+  let wy=[67,43,23][phase];
+  body=guideFrontBody({elbowL:[94,52],elbowR:[126,52],wristL:[103,wy],wristR:[117,wy]},guide.muscle);gear=load([[110,wy]]);motion=arrow(174,68,174,26)
+ }else if(scene==='kickback'){
+  let wx=[92,72,50][phase];
+  body=guideSideBody({head:[88,56],shoulder:[98,75],elbow:[126,82],wrist:[wx,91],hip:[100,112],knee:[128,147],ankle:[165,160]},guide.muscle);gear=load([[wx,91]]);motion=arrow(116,49,57,49)
+ }else if(scene==='wrist'){
+  let wy=[108,97,88][phase];
+  body=guideFrontBody({elbowL:[82,92],elbowR:[138,92],wristL:[78,wy],wristR:[142,wy]},guide.muscle);gear=load([[78,wy],[142,wy]]);motion=arrow(184,113,184,84)
+ }else if(scene==='squat'){
+  let dy=[0,26,0][phase],wide=[0,11,0][phase];
+  body=guideFrontBody({head:[110,31+dy],shoulderL:[88,58+dy],shoulderR:[132,58+dy],elbowL:[80,82+dy],elbowR:[140,82+dy],wristL:[77,105+dy],wristR:[143,105+dy],hipL:[99-wide,110+dy],hipR:[121+wide,110+dy],kneeL:[96-wide*2,146+dy/2],kneeR:[124+wide*2,146+dy/2]},guide.muscle);gear=load([[110,51+dy]]);motion=arrow(188,54,188,124)
+ }else if(scene==='lunge'||scene==='step-up'){
+  let down=[0,22,0][phase];
+  body=guideSideBody({head:[105,31+down],shoulder:[105,57+down],elbow:[88,84+down],wrist:[82,112+down],hip:[108,108+down],knee:[scene==='step-up'?146:143,137+down/2],ankle:[scene==='step-up'?166:175,scene==='step-up'?137:177]},guide.muscle);gear=(scene==='step-up'?'<rect class="guide-bench" x="145" y="143" width="55" height="38" rx="3"/>':'')+load([[82,112+down]]);motion=arrow(190,125,190,70)
+ }else if(scene==='leg-extension'||scene==='leg-curl'){
+  let extend=scene==='leg-extension',ax=extend?[105,145,181][phase]:[181,145,113][phase],ay=extend?[166,147,126][phase]:[126,147,164][phase];
+  body=guideSideBody({head:[78,49],shoulder:[82,75],elbow:[70,100],wrist:[68,126],hip:[91,119],knee:[121,128],ankle:[ax,ay]},guide.muscle);gear='<rect class="guide-bench" x="62" y="124" width="61" height="10" rx="4"/><circle class="guide-weight" cx="'+ax+'" cy="'+ay+'" r="8"/>';motion=arrow(174,164,174,125)
+ }else if(scene==='nordic'){
+  let sx=[107,86,64][phase],sy=[59,73,91][phase];
+  body=guideSideBody({head:[sx,sy-26],shoulder:[sx,sy],elbow:[sx-14,sy+26],wrist:[sx-22,sy+49],hip:[116,112],knee:[124,151],ankle:[151,170]},guide.muscle);gear='<line class="guide-equipment" x1="144" y1="171" x2="178" y2="171"/>';motion=arrow(61,44,39,104)
+ }else if(scene==='hip-thrust'){
+  let hy=[133,108,91][phase];
+  body=guideSideBody({head:[49,104],shoulder:[68,111],elbow:[60,130],wrist:[74,143],hip:[118,hy],knee:[156,126],ankle:[179,170]},guide.muscle);gear='<rect class="guide-bench" x="35" y="119" width="55" height="12" rx="4"/>'+load([[118,hy-4]]);motion=arrow(118,140,118,91)
+ }else if(scene==='glute-isolation'){
+  let ax=[129,158,178][phase],ay=[177,164,151][phase];
+  body=guideFrontBody({kneeR:[138+phase*10,145-phase*3],ankleR:[ax,ay]},guide.muscle);gear=load([[ax,ay]]);motion=arrow(143,169,188,145)
+ }else if(scene==='calf'){
+  let dy=[0,-8,-14][phase];
+  body=guideFrontBody({head:[110,31+dy],shoulderL:[88,58+dy],shoulderR:[132,58+dy],elbowL:[78,86+dy],elbowR:[142,86+dy],wristL:[76,116+dy],wristR:[144,116+dy],hipL:[99,110+dy],hipR:[121,110+dy],kneeL:[96,146+dy],kneeR:[124,146+dy],ankleL:[91,177],ankleR:[129,177]},guide.muscle);gear=load([[76,116+dy],[144,116+dy]]);motion=arrow(185,164,185,124)
+ }else if(scene==='crunch'){
+  let sx=[86,105,119][phase],sy=[112,101,91][phase];
+  body=guideSideBody({head:[sx-27,sy-8],shoulder:[sx,sy],elbow:[sx-8,132],wrist:[sx+7,145],hip:[132,139],knee:[160,116],ankle:[185,145]},guide.muscle);motion=arrow(57,91,111,75)
+ }else if(scene==='leg-raise'||scene==='dead-bug'){
+  let ax=[187,164,132][phase],ay=[147,111,70][phase];
+  body=guideSideBody({head:[43,132],shoulder:[66,137],elbow:[82,149],wrist:[101,156],hip:[116,142],knee:[151,scene==='dead-bug'?108:ay],ankle:[ax,ay]},guide.muscle);motion=arrow(183,143,145,76)
+ }else if(scene==='ab-wheel'){
+  let sx=[110,137,164][phase],sy=[70,85,104][phase],wx=[110,149,186][phase];
+  body=guideSideBody({head:[sx,sy-25],shoulder:[sx,sy],elbow:[sx+12,sy+25],wrist:[wx,132],hip:[105,116],knee:[105,155],ankle:[137,174]},guide.muscle);gear='<circle class="guide-equipment" cx="'+wx+'" cy="143" r="11"/>';motion=arrow(111,49,180,74)
+ }else if(scene==='pallof'){
+  let wx=[101,86,68][phase],rx=220-wx;
+  body=guideFrontBody({elbowL:[91,79],elbowR:[129,79],wristL:[wx,88],wristR:[rx,88]},guide.muscle);gear='<path class="guide-equipment" d="M18 88L'+wx+' 88"/>';motion=arrow(110,112,110,73)
+ }else body=guideFrontBody({},guide.muscle);
+ return `<svg viewBox="0 0 220 190" aria-hidden="true"><defs><marker id="${id}" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0L6 3L0 6Z" fill="#48e0a4"/></marker></defs>${floor}${body}${gear}${motion}</svg>`
+}
+function closeExerciseGuide(){$('#exerciseGuide').classList.remove('on');document.body.style.overflow=''}
+function openExerciseGuide(name){
+ let guide=exerciseGuideDefinition(exerciseInfo(name));if(!guide)return toast('Guide saknas för den här egna övningen');
+ $('#guideTitle').textContent=guide.name;
+ $('#guideSummary').innerHTML=[guide.muscle,guide.equipment,guide.range,guide.level].map(x=>`<span class="badge">${esc(x)}</span>`).join('');
+ $('#guideFrames').innerHTML=['Startläge','Arbetsfas','Slutläge'].map((label,i)=>`<figure class="guide-frame">${guideSvg(guide.scene,i,guide)}<figcaption><b>${i+1}</b>${label}</figcaption></figure>`).join('');
+ $('#guideSteps').innerHTML=guide.steps.map(x=>`<li>${esc(x)}</li>`).join('');
+ $('#guideCue').innerHTML=`<b>Teknikfokus i RSG Coach</b><br>${esc(guide.cue)}`;
+ $('#guideWarning').innerHTML=`<b>Vanligt fel att undvika</b><br>${esc(guide.warning)}`;
+ $('#guideFrames').scrollLeft=0;$('#exerciseGuide').classList.add('on');document.body.style.overflow='hidden'
+}
+function bindExerciseGuides(){$$('[data-guide]').forEach(b=>b.onclick=e=>{e.preventDefault();openExerciseGuide(b.dataset.guide)})}
+$('#closeGuide').onclick=closeExerciseGuide;
+$('#exerciseGuide').onclick=e=>{if(e.target===$('#exerciseGuide'))closeExerciseGuide()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#exerciseGuide').classList.contains('on'))closeExerciseGuide()});
 function swapKey(index){return JSON.stringify([D.program,currentDay,index])}
 function workoutRows(){return (activeProgram().workouts[currentDay]||[]).map((row,index)=>{let selected=D.exerciseSwaps[swapKey(index)];return [selected||row[0],row[1],row[2],row[0],index]})}
 function draftKey(){return JSON.stringify([D.program,currentDay,$('#workoutDate')?.value||new Date().toISOString().slice(0,10)])}
@@ -400,21 +640,40 @@ function tabs(){
  $('#workoutTabs').innerHTML=days.map(n=>`<button class="tab ${n===currentDay?'on':''}" data-day="${esc(n)}">${esc(n)}</button>`).join('');
  $$('[data-day]').forEach(b=>b.onclick=()=>{saveWorkoutDraft();currentDay=b.dataset.day;tabs();workout()})
 }
-function lastExercise(name){for(let i=D.sessions.length-1;i>=0;i--){let e=D.sessions[i].exercises.find(x=>x.name===name);if(e)return e}return null}
+function exerciseHistory(name,limit=4){
+ let key=String(name).toLocaleLowerCase('sv-SE'),history=[];
+ for(let i=D.sessions.length-1;i>=0&&history.length<limit;i--){let session=D.sessions[i],exercise=(session.exercises||[]).find(x=>String(x.name).toLocaleLowerCase('sv-SE')===key);if(exercise?.sets?.length)history.push({exercise,session})}
+ return history
+}
+function lastExercise(name){return exerciseHistory(name,1)[0]?.exercise||null}
+function historicalSet(exercise,index,fallback=false){let sets=exercise?.sets||[],numbered=sets.some(x=>Number.isFinite(+x.setNumber)),exact=numbered?sets.find(x=>+x.setNumber===index+1):sets[index];return exact||(fallback?sets.at(-1):null)}
 function parseTop(x){return +(String(x).split(/[–-]/)[1]||String(x).match(/\d+/)?.[0]||10)}
-function suggestWeight(name,last,reps){
- let top=parseTop(reps),all=last.sets.length&&last.sets.every(x=>x.reps>=top),avg=average(last.sets.map(x=>x.kg)),a=adaptive();
- let factor=all&&a.score>=60?1.025:a.score<45?.95:1;
- return Math.round(avg*factor*2)/2
+function parseBottom(x){return +(String(x).match(/\d+/)?.[0]||1)}
+function exercisePerformance(exercise){return average((exercise?.sets||[]).filter(x=>x.kg>0&&x.reps>0).map(x=>x.kg*(1+x.reps/30)))}
+function roundLoad(value){return Math.max(.5,Math.round(value*2)/2)}
+function progressionStep(name,weight){let info=exerciseInfo(name),minimum=info?.[7]==='compound'?2.5:1;if(info?.[2]==='Hantlar')minimum=1;return Math.max(minimum,Math.round(weight*.025*2)/2)}
+function weightRecommendation(name,reps,setCount){
+ let history=exerciseHistory(name,3);if(!history.length)return null;
+ let latest=history[0],sets=latest.exercise.sets.filter(x=>x.kg>0&&x.reps>0);if(!sets.length)return null;
+ let low=parseBottom(reps),top=parseTop(reps),rir=Number(latest.session.rir),allTop=sets.every(x=>x.reps>=top),belowLow=sets.filter(x=>x.reps<low).length>=Math.ceil(sets.length/2),latestPerformance=exercisePerformance(latest.exercise),older=history.slice(1).map(x=>exercisePerformance(x.exercise)).filter(Boolean),olderPerformance=average(older),action='hold';
+ if(allTop&&(!Number.isFinite(rir)||rir>=1)&&(olderPerformance===0||latestPerformance>=olderPerformance*.98))action='raise';
+ else if(belowLow&&olderPerformance>0&&latestPerformance<olderPerformance*.96)action='reduce';
+ let weights=Array.from({length:setCount},(_,i)=>{let base=historicalSet(latest.exercise,i,true)?.kg;if(!(base>0))return null;if(action==='raise')return roundLoad(base+progressionStep(name,base));if(action==='reduce')return roundLoad(base*.95);return roundLoad(base)}).filter(x=>x!=null);
+ if(!weights.length)return null;
+ let reason=action==='raise'?`Du nådde minst ${top} repetitioner i alla senast loggade set${Number.isFinite(rir)?` med RIR ${rir}`:''}. Höj i ett litet, kontrollerat steg.`:action==='reduce'?`De flesta senaste seten låg under ${low} repetitioner och prestationsnivån sjönk jämfört med tidigare pass. En liten sänkning ger bättre arbetsset.`:allTop&&rir===0?`Du nådde övre repgränsen, men med RIR 0. Behåll vikten tills samma resultat sitter med en repetition i reserv.`:`Behåll de senaste setvikterna tills du når övre delen av ${low}–${top} repetitioner med stabil teknik och RIR 1–2.`;
+ return{weights,action,tag:action==='raise'?'Höj vikten':action==='reduce'?'Sänk cirka 5 %':'Behåll vikten',reason,samples:history.length,lastDate:latest.session.date}
 }
 function workout(){
  let rows=workoutRows(),factor=adaptive().vol,draft=D.workoutDrafts[draftKey()]?.exercises||{};
  $('#exerciseList').innerHTML=rows.map(([n,c,r,original,index])=>{
-   let l=lastExercise(n),sets=Math.max(1,Math.round(c*factor)),s=l?suggestWeight(n,l,r):null,info=exerciseInfo(n),saved=draft[String(index)]?.name===n?draft[String(index)]:null,rest=+(D.restOverrides[n]||saved?.rest||defaultRestSeconds(n,r)),alternatives=exerciseAlternatives(n,original),restOptions=[60,75,90,120,150,180,210,rest].filter((x,i,a)=>a.indexOf(x)===i).sort((a,b)=>a-b);
+   let l=lastExercise(n),sets=Math.max(1,Math.round(c*factor)),recommendation=weightRecommendation(n,r,sets),info=exerciseInfo(n),saved=draft[String(index)]?.name===n?draft[String(index)]:null,rest=+(D.restOverrides[n]||saved?.rest||defaultRestSeconds(n,r)),alternatives=exerciseAlternatives(n,original),restOptions=[60,75,90,120,150,180,210,rest].filter((x,i,a)=>a.indexOf(x)===i).sort((a,b)=>a-b);
    let optionNames=[original,...alternatives.map(x=>x[0])].filter((x,i,a)=>a.indexOf(x)===i);
-   let setRows=Array.from({length:sets},(_,i)=>{let prev=l?.sets?.[i],d=saved?.sets?.[i],kg=d?.kg??s??prev?.kg??'',reps=d?.reps??prev?.reps??'',done=!!d?.done;return `<div class="set"><b>${i+1}</b><input class="kg" type="number" min="0" step="0.5" inputmode="decimal" aria-label="Vikt set ${i+1}" placeholder="kg" value="${esc(kg)}"><input class="reps" type="number" min="1" step="1" inputmode="numeric" aria-label="Reps set ${i+1}" placeholder="reps" value="${esc(reps)}"><button class="${done?'done':''}" aria-label="Logga set ${i+1}">✓</button></div>`}).join('');
-   return `<div class="exercise" data-slot="${index}" data-name="${esc(n)}" data-original="${esc(original)}" data-reps="${esc(r)}"><div class="row exercise-head"><div><h3>${esc(n)}</h3>${n!==original?`<small>Bytt från ${esc(original)}</small>`:''}</div><div class="exercise-actions">${s?`<span class="badge">${fmt(s)} kg</span>`:''}${info?`<button class="btn smallbtn swap-btn" type="button">Byt</button>`:''}</div></div><div class="meta">${sets} arbetsset × ${esc(r)}${info?` • ${esc(info[1])}`:''} • automatisk vila <select class="rest-select" aria-label="Vilotid">${restOptions.map(x=>`<option value="${x}" ${x===rest?'selected':''}>${Math.floor(x/60)}:${String(x%60).padStart(2,'0')}</option>`).join('')}</select></div>${info&&D.profile.uiMode!=='simple'?`<div class="why">${esc(info[6])}</div>`:''}${info?`<div class="swapbox" hidden><label>Välj likvärdig övning<select class="swap-select">${optionNames.map(x=>`<option value="${esc(x)}" ${x===n?'selected':''}>${esc(x)}${exerciseInfo(x)?` • ${esc(exerciseInfo(x)[2])}`:''}</option>`).join('')}</select></label><div class="form2"><button class="btn primary apply-swap" type="button">Använd alternativ</button><button class="btn secondary reset-swap" type="button">Original</button></div></div>`:''}${setRows}</div>`
+   let setRows=Array.from({length:sets},(_,i)=>{let prev=historicalSet(l,i),d=saved?.sets?.[i],kg=d?.kg??prev?.kg??'',reps=d?.reps??prev?.reps??'',done=!!d?.done;return `<div class="set"><b>${i+1}</b><input class="kg" type="number" min="0" step="0.5" inputmode="decimal" aria-label="Vikt set ${i+1}" placeholder="kg" value="${esc(kg)}"><input class="reps" type="number" min="1" step="1" inputmode="numeric" aria-label="Reps set ${i+1}" placeholder="reps" value="${esc(reps)}"><button class="${done?'done':''}" aria-label="Logga set ${i+1}">✓</button></div>`}).join('');
+   let recommendationText=recommendation?(recommendation.weights.every(x=>x===recommendation.weights[0])?`${fmt(recommendation.weights[0])} kg på varje set`:recommendation.weights.map((x,i)=>`S${i+1}: ${fmt(x)} kg`).join(' • ')):'';
+   let recommendationHtml=recommendation?`<div class="weight-rec ${recommendation.action}"><div class="row"><div><small>Viktrekommendation från ${recommendation.samples} pass</small><b>${esc(recommendationText)}</b></div><span class="badge">${esc(recommendation.tag)}</span></div><p>${esc(recommendation.reason)}</p></div>`:'<div class="last-load">Viktrekommendation visas efter första sparade passet.</div>';
+   return `<div class="exercise" data-slot="${index}" data-name="${esc(n)}" data-original="${esc(original)}" data-reps="${esc(r)}"><div class="row exercise-head"><div><h3>${esc(n)}</h3>${n!==original?`<small>Bytt från ${esc(original)}</small>`:''}</div><div class="exercise-actions">${info?`<button class="btn info-btn" type="button" data-guide="${esc(n)}" aria-label="Visa bildguide för ${esc(n)}">i</button><button class="btn smallbtn swap-btn" type="button">Byt</button>`:''}</div></div><div class="meta">${sets} arbetsset × ${esc(r)}${info?` • ${esc(info[1])}`:''} • automatisk vila <select class="rest-select" aria-label="Vilotid">${restOptions.map(x=>`<option value="${x}" ${x===rest?'selected':''}>${Math.floor(x/60)}:${String(x%60).padStart(2,'0')}</option>`).join('')}</select></div>${info&&D.profile.uiMode!=='simple'?`<div class="why">${esc(info[6])}</div>`:''}${info?`<div class="swapbox" hidden><label>Välj likvärdig övning<select class="swap-select">${optionNames.map(x=>`<option value="${esc(x)}" ${x===n?'selected':''}>${esc(x)}${exerciseInfo(x)?` • ${esc(exerciseInfo(x)[2])}`:''}</option>`).join('')}</select></label><div class="form2"><button class="btn primary apply-swap" type="button">Använd alternativ</button><button class="btn secondary reset-swap" type="button">Original</button></div></div>`:''}${recommendationHtml}${l?'<div class="last-load">Senaste vikt är autofylld separat för varje set.</div>':''}${setRows}</div>`
  }).join('');
+ bindExerciseGuides();
  $$('#exerciseList .swap-btn').forEach(b=>b.onclick=()=>{let box=b.closest('.exercise').querySelector('.swapbox');box.hidden=!box.hidden});
  $$('#exerciseList .apply-swap').forEach(b=>b.onclick=()=>{saveWorkoutDraft();let e=b.closest('.exercise'),choice=e.querySelector('.swap-select').value,key=swapKey(+e.dataset.slot);if(choice===e.dataset.original)delete D.exerciseSwaps[key];else D.exerciseSwaps[key]=choice;save();workout();toast('Övningen är bytt')});
  $$('#exerciseList .reset-swap').forEach(b=>b.onclick=()=>{saveWorkoutDraft();let e=b.closest('.exercise');delete D.exerciseSwaps[swapKey(+e.dataset.slot)];save();workout();toast('Originalövningen är återställd')});
@@ -430,7 +689,7 @@ function restoreTimer(){try{let t=JSON.parse(localStorage.getItem(TIMER_KEY)||'n
 $('#addTimer').onclick=()=>{if(!timerEndAt)return;timerEndAt+=30000;persistTimer();updateTimer()};
 $('#stopTimer').onclick=()=>finishTimer(false);
 $('#saveWorkout').onclick=()=>{
- let ex=[];$$('#exerciseList .exercise').forEach(e=>{let sets=[...e.querySelectorAll('.set')].map(s=>({kg:+s.querySelector('.kg').value||0,reps:+s.querySelector('.reps').value||0,done:s.querySelector('button').classList.contains('done')})).filter(x=>x.done&&x.kg&&x.reps).map(({kg,reps})=>({kg,reps}));if(sets.length){let vol=sets.reduce((a,x)=>a+x.kg*x.reps,0),e1=Math.max(...sets.map(x=>x.kg*(1+x.reps/30)));ex.push({name:e.dataset.name,originalName:e.dataset.original,sets,vol,e1,reps:e.dataset.reps})}});
+ let ex=[];$$('#exerciseList .exercise').forEach(e=>{let sets=[...e.querySelectorAll('.set')].map((s,index)=>({setNumber:index+1,kg:+s.querySelector('.kg').value||0,reps:+s.querySelector('.reps').value||0,done:s.querySelector('button').classList.contains('done')})).filter(x=>x.done&&x.kg&&x.reps).map(({setNumber,kg,reps})=>({setNumber,kg,reps}));if(sets.length){let vol=sets.reduce((a,x)=>a+x.kg*x.reps,0),e1=Math.max(...sets.map(x=>x.kg*(1+x.reps/30)));ex.push({name:e.dataset.name,originalName:e.dataset.original,sets,vol,e1,reps:e.dataset.reps})}});
  if(!ex.length)return toast('Logga minst ett set');
  D.sessions.push({date:$('#workoutDate').value,program:D.program,day:currentDay,feel:+$('#sessionFeel').value,rir:+$('#sessionRir').value,volume:ex.reduce((a,x)=>a+x.vol,0),exercises:ex,appVersion:APP_VERSION});
  clearWorkoutDraft();D.next=(dayNames().indexOf(currentDay)+1)%dayNames().length;addXP(ex.length>=8?30:ex.length>=3?20:10,'Pass sparat');currentDay=nextDay();render();go('coach')
@@ -491,7 +750,8 @@ function renderExerciseLibrary(){
  if($('#equipmentFilter').options.length===1)es.forEach(x=>$('#equipmentFilter').add(new Option(x,x)));
  let q=$('#exerciseSearch').value.toLowerCase(),m=$('#muscleFilter').value,e=$('#equipmentFilter').value;
  let arr=EX.filter(x=>(!q||x[0].toLowerCase().includes(q)||x[1].toLowerCase().includes(q))&&(!m||x[1]===m)&&(!e||x[2]===e));
- $('#exerciseLibrary').innerHTML=`<p class="tiny">${arr.length} övningar hittades${arr.length>80?' • de första 80 visas, sök eller filtrera för resten':''}</p>`+arr.slice(0,80).map(x=>`<div class="library-item"><div class="row"><div><b>${esc(x[0])}</b><small>${esc(x[1])} • ${esc(x[2])} • ${esc(x[4])} • vila ${Math.floor(x[8]/60)}:${String(x[8]%60).padStart(2,'0')}</small></div><button class="btn smallbtn" data-add="${esc(x[0])}">+</button></div><p>${esc(x[6])}</p><small>Alternativ: ${esc(x[5])}</small></div>`).join('');
+ $('#exerciseLibrary').innerHTML=`<p class="tiny">${arr.length} övningar hittades${arr.length>80?' • de första 80 visas, sök eller filtrera för resten':''}</p>`+arr.slice(0,80).map(x=>`<div class="library-item"><div class="row"><div><b>${esc(x[0])}</b><small>${esc(x[1])} • ${esc(x[2])} • ${esc(x[4])} • vila ${Math.floor(x[8]/60)}:${String(x[8]%60).padStart(2,'0')}</small></div><div class="exercise-actions"><button class="btn info-btn" type="button" data-guide="${esc(x[0])}" aria-label="Visa bildguide för ${esc(x[0])}">i</button><button class="btn smallbtn" data-add="${esc(x[0])}" aria-label="Lägg till ${esc(x[0])}">+</button></div></div><p>${esc(x[6])}</p><small>Alternativ: ${esc(x[5])}</small></div>`).join('');
+ bindExerciseGuides();
  $$('[data-add]').forEach(b=>b.onclick=()=>addBuilderRow(b.dataset.add))
 }
 ['exerciseSearch','muscleFilter','equipmentFilter'].forEach(id=>$('#'+id).oninput=renderExerciseLibrary);

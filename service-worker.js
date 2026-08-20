@@ -1,4 +1,4 @@
-const VERSION = '4.7.1';
+const VERSION = '4.8.0';
 const CACHE_PREFIX = 'rsg-coach-shell-';
 const CACHE_NAME = `${CACHE_PREFIX}${VERSION}`;
 const APP_SHELL = [

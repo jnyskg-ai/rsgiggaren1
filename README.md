@@ -29,6 +29,8 @@ Om hemskärmsappen visar en äldre version: öppna först appadressen i Safari m
 
 - 12 program med 11–13 klassiska bodybuildingövningar per pass.
 - 141 övningar för bröst, rygg, trapezius, axlar, armar, underarmar, ben, säte, vader och mage.
+- Infoknapp på varje biblioteksövning med en svepbar bildserie, tre utförandesteg, teknikfokus och vanliga fel.
+- Senaste loggade vikt återfylls separat för varje set, medan en tydlig viktrekommendation räknas fram från de senaste passen.
 - Övningsbyten direkt i passet, sparade per program och pass.
 - Automatisk övningsanpassad vilotimer först när både vikt och reps har fyllts i och setet loggas.
 - Bakgrundssäker timer, `+30 s`, vibration och återställning när appen öppnas igen.
