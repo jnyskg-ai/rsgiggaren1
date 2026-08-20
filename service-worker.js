@@ -1,9 +1,12 @@
-const VERSION = '4.8.0';
+const VERSION = '4.9.0';
 const CACHE_PREFIX = 'rsg-coach-shell-';
 const CACHE_NAME = `${CACHE_PREFIX}${VERSION}`;
+const MEDIA_CACHE_NAME = 'rsg-coach-guide-media-v1';
+const GUIDE_MEDIA_HOSTS = new Set(['raw.githubusercontent.com']);
 const APP_SHELL = [
   './index.html',
   './Coash%201.0.html',
+  './exercise-media.js',
   './manifest.webmanifest',
   './icon-192.png',
   './icon-512.png'
@@ -34,7 +37,22 @@ self.addEventListener('message', event => {
 
 self.addEventListener('fetch', event => {
   const { request } = event;
-  if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
+  if (request.method !== 'GET') return;
+  const url = new URL(request.url);
+
+  if (url.origin !== self.location.origin) {
+    if (request.destination !== 'image' || !GUIDE_MEDIA_HOSTS.has(url.hostname)) return;
+    event.respondWith(
+      caches.open(MEDIA_CACHE_NAME).then(async cache => {
+        const cached = await cache.match(request);
+        if (cached) return cached;
+        const response = await fetch(request);
+        if (response.ok || response.type === 'opaque') await cache.put(request, response.clone());
+        return response;
+      })
+    );
+    return;
+  }
 
   if (request.mode === 'navigate' || request.destination === 'document') {
     event.respondWith(
