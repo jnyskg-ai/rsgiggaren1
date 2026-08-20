@@ -38,6 +38,8 @@ assert(html.includes("K='rsg_ai_complete_v1'"), 'Den befintliga datanyckeln mås
 assert(html.includes('serviceWorker.register'), 'Service worker-registrering saknas');
 assert(html.includes('exerciseSwaps'), 'Beständiga övningsbyten saknas');
 assert(html.includes('workoutDrafts'), 'Beständiga passutkast saknas');
+assert(html.includes('weightRecommendation'), 'Historikbaserad viktrekommendation saknas');
+assert(html.includes('setNumber:index+1'), 'Setnummer måste sparas för exakt viktminne per set');
 assert(index.includes('./Coash%201.0.html'), 'Rotadressen måste öppna den befintliga appfilen');
 assert(fs.existsSync(path.join(root, '.nojekyll')), '.nojekyll saknas för GitHub Pages');
 
