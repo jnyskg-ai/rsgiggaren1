@@ -1,29 +1,33 @@
-const VERSION = '4.9.4';
+const VERSION = '4.10.0';
 const CACHE_PREFIX = 'rsg-coach-shell-';
 const CACHE_NAME = `${CACHE_PREFIX}${VERSION}`;
 const MEDIA_CACHE_NAME = 'rsg-coach-guide-media-v1';
 const GUIDE_MEDIA_HOSTS = new Set(['raw.githubusercontent.com']);
-const ORDER_SCRIPT = '<script src="./program-order.js"></script>';
 const APP_SHELL = [
   './index.html',
   './Coash%201.0.html',
   './exercise-media.js',
+  './workout-editor.js',
   './program-order.js',
   './manifest.webmanifest',
   './icon-192.png',
   './icon-512.png'
 ];
 
-async function injectProgramOrdering(response) {
+async function injectEnhancements(response) {
   if (!response || !response.ok) return response;
   const contentType = response.headers.get('content-type') || '';
   if (!contentType.includes('text/html')) return response;
   const text = await response.text();
-  const html = text.includes('program-order.js')
+  const missingScripts = [
+    text.includes('workout-editor.js') ? '' : '<script src="./workout-editor.js"></script>',
+    text.includes('program-order.js') ? '' : '<script src="./program-order.js"></script>'
+  ].join('');
+  const html = !missingScripts
     ? text
     : text.includes('</body>')
-      ? text.replace('</body>', `${ORDER_SCRIPT}</body>`)
-      : `${text}${ORDER_SCRIPT}`;
+      ? text.replace('</body>', `${missingScripts}</body>`)
+      : `${text}${missingScripts}`;
   const headers = new Headers(response.headers);
   headers.delete('content-length');
   return new Response(html, { status: response.status, statusText: response.statusText, headers });
@@ -34,7 +38,7 @@ self.addEventListener('install', event => {
     caches.open(CACHE_NAME).then(cache => Promise.all(APP_SHELL.map(async url => {
       const response = await fetch(new Request(url, { cache: 'reload' }));
       if (!response.ok) throw new Error(`Kunde inte cacha ${url}`);
-      const prepared = url.includes('Coash%201.0.html') ? await injectProgramOrdering(response) : response;
+      const prepared = url.includes('Coash%201.0.html') ? await injectEnhancements(response) : response;
       await cache.put(url, prepared);
     })))
   );
@@ -76,7 +80,7 @@ self.addEventListener('fetch', event => {
     event.respondWith((async () => {
       try {
         const response = await fetch(new Request(request, { cache: 'no-store' }));
-        const prepared = await injectProgramOrdering(response);
+        const prepared = await injectEnhancements(response);
         if (prepared.ok) caches.open(CACHE_NAME).then(cache => cache.put(request, prepared.clone()));
         return prepared;
       } catch (_) {

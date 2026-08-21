@@ -33,6 +33,7 @@ Om hemskärmsappen visar en äldre version: öppna först appadressen i Safari m
 - Visade övningsbilder sparas efter första öppningen så att de kan återanvändas offline.
 - Senaste loggade vikt återfylls separat för varje set, medan en tydlig viktrekommendation räknas fram från de senaste passen.
 - Övningsbyten direkt i passet, sparade per program och pass.
+- Lägg till eller ta bort övningar och set direkt i passet. Anpassningarna sparas för det valda programmet/passet och originalpasset kan återställas med en knapp.
 - Automatisk övningsanpassad vilotimer först när både vikt och reps har fyllts i och setet loggas.
 - Bakgrundssäker timer, `+30 s`, vibration och återställning när appen öppnas igen.
 - Double progression, RIR, readiness, passhistorik och lokala säkerhetskopior.

@@ -33,7 +33,9 @@ label{display:block;color:var(--muted);font-size:13px;margin-bottom:10px}input,s
 .modal{display:none;position:fixed;inset:0;background:#000a;z-index:60;align-items:flex-end}.modal.on{display:flex}.sheet{width:min(460px,100%);margin:auto;background:var(--card);border-radius:28px 28px 0 0;padding:20px calc(18px + env(safe-area-inset-right)) calc(22px + env(safe-area-inset-bottom))}
 .stepdots{display:flex;gap:6px;margin-bottom:14px}.stepdots i{height:5px;flex:1;border-radius:9px;background:#ffffff16}.stepdots i.on{background:var(--green)}
 .listrow{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.tiny{font-size:11px;color:var(--muted)}.hidden-advanced{display:none}.advanced .hidden-advanced{display:block}.simple .advanced-only{display:none}
-.exercise-head{align-items:flex-start}.exercise-actions{display:flex;gap:6px;align-items:center}.info-btn{width:36px;height:36px;min-width:36px;padding:0;border-radius:50%;display:grid;place-items:center;font-family:Georgia,serif;font-size:18px;font-weight:900;color:var(--blue);border:1px solid #65a7ff55;background:#65a7ff14}.swapbox{margin:9px 0;padding:11px;border-radius:14px;background:#0a1222;border:1px solid var(--line)}.swapbox[hidden]{display:none}.swapbox .form2{grid-template-columns:1fr auto}.rest-select{width:auto;min-width:86px;margin:0;padding:8px;font-size:13px}.set input.invalid{border-color:var(--red);box-shadow:0 0 0 2px #ff6b7933}.set button.done{position:relative}.set button.done::after{content:' Loggat';font-size:0}.program.active{border-color:var(--green)}
+.exercise-head{align-items:flex-start}.exercise-actions{display:flex;gap:6px;align-items:center;justify-content:flex-end;flex-wrap:wrap}.info-btn{width:36px;height:36px;min-width:36px;padding:0;border-radius:50%;display:grid;place-items:center;font-family:Georgia,serif;font-size:18px;font-weight:900;color:var(--blue);border:1px solid #65a7ff55;background:#65a7ff14}.swapbox{margin:9px 0;padding:11px;border-radius:14px;background:#0a1222;border:1px solid var(--line)}.swapbox[hidden]{display:none}.swapbox .form2{grid-template-columns:1fr auto}.rest-select{width:auto;min-width:86px;margin:0;padding:8px;font-size:13px}.set input.invalid{border-color:var(--red);box-shadow:0 0 0 2px #ff6b7933}.set button.done{position:relative}.set button.done::after{content:' Loggat';font-size:0}.program.active{border-color:var(--green)}
+.workout-edit-tools{margin:2px 0 12px;padding:12px;background:#0a1222;border:1px solid var(--line);border-radius:16px}.workout-edit-tools small{display:block;margin:0 0 9px;line-height:1.4}.workout-edit-actions,.set-edit-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.workout-edit-actions .btn,.set-edit-actions .btn{padding:10px}.remove-exercise{width:36px;height:36px;min-width:36px;padding:0;color:var(--red);font-size:20px}.set-edit-actions{margin-top:10px}.set-edit-actions .remove-set{color:var(--red)}.empty-workout{margin-bottom:12px;padding:18px;text-align:center;border:1px dashed #65a7ff66;border-radius:17px;color:var(--muted)}
+.add-exercise-sheet{max-height:90vh;overflow-y:auto;overscroll-behavior:contain}.add-exercise-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;position:sticky;top:-20px;z-index:2;margin:-20px -2px 10px;padding:20px 2px 10px;background:linear-gradient(var(--card) 82%,transparent)}.add-exercise-results{display:grid;gap:8px;padding-bottom:8px}.add-exercise-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px;background:#0a1222;border:1px solid var(--line);border-radius:15px}.add-exercise-item small{display:block;margin-top:3px}.add-exercise-item .btn{min-width:72px;padding:9px}.modal[hidden],[hidden]{display:none!important}
 .weight-rec{margin:9px 0 11px;padding:11px 12px;border-radius:14px;background:#0a1222;border:1px solid #65a7ff33}.weight-rec .row{align-items:flex-start}.weight-rec small{display:block}.weight-rec b{display:block;margin-top:3px;line-height:1.35}.weight-rec p{font-size:12px;margin:7px 0 0;line-height:1.4}.weight-rec.raise{border-left:4px solid var(--green)}.weight-rec.hold{border-left:4px solid var(--blue)}.weight-rec.reduce{border-left:4px solid var(--orange)}.last-load{color:var(--blue);font-size:11px;font-weight:800;margin:-3px 0 8px}
 .guide-modal{z-index:85}.guide-sheet{max-height:94vh;overflow-y:auto;overscroll-behavior:contain;padding-top:14px}.guide-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;position:sticky;top:-14px;z-index:2;margin:-14px -2px 10px;padding:14px 2px 10px;background:linear-gradient(var(--card) 82%,transparent)}.guide-top h2{margin:6px 0 0}.guide-close{width:42px;height:42px;min-width:42px;padding:0;border-radius:50%;font-size:25px;line-height:1}.guide-summary{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.guide-media-intro{margin:2px 0 10px}.guide-media-intro b,.guide-media-intro small{display:block}.guide-media-intro small{margin-top:3px;line-height:1.4}.guide-frames{display:grid;grid-template-columns:1fr;gap:9px;padding:0 0 10px}.guide-frame{margin:0;padding:10px;background:#0a1222;border:1px solid var(--line);border-radius:18px}.guide-image-wrap{position:relative;min-height:180px;display:grid;place-items:center;overflow:hidden;border-radius:13px;background:#060c17}.guide-frame img{display:block;width:100%;height:auto;max-height:390px;object-fit:contain;background:#060c17}.guide-frame figcaption{display:flex;gap:8px;align-items:center;margin-top:8px;color:var(--text);font-size:13px;font-weight:800}.guide-frame figcaption b{width:27px;height:27px;display:grid;place-items:center;border-radius:50%;background:var(--green);color:#062d20}.guide-transition{text-align:center;color:var(--green);font-size:22px;font-weight:900;line-height:1}.guide-media-missing{padding:15px;margin-bottom:10px;border:1px solid #ffb45466;border-radius:16px;background:#ffb45412;color:var(--text);line-height:1.45}.guide-source{display:block;margin:-2px 2px 12px;color:var(--blue);font-size:11px;text-align:right}.guide-video{display:block;text-align:center;text-decoration:none;margin:0 0 12px}.guide-steps{margin:0 0 12px;padding:0;list-style:none;counter-reset:guide}.guide-steps li{counter-increment:guide;display:grid;grid-template-columns:30px 1fr;gap:9px;align-items:start;padding:9px 0;border-bottom:1px solid var(--line);line-height:1.4}.guide-steps li::before{content:counter(guide);width:27px;height:27px;display:grid;place-items:center;border-radius:50%;background:var(--input);color:var(--green);font-size:12px;font-weight:900}.guide-warning{margin-top:9px;border-left:4px solid var(--orange)}.guide-safety{font-size:11px;line-height:1.4;margin:11px 2px 0}
 .update-banner{display:none;position:fixed;left:12px;right:12px;bottom:92px;z-index:70;max-width:436px;margin:auto;padding:13px;background:#f7fafc;color:#111827;border-radius:17px;box-shadow:0 16px 40px #0008}.update-banner.on{display:block}.update-banner p{color:#526076;margin:3px 0 10px}.update-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.update-actions .btn{padding:10px}.version{font-size:11px;color:var(--muted);text-align:center;margin-top:12px}.hard-note{border-left:4px solid var(--green)}
@@ -54,7 +56,7 @@ label{display:block;color:var(--muted);font-size:13px;margin-bottom:10px}input,s
 
 <section id="train" class="screen">
 <div class="card"><div class="row"><div><small>Aktivt program</small><h2 id="activeProgramName"></h2></div><button class="btn smallbtn" data-go="plan">Byt</button></div>
-<div id="workoutTabs" class="tabs"></div><label>Datum<input id="workoutDate" type="date"></label><div id="exerciseList"></div>
+<div id="workoutTabs" class="tabs"></div><label>Datum<input id="workoutDate" type="date"></label><div class="workout-edit-tools"><small>Ändringarna sparas för det här programmet och passet.</small><div class="workout-edit-actions"><button id="addWorkoutExercise" class="btn secondary" type="button">+ Lägg till övning</button><button id="resetWorkoutEdits" class="btn smallbtn" type="button" hidden>Återställ pass</button></div></div><div id="exerciseList"></div>
 <div class="form2"><label>Passkänsla 1–10<input id="sessionFeel" type="number" min="1" max="10" value="7"></label><label>Genomsnittlig RIR<input id="sessionRir" type="number" min="0" max="5" value="2"></label></div>
 <button id="saveWorkout" class="btn primary">Spara pass och analysera</button></div>
 </section>
@@ -108,6 +110,15 @@ label{display:block;color:var(--muted);font-size:13px;margin-bottom:10px}input,s
   <div class="why" id="guideCue"></div>
   <div class="why guide-warning" id="guideWarning"></div>
   <p class="guide-safety">Bilderna visar rörelsens huvudpositioner. Läs alltid stegen och teknikfokuset; anpassa rörelseomfånget efter din kropp och avbryt vid skarp smärta.</p>
+ </div>
+</div>
+
+<div class="modal" id="addExerciseModal" role="dialog" aria-modal="true" aria-labelledby="addExerciseTitle">
+ <div class="sheet add-exercise-sheet">
+  <div class="add-exercise-head"><div><span class="pill">Anpassa passet</span><h2 id="addExerciseTitle">Lägg till övning</h2></div><button class="btn smallbtn guide-close" id="closeAddExercise" type="button" aria-label="Stäng">×</button></div>
+  <label>Sök övning<input id="addExerciseSearch" type="search" placeholder="Press, rodd, curl..."></label>
+  <label>Muskelgrupp<select id="addExerciseMuscle"><option value="">Alla muskelgrupper</option></select></label>
+  <div class="add-exercise-results" id="addExerciseResults"></div>
  </div>
 </div>
 
@@ -310,17 +321,17 @@ const CARDIO={
 'HIIT kort':{goal:'Tidseffektiv kondition',sessions:[['10×1 min hårt/1 min lätt',25,'Hög'],['6×2 min hårt/2 min lätt',30,'Hög']]}
 };
 
-const APP_VERSION='4.9.3',DATA_SCHEMA=3,K='rsg_ai_complete_v1',TIMER_KEY='rsg_ai_rest_timer_v2';
+const APP_VERSION='4.10.0',DATA_SCHEMA=3,K='rsg_ai_complete_v1',TIMER_KEY='rsg_ai_rest_timer_v2';
 const DEFAULT_DATA={
 schemaVersion:DATA_SCHEMA,
 profile:{name:'',experience:'intermediate',uiMode:'guided',days:4,equipment:'gym',primaryGoal:'muscle',sleepGoal:8,stepGoal:8000,maxDuration:110,cardioPriority:'medium',limitations:'',avoidExercises:'',autoTraining:true,autoNutrition:false},
-goal:'leanbulk',program:'Upper/Lower',customPrograms:{},sessions:[],recovery:[],health:[],weights:[],nutrition:{},exerciseSwaps:{},workoutDrafts:{},restOverrides:{},next:0,xp:0,onboarded:false
+goal:'leanbulk',program:'Upper/Lower',customPrograms:{},sessions:[],recovery:[],health:[],weights:[],nutrition:{},exerciseSwaps:{},workoutDrafts:{},workoutEdits:{},exerciseOrder:{},restOverrides:{},next:0,xp:0,onboarded:false
 };
 const freshData=()=>JSON.parse(JSON.stringify(DEFAULT_DATA));
 function normaliseData(raw={}){
  const d={...freshData(),...raw,profile:{...DEFAULT_DATA.profile,...(raw.profile||{})},nutrition:{...(raw.nutrition||{})}};
  ['sessions','recovery','health','weights'].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]});
- ['customPrograms','exerciseSwaps','workoutDrafts','restOverrides'].forEach(k=>{if(!d[k]||typeof d[k]!=='object'||Array.isArray(d[k]))d[k]={}});
+ ['customPrograms','exerciseSwaps','workoutDrafts','workoutEdits','exerciseOrder','restOverrides'].forEach(k=>{if(!d[k]||typeof d[k]!=='object'||Array.isArray(d[k]))d[k]={}});
  d.schemaVersion=DATA_SCHEMA;return d
 }
 function loadData(){
@@ -600,8 +611,8 @@ function weightRecommendation(name,reps,setCount){
 }
 function workout(){
  let rows=workoutRows(),factor=adaptive().vol,draft=D.workoutDrafts[draftKey()]?.exercises||{};
- $('#exerciseList').innerHTML=rows.map(([n,c,r,original,index])=>{
-   let l=lastExercise(n),sets=Math.max(1,Math.round(c*factor)),recommendation=weightRecommendation(n,r,sets),info=exerciseInfo(n),saved=draft[String(index)]?.name===n?draft[String(index)]:null,rest=+(D.restOverrides[n]||saved?.rest||defaultRestSeconds(n,r)),alternatives=exerciseAlternatives(n,original),restOptions=[60,75,90,120,150,180,210,rest].filter((x,i,a)=>a.indexOf(x)===i).sort((a,b)=>a-b);
+ $('#exerciseList').innerHTML=rows.map(([n,c,r,original,index,exactSetCount])=>{
+   let l=lastExercise(n),sets=exactSetCount?Math.max(1,Math.round(c)):Math.max(1,Math.round(c*factor)),recommendation=weightRecommendation(n,r,sets),info=exerciseInfo(n),saved=draft[String(index)]?.name===n?draft[String(index)]:null,rest=+(D.restOverrides[n]||saved?.rest||defaultRestSeconds(n,r)),alternatives=exerciseAlternatives(n,original),restOptions=[60,75,90,120,150,180,210,rest].filter((x,i,a)=>a.indexOf(x)===i).sort((a,b)=>a-b);
    let optionNames=[original,...alternatives.map(x=>x[0])].filter((x,i,a)=>a.indexOf(x)===i);
    let setRows=Array.from({length:sets},(_,i)=>{let prev=historicalSet(l,i),d=saved?.sets?.[i],kg=d?.kg??prev?.kg??'',reps=d?.reps??prev?.reps??'',done=!!d?.done;return `<div class="set"><b>${i+1}</b><input class="kg" type="number" min="0" step="0.5" inputmode="decimal" aria-label="Vikt set ${i+1}" placeholder="kg" value="${esc(kg)}"><input class="reps" type="number" min="1" step="1" inputmode="numeric" aria-label="Reps set ${i+1}" placeholder="reps" value="${esc(reps)}"><button class="${done?'done':''}" aria-label="Logga set ${i+1}">✓</button></div>`}).join('');
    let recommendationText=recommendation?(recommendation.weights.every(x=>x===recommendation.weights[0])?`${fmt(recommendation.weights[0])} kg på varje set`:recommendation.weights.map((x,i)=>`S${i+1}: ${fmt(x)} kg`).join(' • ')):'';
@@ -772,4 +783,6 @@ $('#workoutDate').onfocus=saveWorkoutDraft;$('#workoutDate').onchange=workout;
 function render(){$('#workoutDate').value=$('#workoutDate').value||new Date().toISOString().slice(0,10);tabs();workout();renderHome();renderCoach();renderPrograms();renderExerciseLibrary();nutrition();profile();wearables();$('#activeProgramName').textContent=D.program;$('#appVersion').textContent=`RSG Coach ${APP_VERSION} • dataschema ${DATA_SCHEMA}`}
 addBuilderRow();render();restoreTimer();onboarding();registerPWA();
 </script>
+<script src="./workout-editor.js"></script>
+<script src="./program-order.js"></script>
 </body></html>
