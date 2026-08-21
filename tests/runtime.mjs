@@ -58,6 +58,7 @@ const document = {
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const html = fs.readFileSync(path.join(root, 'Coash 1.0.html'), 'utf8');
 const appScript = html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
+const mediaScript = fs.readFileSync(path.join(root, 'exercise-media.js'), 'utf8');
 assert(appScript, 'Appens scriptblock saknas');
 
 const expose = `
@@ -67,7 +68,8 @@ globalThis.__RSG_TEST__={
   defaultRestSeconds,
   exerciseAlternatives,
   exerciseGuideDefinition,
-  guideSvg,
+  exerciseGuideMedia,
+  guideMediaHtml,
   openExerciseGuide,
   closeExerciseGuide,
   get exerciseLibrary(){return EX},
@@ -96,7 +98,7 @@ const context = vm.createContext({
   scrollTo() {},
   confirm() { return false; }
 });
-vm.runInContext(`${appScript}\n${expose}`, context, { filename: 'Coash 1.0.html' });
+vm.runInContext(`${mediaScript}\n${appScript}\n${expose}`, context, { filename: 'Coash 1.0.html' });
 
 const api = context.__RSG_TEST__;
 assert(api, 'Testgränssnittet kunde inte skapas');
@@ -105,18 +107,22 @@ assert(elements.get('#exerciseList').innerHTML.includes('swap-select'), 'Väljar
 assert(elements.get('#exerciseList').innerHTML.includes('data-guide="Bänkpress"'), 'Infoknappen i passet renderades inte');
 assert(elements.get('#programLibrary').innerHTML.includes('Benspecialisering 5'), 'Programbiblioteket renderades inte komplett');
 assert(elements.get('#exerciseLibrary').innerHTML.includes('141 övningar hittades'), 'Det stora övningsbiblioteket renderades inte');
-assert(elements.get('#exerciseLibrary').innerHTML.includes('aria-label="Visa bildguide för Bänkpress"'), 'Infoknappen i biblioteket renderades inte');
-assert.equal(elements.get('#appVersion').textContent, 'RSG Coach 4.8.0 • dataschema 3');
+assert(elements.get('#exerciseLibrary').innerHTML.includes('aria-label="Visa teknikguide för Bänkpress"'), 'Infoknappen i biblioteket renderades inte');
+assert.equal(elements.get('#appVersion').textContent, 'RSG Coach 4.9.0 • dataschema 3');
 
 const guides = api.exerciseLibrary.map(api.exerciseGuideDefinition);
 assert.equal(guides.filter(Boolean).length, api.exerciseLibrary.length, 'Alla biblioteksövningar ska ha en guide');
-assert(guides.every(guide => guide.steps.length === 3 && guide.warning && guide.scene), 'Varje guide ska ha bildserie, tre steg och varning');
-assert(new Set(guides.map(guide => guide.scene)).size >= 20, 'Bildserierna måste täcka flera tydliga rörelsetyper');
-assert(api.guideSvg(guides[0].scene, 0, guides[0]).includes('<svg'), 'Guideillustrationen kunde inte skapas');
+assert(guides.every(guide => guide.steps.length === 3 && guide.warning), 'Varje guide ska ha tre steg och varning');
+assert.equal(api.exerciseLibrary.filter(exercise => api.exerciseGuideMedia(exercise[0]).images.length === 2).length, 122, 'Verifierade bildpar ska vara exakt kopplade till övningar');
+assert(api.guideMediaHtml(guides[0]).includes('<img'), 'Verifierade guidebilder kunde inte skapas');
+assert(api.guideMediaHtml(api.exerciseGuideDefinition(api.exerciseLibrary.find(exercise => exercise[0] === 'Z-press'))).includes('Ingen gissad bild'), 'Ej verifierad variant ska aldrig få en gissad bild');
 api.openExerciseGuide('Bänkpress');
 assert(elements.get('#exerciseGuide').classList.contains('on'), 'Bildguiden öppnades inte');
 assert.equal(elements.get('#guideTitle').textContent, 'Bänkpress');
-assert.equal((elements.get('#guideFrames').innerHTML.match(/class="guide-frame"/g) || []).length, 3, 'Bildguiden ska visa tre bilder');
+assert.equal((elements.get('#guideFrames').innerHTML.match(/class="guide-frame"/g) || []).length, 2, 'Bildguiden ska visa två stora verifierade bilder');
+assert.equal((elements.get('#guideFrames').innerHTML.match(/<img /g) || []).length, 2, 'Bildguiden ska använda riktiga bilder');
+assert(!elements.get('#guideFrames').innerHTML.includes('<svg'), 'Den gamla streckgubben får inte renderas');
+assert(elements.get('#guideVideo').href.includes('youtube.com/results'), 'Filmad guide ska vara tillgänglig');
 api.closeExerciseGuide();
 assert(!elements.get('#exerciseGuide').classList.contains('on'), 'Bildguiden stängdes inte');
 

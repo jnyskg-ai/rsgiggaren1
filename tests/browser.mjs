@@ -45,7 +45,9 @@ try {
   await page.locator('#exerciseList .exercise').first().locator('.info-btn').click();
   assert(await page.locator('#exerciseGuide.on').isVisible(), 'Övningens bildguide öppnades inte');
   assert.equal((await page.locator('#guideTitle').innerText()).trim(), 'Bänkpress');
-  assert.equal(await page.locator('#guideFrames .guide-frame').count(), 3, 'Bildguiden ska innehålla tre bilder');
+  assert.equal(await page.locator('#guideFrames .guide-frame').count(), 2, 'Bildguiden ska innehålla två stora verifierade bilder');
+  assert.equal(await page.locator('#guideFrames img').count(), 2, 'Bildguiden ska använda riktiga bilder');
+  assert.equal(await page.locator('#guideFrames svg').count(), 0, 'Den gamla streckgubben får inte visas');
   assert.equal(await page.locator('#guideSteps li').count(), 3, 'Bildguiden ska innehålla tre utförandesteg');
   await page.locator('#closeGuide').click();
   assert.equal(await page.locator('#exerciseGuide.on').count(), 0, 'Övningens bildguide stängdes inte');
@@ -87,7 +89,7 @@ try {
     return { controlled: Boolean(navigator.serviceWorker.controller), active: Boolean(registration.active), caches: await caches.keys() };
   });
   assert(pwa.controlled && pwa.active, 'Service worker styr inte sidan efter omladdning');
-  assert(pwa.caches.includes('rsg-coach-shell-4.8.0'), 'Versionerad app-cache saknas');
+  assert(pwa.caches.includes('rsg-coach-shell-4.9.0'), 'Versionerad app-cache saknas');
 
   await page.screenshot({ path: '/tmp/rsg-coach-mobile.png', fullPage: false });
   await context.setOffline(true);

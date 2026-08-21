@@ -29,7 +29,8 @@ Om hemskärmsappen visar en äldre version: öppna först appadressen i Safari m
 
 - 12 program med 11–13 klassiska bodybuildingövningar per pass.
 - 141 övningar för bröst, rygg, trapezius, axlar, armar, underarmar, ben, säte, vader och mage.
-- Infoknapp på varje biblioteksövning med en svepbar bildserie, tre utförandesteg, teknikfokus och vanliga fel.
+- Infoknapp på varje biblioteksövning med stora övningsspecifika start-/arbetsbilder, tre utförandesteg, teknikfokus och vanliga fel. Appen visar aldrig en gissad bild för en variant som saknar verifierat bildpar; då används den exakta filmade sökningen i guiden.
+- Visade övningsbilder sparas efter första öppningen så att de kan återanvändas offline.
 - Senaste loggade vikt återfylls separat för varje set, medan en tydlig viktrekommendation räknas fram från de senaste passen.
 - Övningsbyten direkt i passet, sparade per program och pass.
 - Automatisk övningsanpassad vilotimer först när både vikt och reps har fyllts i och setet loggas.
@@ -46,3 +47,7 @@ node --check service-worker.js
 ```
 
 För webbläsartest kan katalogen serveras lokalt med valfri statisk webbserver. `index.html` är endast en stabil rotadress som skickar vidare till den befintliga huvudappen `Coash 1.0.html`; ingen parallell appversion används. GitHub Pages ska publicera `main` från `/(root)`.
+
+## Bildkällor
+
+Övningsbilder hämtas övningsspecifikt från [Free Exercise DB](https://github.com/yuhonas/free-exercise-db) (public domain/Unlicense). Ett fåtal verifierade illustrationer använder RepDB:s fria applicens med attribution: Exercise data by [RepDB (repdb.co)](https://repdb.co). Källan länkas även direkt i varje guide där bilder visas.
