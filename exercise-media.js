@@ -159,3 +159,102 @@ globalThis.RSG_EXERCISE_MEDIA = Object.freeze({
   'Copenhagen plank': null,
   'Sidoplanka': ['free', 'Side_Bridge']
 });
+
+/* Advanced glute/thigh specialization.
+ * Loaded before the main app, then installed after the main script has created
+ * W and PROGRAMS. This keeps the feature additive and preserves all existing
+ * local workout data and progression logic.
+ */
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof W === 'undefined' || typeof PROGRAMS === 'undefined') return;
+
+  W.gluteStrength = [
+    ['Hip thrust',4,'6–10'],
+    ['Knäböj',4,'6–10'],
+    ['Bulgarian split squat',4,'8–12'],
+    ['Rumänska marklyft',3,'8–12'],
+    ['Benpress',3,'10–15'],
+    ['Glute kickback kabel',3,'12–20'],
+    ['Abduktormaskin',4,'15–30'],
+    ['Sittande lårcurl',3,'10–15'],
+    ['Benspark',3,'12–20'],
+    ['Adduktormaskin',3,'12–20'],
+    ['Stående vadpress',3,'10–20'],
+    ['Cable crunch',3,'12–20']
+  ];
+
+  W.curvesUpperA = [
+    ['Latsdrag neutralt',4,'8–12'],
+    ['Bröststödd rodd',3,'8–12'],
+    ['Sittande hantelpress',3,'8–12'],
+    ['Kabel-sidolyft',4,'12–20'],
+    ['Sidolyft maskin',3,'15–25'],
+    ['Omvänd pec deck',3,'15–25'],
+    ['Lutande hantelpress',3,'8–12'],
+    ['Pullover kabel',3,'12–20'],
+    ['Kabelcurl bakom kroppen',3,'10–15'],
+    ['Triceps rep-pushdown',3,'10–15'],
+    ['Pallof press',3,'10–15']
+  ];
+
+  W.gluteQuad = [
+    ['Hack squat',4,'8–12'],
+    ['Hip thrust',4,'8–12'],
+    ['Benpress smal fot',4,'10–15'],
+    ['Utfall bakåt',3,'10–15'],
+    ['Step-up',3,'8–15'],
+    ['Benspark',4,'12–20'],
+    ['Benspark enbens',3,'15–25'],
+    ['Glute kickback kabel',3,'15–25'],
+    ['Abduktormaskin',4,'15–30'],
+    ['Adduktormaskin',3,'12–20'],
+    ['Sittande vadpress',3,'12–20'],
+    ['Hängande benlyft',3,'10–20']
+  ];
+
+  W.curvesUpperB = [
+    ['Enarms latsdrag',4,'10–15'],
+    ['T-bar rodd',3,'8–12'],
+    ['Maskinpress axlar',3,'8–12'],
+    ['Sidolyft hantlar',4,'15–25'],
+    ['Bakre axel kabel',4,'15–25'],
+    ['Kabelflyes låg-till-hög',3,'12–20'],
+    ['Face pull',3,'15–25'],
+    ['Lutande hantelcurl',3,'10–15'],
+    ['Enarms overhead kabel',3,'12–20'],
+    ['Abduktormaskin',3,'20–30'],
+    ['Frog pumps',3,'20–40'],
+    ['Dead bug',3,'10–20']
+  ];
+
+  W.glutePosterior = [
+    ['Rumänska marklyft',4,'6–10'],
+    ['Hip thrust',4,'8–12'],
+    ['Bulgarian split squat',3,'10–15'],
+    ['Sittande lårcurl',4,'10–15'],
+    ['Liggande lårcurl',3,'12–20'],
+    ['Good mornings',3,'8–12'],
+    ['Glute kickback kabel',4,'12–20'],
+    ['Abduktormaskin',4,'15–30'],
+    ['Frog pumps',3,'20–40'],
+    ['Adduktormaskin',3,'12–20'],
+    ['Donkey calf raise',3,'12–20'],
+    ['Ab wheel',3,'8–15']
+  ];
+
+  PROGRAMS['Glute & Curves 5'] = {
+    days: 5,
+    level: 'advanced',
+    equipment: 'gym',
+    desc: '5 dagar • avancerad rump- & lårspecialisering • 3 underkroppsstimuli • 11–12 övningar/pass',
+    workouts: {
+      'Rumpa tungt': W.gluteStrength,
+      'Överkropp kurvor A': W.curvesUpperA,
+      'Rumpa & lår': W.gluteQuad,
+      'Överkropp kurvor B': W.curvesUpperB,
+      'Rumpa baksida & pump': W.glutePosterior
+    }
+  };
+
+  if (typeof renderPlan === 'function') renderPlan();
+});
