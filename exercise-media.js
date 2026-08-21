@@ -53,7 +53,7 @@ globalThis.RSG_EXERCISE_MEDIA = Object.freeze({
   'Skivstångsshrugs': ['free', 'Barbell_Shrug'],
   'Hantelshrugs': ['free', 'Dumbbell_Shrug'],
   'Smithshrugs': null,
-  'Farmers carry': null,
+  'Farmers carry': ['free', 'Farmers_Walk'],
 
   'Militärpress': ['free', 'Standing_Military_Press'],
   'Sittande hantelpress': ['free', 'Seated_Dumbbell_Press'],
@@ -143,7 +143,7 @@ globalThis.RSG_EXERCISE_MEDIA = Object.freeze({
   'Stående vadpress': ['free', 'Standing_Calf_Raises'],
   'Stående vadpress hantlar': ['free', 'Standing_Dumbbell_Calf_Raise'],
   'Sittande vadpress': ['free', 'Seated_Calf_Raise'],
-  'Donkey calf raise': null,
+  'Donkey calf raise': ['free', 'Donkey_Calf_Raises'],
   'Vadpress i benpress': ['free', 'Calf_Press_On_The_Leg_Press_Machine'],
   'Enbens vadpress': null,
   'Vadpress': ['free', 'Standing_Calf_Raises'],
@@ -167,7 +167,6 @@ globalThis.RSG_EXERCISE_MEDIA = Object.freeze({
  */
 document.addEventListener('DOMContentLoaded', () => {
   if (typeof W === 'undefined' || typeof PROGRAMS === 'undefined') return;
-
   W.gluteStrength = [
     ['Hip thrust',4,'6–10'],
     ['Knäböj',4,'6–10'],
