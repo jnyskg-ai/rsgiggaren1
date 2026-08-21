@@ -1,4 +1,4 @@
-const VERSION = '4.9.2';
+const VERSION = '4.9.3';
 const CACHE_PREFIX = 'rsg-coach-shell-';
 const CACHE_NAME = `${CACHE_PREFIX}${VERSION}`;
 const MEDIA_CACHE_NAME = 'rsg-coach-guide-media-v1';

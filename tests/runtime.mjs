@@ -108,12 +108,12 @@ assert(elements.get('#exerciseList').innerHTML.includes('data-guide="Bänkpress"
 assert(elements.get('#programLibrary').innerHTML.includes('Benspecialisering 5'), 'Programbiblioteket renderades inte komplett');
 assert(elements.get('#exerciseLibrary').innerHTML.includes('141 övningar hittades'), 'Det stora övningsbiblioteket renderades inte');
 assert(elements.get('#exerciseLibrary').innerHTML.includes('aria-label="Visa teknikguide för Bänkpress"'), 'Infoknappen i biblioteket renderades inte');
-assert.equal(elements.get('#appVersion').textContent, 'RSG Coach 4.9.0 • dataschema 3');
+assert.equal(elements.get('#appVersion').textContent, 'RSG Coach 4.9.3 • dataschema 3');
 
 const guides = api.exerciseLibrary.map(api.exerciseGuideDefinition);
 assert.equal(guides.filter(Boolean).length, api.exerciseLibrary.length, 'Alla biblioteksövningar ska ha en guide');
 assert(guides.every(guide => guide.steps.length === 3 && guide.warning), 'Varje guide ska ha tre steg och varning');
-assert.equal(api.exerciseLibrary.filter(exercise => api.exerciseGuideMedia(exercise[0]).images.length === 2).length, 122, 'Verifierade bildpar ska vara exakt kopplade till övningar');
+assert.equal(api.exerciseLibrary.filter(exercise => api.exerciseGuideMedia(exercise[0]).images.length === 2).length, 124, 'Verifierade bildpar ska vara exakt kopplade till övningar');
 assert(api.guideMediaHtml(guides[0]).includes('<img'), 'Verifierade guidebilder kunde inte skapas');
 assert(api.guideMediaHtml(api.exerciseGuideDefinition(api.exerciseLibrary.find(exercise => exercise[0] === 'Z-press'))).includes('Ingen gissad bild'), 'Ej verifierad variant ska aldrig få en gissad bild');
 api.openExerciseGuide('Bänkpress');
