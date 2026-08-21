@@ -42,6 +42,33 @@ try {
   assert.equal(await page.locator('#train.on').count(), 1, 'Träningsvyn öppnades inte');
   assert.equal(await page.locator('#exerciseList .exercise').count(), 12, 'Push A ska ha tolv övningar');
 
+  let firstExercise = page.locator('#exerciseList .exercise').first();
+  const initialSetCount = await firstExercise.locator('.set').count();
+  assert(initialSetCount >= 1, 'Bänkpress saknar set');
+  await firstExercise.locator('.add-set').click();
+  firstExercise = page.locator('#exerciseList .exercise').first();
+  assert.equal(await firstExercise.locator('.set').count(), initialSetCount + 1, 'Ett set kunde inte läggas till');
+  await firstExercise.locator('.add-set').click();
+  firstExercise = page.locator('#exerciseList .exercise').first();
+  await firstExercise.locator('.remove-set').click();
+  firstExercise = page.locator('#exerciseList .exercise').first();
+  assert.equal(await firstExercise.locator('.set').count(), initialSetCount + 1, 'Ett set kunde inte tas bort');
+
+  await page.locator('#addWorkoutExercise').click();
+  assert(await page.locator('#addExerciseModal.on').isVisible(), 'Övningsväljaren öppnades inte');
+  await page.locator('#addExerciseSearch').fill('Cable crunch');
+  await page.locator('[data-workout-add="Cable crunch"]').click();
+  assert.equal(await page.locator('#exerciseList .exercise').count(), 13, 'En övning kunde inte läggas till');
+  let addedExercise = page.locator('#exerciseList .exercise').filter({ hasText: 'Cable crunch' });
+  assert.equal(await addedExercise.count(), 1, 'Den tillagda övningen visas inte');
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.locator('.nav [data-go="train"]').click();
+  addedExercise = page.locator('#exerciseList .exercise').filter({ hasText: 'Cable crunch' });
+  assert.equal(await addedExercise.count(), 1, 'Den tillagda övningen överlevde inte omladdning');
+  page.once('dialog', dialog => dialog.accept());
+  await addedExercise.locator('.remove-exercise').click();
+  assert.equal(await page.locator('#exerciseList .exercise').count(), 12, 'En övning kunde inte tas bort');
+
   await page.locator('#exerciseList .exercise').first().locator('.info-btn').click();
   assert(await page.locator('#exerciseGuide.on').isVisible(), 'Övningens bildguide öppnades inte');
   assert.equal((await page.locator('#guideTitle').innerText()).trim(), 'Bänkpress');
@@ -57,7 +84,7 @@ try {
   assert((await page.locator('#toast').innerText()).includes('vikt och reps'), 'Ofullständigt set ska stoppas');
   assert.equal(await secondSet.locator('button.done').count(), 0, 'Ofullständigt set markerades som loggat');
 
-  let firstExercise = page.locator('#exerciseList .exercise').first();
+  firstExercise = page.locator('#exerciseList .exercise').first();
   await firstExercise.locator('.set').first().locator('.kg').fill('100');
   await firstExercise.locator('.set').first().locator('.reps').fill('8');
   await firstExercise.locator('.set').first().locator('button').click();
@@ -80,6 +107,7 @@ try {
   await page.locator('.nav [data-go="train"]').click();
   firstExercise = page.locator('#exerciseList .exercise').first();
   assert.equal((await firstExercise.locator('h3').innerText()).trim(), 'Hantelpress plan bänk', 'Övningsbytet överlevde inte omladdning');
+  assert.equal(await firstExercise.locator('.set').count(), initialSetCount + 1, 'Det ändrade setantalet överlevde inte omladdning');
   assert.equal(await firstExercise.locator('.set').first().locator('.kg').inputValue(), '42.5', 'Passutkastets vikt återställdes inte');
   assert.equal(await firstExercise.locator('.set').first().locator('.reps').inputValue(), '12', 'Passutkastets reps återställdes inte');
   assert.equal(await firstExercise.locator('.set').first().locator('button.done').count(), 1, 'Loggat set återställdes inte');
@@ -89,7 +117,7 @@ try {
     return { controlled: Boolean(navigator.serviceWorker.controller), active: Boolean(registration.active), caches: await caches.keys() };
   });
   assert(pwa.controlled && pwa.active, 'Service worker styr inte sidan efter omladdning');
-  assert(pwa.caches.includes('rsg-coach-shell-4.9.3'), 'Versionerad app-cache saknas');
+  assert(pwa.caches.includes('rsg-coach-shell-4.10.0'), 'Versionerad app-cache saknas');
 
   await page.screenshot({ path: '/tmp/rsg-coach-mobile.png', fullPage: false });
   await context.setOffline(true);

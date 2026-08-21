@@ -59,6 +59,8 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const html = fs.readFileSync(path.join(root, 'Coash 1.0.html'), 'utf8');
 const appScript = html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 const mediaScript = fs.readFileSync(path.join(root, 'exercise-media.js'), 'utf8');
+const editorScript = fs.readFileSync(path.join(root, 'workout-editor.js'), 'utf8');
+const orderScript = fs.readFileSync(path.join(root, 'program-order.js'), 'utf8');
 assert(appScript, 'Appens scriptblock saknas');
 
 const expose = `
@@ -98,7 +100,7 @@ const context = vm.createContext({
   scrollTo() {},
   confirm() { return false; }
 });
-vm.runInContext(`${mediaScript}\n${appScript}\n${expose}`, context, { filename: 'Coash 1.0.html' });
+vm.runInContext(`${mediaScript}\n${appScript}\n${editorScript}\n${orderScript}\n${expose}`, context, { filename: 'Coash 1.0.html' });
 
 const api = context.__RSG_TEST__;
 assert(api, 'Testgränssnittet kunde inte skapas');
@@ -108,7 +110,7 @@ assert(elements.get('#exerciseList').innerHTML.includes('data-guide="Bänkpress"
 assert(elements.get('#programLibrary').innerHTML.includes('Benspecialisering 5'), 'Programbiblioteket renderades inte komplett');
 assert(elements.get('#exerciseLibrary').innerHTML.includes('141 övningar hittades'), 'Det stora övningsbiblioteket renderades inte');
 assert(elements.get('#exerciseLibrary').innerHTML.includes('aria-label="Visa teknikguide för Bänkpress"'), 'Infoknappen i biblioteket renderades inte');
-assert.equal(elements.get('#appVersion').textContent, 'RSG Coach 4.9.3 • dataschema 3');
+assert.equal(elements.get('#appVersion').textContent, 'RSG Coach 4.10.0 • dataschema 3');
 
 const guides = api.exerciseLibrary.map(api.exerciseGuideDefinition);
 assert.equal(guides.filter(Boolean).length, api.exerciseLibrary.length, 'Alla biblioteksövningar ska ha en guide');
@@ -154,6 +156,30 @@ assert.equal(migrated.schemaVersion, 3);
 assert.equal(migrated.profile.name, 'Befintlig');
 assert.equal(migrated.sessions[0].marker, 'bevarad');
 assert.equal(Object.keys(migrated.exerciseSwaps).length, 0);
+assert.equal(Object.keys(migrated.workoutEdits).length, 0);
+
+const editedRows = context.RSG_WORKOUT_EDITOR_TEST.applyWorkoutEdits(
+  [['Bänkpress', 4, '5–8', 'Bänkpress', 0], ['Viktade chins', 4, '5–8', 'Viktade chins', 1]],
+  { removedSlots: [1], setCounts: { 0: 5 }, added: [{ slot: 1000, name: 'Cable crunch', sets: 3, reps: '10–20' }] }
+);
+assert.equal(editedRows.length, 2, 'Borttagen övning filtrerades inte');
+assert.equal(editedRows[0][1], 5, 'Ändrat setantal applicerades inte');
+assert.equal(editedRows[0][5], true, 'Exakt setantal markerades inte');
+assert.equal(editedRows[1][0], 'Cable crunch', 'Tillagd övning applicerades inte');
+
+const currentEditKey = JSON.stringify(['Upper/Lower', 'Upper A']);
+api.data.workoutEdits[currentEditKey] = {
+  removedSlots: [1],
+  setCounts: { 0: 5 },
+  added: [{ slot: 1000, name: 'Cable crunch', sets: 3, reps: '10–20' }]
+};
+api.renderWorkout();
+const editedWorkoutHtml = elements.get('#exerciseList').innerHTML;
+assert.equal((editedWorkoutHtml.match(/class="exercise"/g) || []).length, 13, 'Tillagd och borttagen övning renderades inte tillsammans');
+assert.equal((editedWorkoutHtml.split('class="exercise"')[1].match(/class="set"/g) || []).length, 5, 'Fem valda set renderades inte');
+assert(editedWorkoutHtml.includes('Cable crunch'), 'Tillagd övning saknas i den renderade passvyn');
+delete api.data.workoutEdits[currentEditKey];
+api.renderWorkout();
 
 api.startTimer(180, 'Bänkpress');
 const beforeExtension = JSON.parse(localStorage.getItem('rsg_ai_rest_timer_v2')).endAt;

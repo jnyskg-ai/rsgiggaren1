@@ -10,9 +10,13 @@ const script = html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 const index = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const serviceWorker = fs.readFileSync(path.join(root, 'service-worker.js'), 'utf8');
 const mediaScript = fs.readFileSync(path.join(root, 'exercise-media.js'), 'utf8');
+const editorScript = fs.readFileSync(path.join(root, 'workout-editor.js'), 'utf8');
+const orderScript = fs.readFileSync(path.join(root, 'program-order.js'), 'utf8');
 
 assert(script, 'Appens scriptblock saknas');
 new Function(script);
+new Function(editorScript);
+new Function(orderScript);
 
 const dataSource = html.slice(html.indexOf('const W='), html.indexOf('const CARDIO='));
 const { PROGRAMS, EX } = new Function(`${dataSource};return {PROGRAMS,EX}`)();
@@ -49,6 +53,8 @@ assert(html.includes("K='rsg_ai_complete_v1'"), 'Den befintliga datanyckeln mås
 assert(html.includes('serviceWorker.register'), 'Service worker-registrering saknas');
 assert(html.includes('exerciseSwaps'), 'Beständiga övningsbyten saknas');
 assert(html.includes('workoutDrafts'), 'Beständiga passutkast saknas');
+assert(html.includes('workoutEdits'), 'Beständiga passändringar saknas');
+assert(html.includes('./workout-editor.js'), 'Passredigeraren laddas inte av appen');
 assert(html.includes('weightRecommendation'), 'Historikbaserad viktrekommendation saknas');
 assert(html.includes('setNumber:index+1'), 'Setnummer måste sparas för exakt viktminne per set');
 assert(!html.includes('function guideSvg'), 'Den gamla gissade streckgubbsgeneratorn får inte finnas kvar');
@@ -62,11 +68,13 @@ assert(appVersion, 'Appversion saknas');
 assert.equal(workerVersion, appVersion, 'App och service worker måste ha samma version');
 assert(serviceWorker.includes("'./index.html'"), 'Rotfilen saknas i app-cachen');
 assert(serviceWorker.includes("'./exercise-media.js'"), 'Den explicita mediekartan saknas i app-cachen');
+assert(serviceWorker.includes("'./workout-editor.js'"), 'Passredigeraren saknas i app-cachen');
+assert(serviceWorker.includes("'./program-order.js'"), 'Övningsordningen saknas i app-cachen');
 assert(serviceWorker.includes("raw.githubusercontent.com"), 'Cache för visade guidebilder saknas');
 
 const manifest = JSON.parse(fs.readFileSync(path.join(root, 'manifest.webmanifest'), 'utf8'));
 assert.equal(manifest.start_url, './Coash%201.0.html');
-for (const asset of ['index.html', '.nojekyll', 'service-worker.js', 'exercise-media.js', 'icon-192.png', 'icon-512.png']) {
+for (const asset of ['index.html', '.nojekyll', 'service-worker.js', 'exercise-media.js', 'workout-editor.js', 'program-order.js', 'icon-192.png', 'icon-512.png']) {
   assert(fs.existsSync(path.join(root, asset)), `${asset} saknas`);
 }
 

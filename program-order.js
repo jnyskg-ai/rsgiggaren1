@@ -1,12 +1,13 @@
-/* RSG Coach 4.9.4 — muscle-block ordering + per-workout custom order.
- * This module is injected by the service worker after the main app script.
+/* RSG Coach 4.10.0 — muscle-block ordering + per-workout custom order.
+ * This module loads after the main app script and can also be injected by the
+ * service worker as a fallback for an older cached HTML shell.
  * It never changes the canonical exercise slot index, so swaps, drafts,
  * history and weight recommendations continue to use their existing keys.
  */
 (() => {
   'use strict';
 
-  const ORDER_VERSION = '4.9.4';
+  const ORDER_VERSION = '4.10.0';
   const ensureOrderStore = () => {
     if (!D.exerciseOrder || typeof D.exerciseOrder !== 'object' || Array.isArray(D.exerciseOrder)) D.exerciseOrder = {};
   };
