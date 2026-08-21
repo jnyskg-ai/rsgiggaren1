@@ -1,4 +1,4 @@
-const VERSION = '4.9.1';
+const VERSION = '4.9.2';
 const CACHE_PREFIX = 'rsg-coach-shell-';
 const CACHE_NAME = `${CACHE_PREFIX}${VERSION}`;
 const MEDIA_CACHE_NAME = 'rsg-coach-guide-media-v1';
@@ -25,7 +25,7 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME).map(key => caches.delete(key))))
+      .then(keys => Promise.all(keys.filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME).map(key => cache.delete(key))))
       .then(() => self.clients.claim())
   );
 });
