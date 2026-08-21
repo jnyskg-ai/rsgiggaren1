@@ -89,7 +89,7 @@ try {
     return { controlled: Boolean(navigator.serviceWorker.controller), active: Boolean(registration.active), caches: await caches.keys() };
   });
   assert(pwa.controlled && pwa.active, 'Service worker styr inte sidan efter omladdning');
-  assert(pwa.caches.includes('rsg-coach-shell-4.9.0'), 'Versionerad app-cache saknas');
+  assert(pwa.caches.includes('rsg-coach-shell-4.9.3'), 'Versionerad app-cache saknas');
 
   await page.screenshot({ path: '/tmp/rsg-coach-mobile.png', fullPage: false });
   await context.setOffline(true);

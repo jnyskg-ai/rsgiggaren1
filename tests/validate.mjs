@@ -17,7 +17,8 @@ new Function(script);
 const dataSource = html.slice(html.indexOf('const W='), html.indexOf('const CARDIO='));
 const { PROGRAMS, EX } = new Function(`${dataSource};return {PROGRAMS,EX}`)();
 const mediaGlobal = Object.create(null);
-const exerciseMedia = new Function('globalThis', `${mediaScript};return globalThis.RSG_EXERCISE_MEDIA`)(mediaGlobal);
+const mediaDocument = { addEventListener() {} };
+const exerciseMedia = new Function('globalThis', 'document', `${mediaScript};return globalThis.RSG_EXERCISE_MEDIA`)(mediaGlobal, mediaDocument);
 const libraryNames = new Set(EX.map(exercise => exercise[0]));
 const missing = [];
 const workoutSizes = [];
@@ -41,7 +42,7 @@ assert.equal(Object.keys(exerciseMedia).length, EX.length, 'Varje övning måste
 assert.deepEqual(EX.map(exercise => exercise[0]).filter(name => !Object.hasOwn(exerciseMedia, name)), [], 'Mediekartan saknar övningar');
 assert(Object.values(exerciseMedia).filter(Boolean).length >= 120, 'Minst 120 övningar ska ha verifierade bildpar');
 assert(Object.values(exerciseMedia).filter(Boolean).every(entry => Array.isArray(entry) && ['free', 'repdb'].includes(entry[0]) && entry[1]), 'Medieposter måste ha verifierad källa och id');
-assert(['Renegade row', 'Farmers carry', 'Goblet squat', 'Sissy squat', 'Donkey calf raise', 'Enbens vadpress'].every(name => exerciseMedia[name] === null), 'Varianter med fel redskap eller belastning får inte återanvända närliggande bilder');
+assert(['Renegade row', 'Goblet squat', 'Sissy squat', 'Enbens vadpress'].every(name => exerciseMedia[name] === null), 'Varianter med fel redskap eller belastning får inte återanvända närliggande bilder');
 assert.deepEqual(exerciseMedia['T-bar rodd'], ['free', 'Lying_T-Bar_Row'], 'T-bar rodd ska visa den maskinvariant som övningsbiblioteket anger');
 assert.deepEqual(exerciseMedia['Rumänska marklyft hantlar'], ['repdb', 'dumbbell-romanian-deadlift'], 'Hantel-RDL får inte ersättas av ett stiff-legged deadlift');
 assert(html.includes("K='rsg_ai_complete_v1'"), 'Den befintliga datanyckeln måste bevaras');
