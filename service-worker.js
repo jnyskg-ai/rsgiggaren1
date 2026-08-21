@@ -1,23 +1,41 @@
-const VERSION = '4.9.3';
+const VERSION = '4.9.4';
 const CACHE_PREFIX = 'rsg-coach-shell-';
 const CACHE_NAME = `${CACHE_PREFIX}${VERSION}`;
 const MEDIA_CACHE_NAME = 'rsg-coach-guide-media-v1';
 const GUIDE_MEDIA_HOSTS = new Set(['raw.githubusercontent.com']);
+const ORDER_SCRIPT = '<script src="./program-order.js"></script>';
 const APP_SHELL = [
   './index.html',
   './Coash%201.0.html',
   './exercise-media.js',
+  './program-order.js',
   './manifest.webmanifest',
   './icon-192.png',
   './icon-512.png'
 ];
+
+async function injectProgramOrdering(response) {
+  if (!response || !response.ok) return response;
+  const contentType = response.headers.get('content-type') || '';
+  if (!contentType.includes('text/html')) return response;
+  const text = await response.text();
+  const html = text.includes('program-order.js')
+    ? text
+    : text.includes('</body>')
+      ? text.replace('</body>', `${ORDER_SCRIPT}</body>`)
+      : `${text}${ORDER_SCRIPT}`;
+  const headers = new Headers(response.headers);
+  headers.delete('content-length');
+  return new Response(html, { status: response.status, statusText: response.statusText, headers });
+}
 
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => Promise.all(APP_SHELL.map(async url => {
       const response = await fetch(new Request(url, { cache: 'reload' }));
       if (!response.ok) throw new Error(`Kunde inte cacha ${url}`);
-      await cache.put(url, response);
+      const prepared = url.includes('Coash%201.0.html') ? await injectProgramOrdering(response) : response;
+      await cache.put(url, prepared);
     })))
   );
 });
@@ -55,14 +73,16 @@ self.addEventListener('fetch', event => {
   }
 
   if (request.mode === 'navigate' || request.destination === 'document') {
-    event.respondWith(
-      fetch(new Request(request, { cache: 'no-store' }))
-        .then(response => {
-          if (response.ok) caches.open(CACHE_NAME).then(cache => cache.put(request, response.clone()));
-          return response;
-        })
-        .catch(async () => (await caches.match(request)) || caches.match('./Coash%201.0.html'))
-    );
+    event.respondWith((async () => {
+      try {
+        const response = await fetch(new Request(request, { cache: 'no-store' }));
+        const prepared = await injectProgramOrdering(response);
+        if (prepared.ok) caches.open(CACHE_NAME).then(cache => cache.put(request, prepared.clone()));
+        return prepared;
+      } catch (_) {
+        return (await caches.match(request)) || caches.match('./Coash%201.0.html');
+      }
+    })());
     return;
   }
 
