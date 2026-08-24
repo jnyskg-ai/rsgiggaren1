@@ -54,6 +54,7 @@ assert.deepEqual(exerciseMedia['Rumänska marklyft hantlar'], ['repdb', 'dumbbel
 assert(html.includes("K='rsg_ai_complete_v1'"), 'Den befintliga datanyckeln måste bevaras');
 assert(html.includes('serviceWorker.register'), 'Service worker-registrering saknas');
 assert(html.includes('./rest-alarm.js') || html.includes('src="rest-alarm.js"'), 'Vilotlarmmodulen laddas inte av appen');
+assert(html.includes('content="https://rsg-coach-rest-alarm-rsgiggaren.vercel.app"'), 'Produktionsadressen till vilolarmet saknas');
 assert(html.includes('exerciseSwaps'), 'Beständiga övningsbyten saknas');
 assert(html.includes('workoutDrafts'), 'Beständiga passutkast saknas');
 assert(html.includes('workoutEdits'), 'Beständiga passändringar saknas');
