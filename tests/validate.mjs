@@ -9,6 +9,7 @@ const html = fs.readFileSync(htmlPath, 'utf8');
 const script = html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 const index = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const serviceWorker = fs.readFileSync(path.join(root, 'service-worker.js'), 'utf8');
+const restAlarmScript = fs.readFileSync(path.join(root, 'rest-alarm.js'), 'utf8');
 const mediaScript = fs.readFileSync(path.join(root, 'exercise-media.js'), 'utf8');
 const editorScript = fs.readFileSync(path.join(root, 'workout-editor.js'), 'utf8');
 const orderScript = fs.readFileSync(path.join(root, 'program-order.js'), 'utf8');
@@ -17,6 +18,7 @@ assert(script, 'Appens scriptblock saknas');
 new Function(script);
 new Function(editorScript);
 new Function(orderScript);
+new Function(restAlarmScript);
 
 const dataSource = html.slice(html.indexOf('const W='), html.indexOf('const CARDIO='));
 const { PROGRAMS, EX } = new Function(`${dataSource};return {PROGRAMS,EX}`)();
@@ -51,6 +53,7 @@ assert.deepEqual(exerciseMedia['T-bar rodd'], ['free', 'Lying_T-Bar_Row'], 'T-ba
 assert.deepEqual(exerciseMedia['Rumänska marklyft hantlar'], ['repdb', 'dumbbell-romanian-deadlift'], 'Hantel-RDL får inte ersättas av ett stiff-legged deadlift');
 assert(html.includes("K='rsg_ai_complete_v1'"), 'Den befintliga datanyckeln måste bevaras');
 assert(html.includes('serviceWorker.register'), 'Service worker-registrering saknas');
+assert(html.includes('./rest-alarm.js') || html.includes('src="rest-alarm.js"'), 'Vilotlarmmodulen laddas inte av appen');
 assert(html.includes('exerciseSwaps'), 'Beständiga övningsbyten saknas');
 assert(html.includes('workoutDrafts'), 'Beständiga passutkast saknas');
 assert(html.includes('workoutEdits'), 'Beständiga passändringar saknas');
@@ -70,11 +73,17 @@ assert(serviceWorker.includes("'./index.html'"), 'Rotfilen saknas i app-cachen')
 assert(serviceWorker.includes("'./exercise-media.js'"), 'Den explicita mediekartan saknas i app-cachen');
 assert(serviceWorker.includes("'./workout-editor.js'"), 'Passredigeraren saknas i app-cachen');
 assert(serviceWorker.includes("'./program-order.js'"), 'Övningsordningen saknas i app-cachen');
+assert(serviceWorker.includes("'./rest-alarm.js'"), 'Vilotlarmmodulen saknas i app-cachen');
+assert(serviceWorker.includes("addEventListener('push'"), 'Service worker saknar pushhantering');
+assert(serviceWorker.includes('showNotification'), 'Service worker visar ingen systemnotis');
+assert(serviceWorker.includes('client.url.startsWith(self.registration.scope)'), 'Pushhanteringen får bara styra RSG Coach-fönster inom service worker-scope');
+assert(restAlarmScript.includes('playChime'), 'Lokalt ljudlarm saknas');
+assert(restAlarmScript.includes("action: 'reschedule'"), 'Förlängning av bakgrundslarm saknas');
 assert(serviceWorker.includes("raw.githubusercontent.com"), 'Cache för visade guidebilder saknas');
 
 const manifest = JSON.parse(fs.readFileSync(path.join(root, 'manifest.webmanifest'), 'utf8'));
 assert.equal(manifest.start_url, './Coash%201.0.html');
-for (const asset of ['index.html', '.nojekyll', 'service-worker.js', 'exercise-media.js', 'workout-editor.js', 'program-order.js', 'icon-192.png', 'icon-512.png']) {
+for (const asset of ['index.html', '.nojekyll', 'service-worker.js', 'rest-alarm.js', 'exercise-media.js', 'workout-editor.js', 'program-order.js', 'icon-192.png', 'icon-512.png']) {
   assert(fs.existsSync(path.join(root, asset)), `${asset} saknas`);
 }
 

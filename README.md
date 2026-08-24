@@ -25,6 +25,14 @@ Radera inte webbplatsdata för appens domän i iPhone-inställningarna; det tar 
 
 Om hemskärmsappen visar en äldre version: öppna först appadressen i Safari med internetanslutning, vänta några sekunder och öppna sedan hemskärmsappen igen. Gå vid behov till **Profil → Data & uppdateringar → Sök efter appuppdatering**. Ta inte bort den gamla ikonen innan träningshistoriken har kontrollerats eller exporterats.
 
+## Vilolarm med ljud
+
+1. Öppna hemskärmsappen och gå till **Profil → Vilolarm**.
+2. Tryck på **Aktivera** och tillåt notiser.
+3. Tryck på **Testa larm** och kontrollera att både systemnotisen och ljudet hörs.
+
+När RSG Coach är öppen spelas ett lokalt larmljud. När appen är i bakgrunden eller stängd skickas en iPhone-systemnotis med ljud. Bakgrundslarmet kräver internetanslutning och att ljud är tillåtet under **Inställningar → Notiser → RSG Coach**.
+
 ## Träningsfunktioner
 
 - 12 program med 11–13 klassiska bodybuildingövningar per pass.
@@ -35,7 +43,7 @@ Om hemskärmsappen visar en äldre version: öppna först appadressen i Safari m
 - Övningsbyten direkt i passet, sparade per program och pass.
 - Lägg till eller ta bort övningar och set direkt i passet. Anpassningarna sparas för det valda programmet/passet och originalpasset kan återställas med en knapp.
 - Automatisk övningsanpassad vilotimer först när både vikt och reps har fyllts i och setet loggas.
-- Bakgrundssäker timer, `+30 s`, vibration och återställning när appen öppnas igen.
+- Bakgrundssäker timer, `+30 s`, lokalt larmljud, systemnotis med ljud och återställning när appen öppnas igen.
 - Double progression, RIR, readiness, passhistorik och lokala säkerhetskopior.
 
 ## Lokal kontroll
@@ -44,7 +52,10 @@ Kör från repots rot:
 
 ```sh
 node tests/validate.mjs
+node tests/runtime.mjs
+node tests/rest-alarm.mjs
 node --check service-worker.js
+node --test alarm-service/tests/*.test.mjs
 ```
 
 För webbläsartest kan katalogen serveras lokalt med valfri statisk webbserver. `index.html` är endast en stabil rotadress som skickar vidare till den befintliga huvudappen `Coash 1.0.html`; ingen parallell appversion används. GitHub Pages ska publicera `main` från `/(root)`.

@@ -1,0 +1,7 @@
+alarm-service/node_modules/
+alarm-service/.nitro/
+alarm-service/.output/
+alarm-service/.workflow-data/
+alarm-service/.vercel/
+alarm-service/.env*
+!alarm-service/.env.example

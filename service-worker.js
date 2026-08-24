@@ -1,4 +1,4 @@
-const VERSION = '4.10.0';
+const VERSION = '4.11.0';
 const CACHE_PREFIX = 'rsg-coach-shell-';
 const CACHE_NAME = `${CACHE_PREFIX}${VERSION}`;
 const MEDIA_CACHE_NAME = 'rsg-coach-guide-media-v1';
@@ -6,6 +6,7 @@ const GUIDE_MEDIA_HOSTS = new Set(['raw.githubusercontent.com']);
 const APP_SHELL = [
   './index.html',
   './Coash%201.0.html',
+  './rest-alarm.js',
   './exercise-media.js',
   './workout-editor.js',
   './program-order.js',
@@ -55,6 +56,57 @@ self.addEventListener('activate', event => {
 self.addEventListener('message', event => {
   if (event.data?.type === 'SKIP_WAITING') self.skipWaiting();
   if (event.data?.type === 'GET_VERSION') event.source?.postMessage({ type: 'APP_VERSION', version: VERSION });
+});
+
+self.addEventListener('push', event => {
+  event.waitUntil((async () => {
+    let payload = {};
+    try { payload = event.data?.json() || {}; } catch (_) {}
+    if (payload.type !== 'rest-complete') return;
+
+    const windows = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    const appWindows = windows.filter(client => client.url.startsWith(self.registration.scope));
+    const visibleWindow = appWindows.find(client => client.visibilityState === 'visible');
+    if (visibleWindow) {
+      visibleWindow.postMessage({
+        type: 'REST_ALARM_FINISHED',
+        timerId: payload.timerId,
+        exercise: payload.exercise
+      });
+      return;
+    }
+
+    await self.registration.showNotification('Vilan är klar', {
+      body: payload.exercise ? `Dags för nästa set efter ${payload.exercise}.` : 'Dags för nästa set.',
+      icon: './icon-192.png',
+      badge: './icon-192.png',
+      tag: `rsg-rest-${payload.timerId || 'timer'}`,
+      renotify: true,
+      silent: false,
+      data: {
+        timerId: payload.timerId || '',
+        url: './Coash%201.0.html?restAlarm=finished'
+      }
+    });
+  })());
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  event.waitUntil((async () => {
+    const target = new URL(event.notification.data?.url || './Coash%201.0.html', self.registration.scope).href;
+    const windows = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    const appWindow = windows.find(client => client.url.startsWith(self.registration.scope));
+    if (appWindow) {
+      appWindow.postMessage({
+        type: 'REST_ALARM_FINISHED',
+        timerId: event.notification.data?.timerId || ''
+      });
+      await appWindow.focus();
+      return appWindow.navigate(target);
+    }
+    return self.clients.openWindow(target);
+  })());
 });
 
 self.addEventListener('fetch', event => {

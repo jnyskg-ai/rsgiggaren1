@@ -8,6 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="RSG AI Coach">
 <meta name="description" content="Privat, offline träningscoach för maximal hypertrofi.">
+<meta name="rsg-alarm-api" content="">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <title>RSG AI Coach</title>
@@ -39,6 +40,7 @@ label{display:block;color:var(--muted);font-size:13px;margin-bottom:10px}input,s
 .weight-rec{margin:9px 0 11px;padding:11px 12px;border-radius:14px;background:#0a1222;border:1px solid #65a7ff33}.weight-rec .row{align-items:flex-start}.weight-rec small{display:block}.weight-rec b{display:block;margin-top:3px;line-height:1.35}.weight-rec p{font-size:12px;margin:7px 0 0;line-height:1.4}.weight-rec.raise{border-left:4px solid var(--green)}.weight-rec.hold{border-left:4px solid var(--blue)}.weight-rec.reduce{border-left:4px solid var(--orange)}.last-load{color:var(--blue);font-size:11px;font-weight:800;margin:-3px 0 8px}
 .guide-modal{z-index:85}.guide-sheet{max-height:94vh;overflow-y:auto;overscroll-behavior:contain;padding-top:14px}.guide-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;position:sticky;top:-14px;z-index:2;margin:-14px -2px 10px;padding:14px 2px 10px;background:linear-gradient(var(--card) 82%,transparent)}.guide-top h2{margin:6px 0 0}.guide-close{width:42px;height:42px;min-width:42px;padding:0;border-radius:50%;font-size:25px;line-height:1}.guide-summary{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.guide-media-intro{margin:2px 0 10px}.guide-media-intro b,.guide-media-intro small{display:block}.guide-media-intro small{margin-top:3px;line-height:1.4}.guide-frames{display:grid;grid-template-columns:1fr;gap:9px;padding:0 0 10px}.guide-frame{margin:0;padding:10px;background:#0a1222;border:1px solid var(--line);border-radius:18px}.guide-image-wrap{position:relative;min-height:180px;display:grid;place-items:center;overflow:hidden;border-radius:13px;background:#060c17}.guide-frame img{display:block;width:100%;height:auto;max-height:390px;object-fit:contain;background:#060c17}.guide-frame figcaption{display:flex;gap:8px;align-items:center;margin-top:8px;color:var(--text);font-size:13px;font-weight:800}.guide-frame figcaption b{width:27px;height:27px;display:grid;place-items:center;border-radius:50%;background:var(--green);color:#062d20}.guide-transition{text-align:center;color:var(--green);font-size:22px;font-weight:900;line-height:1}.guide-media-missing{padding:15px;margin-bottom:10px;border:1px solid #ffb45466;border-radius:16px;background:#ffb45412;color:var(--text);line-height:1.45}.guide-source{display:block;margin:-2px 2px 12px;color:var(--blue);font-size:11px;text-align:right}.guide-video{display:block;text-align:center;text-decoration:none;margin:0 0 12px}.guide-steps{margin:0 0 12px;padding:0;list-style:none;counter-reset:guide}.guide-steps li{counter-increment:guide;display:grid;grid-template-columns:30px 1fr;gap:9px;align-items:start;padding:9px 0;border-bottom:1px solid var(--line);line-height:1.4}.guide-steps li::before{content:counter(guide);width:27px;height:27px;display:grid;place-items:center;border-radius:50%;background:var(--input);color:var(--green);font-size:12px;font-weight:900}.guide-warning{margin-top:9px;border-left:4px solid var(--orange)}.guide-safety{font-size:11px;line-height:1.4;margin:11px 2px 0}
 .update-banner{display:none;position:fixed;left:12px;right:12px;bottom:92px;z-index:70;max-width:436px;margin:auto;padding:13px;background:#f7fafc;color:#111827;border-radius:17px;box-shadow:0 16px 40px #0008}.update-banner.on{display:block}.update-banner p{color:#526076;margin:3px 0 10px}.update-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.update-actions .btn{padding:10px}.version{font-size:11px;color:var(--muted);text-align:center;margin-top:12px}.hard-note{border-left:4px solid var(--green)}
+.alarm-status{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:12px 0;padding:11px 12px;border:1px solid var(--line);border-radius:14px;background:#0a1222}.alarm-status b{color:var(--orange)}.alarm-status.enabled b{color:var(--green)}.alarm-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.alarm-actions .btn{padding:11px}.alarm-help{margin:9px 0 0;font-size:11px;line-height:1.45}
 @media(max-width:360px){.form2,.choice{grid-template-columns:1fr}.hero h2{font-size:28px}}
 </style>
 </head>
@@ -87,6 +89,8 @@ label{display:block;color:var(--muted);font-size:13px;margin-bottom:10px}input,s
 
 <div class="card"><h2>Daglig återhämtning</h2><div class="form2"><label>Sömn h<input id="sleep" type="number" step="0.1"></label><label>Stress 1–5<input id="stress" type="number"></label><label>Energi 1–10<input id="energy" type="number"></label><label>Vikt kg<input id="bodyWeight" type="number" step="0.1"></label></div><button id="saveRecovery" class="btn secondary">Spara check</button></div>
 
+<div class="card"><h2>🔔 Vilolarm</h2><p>Aktivera en gång så får du en iPhone-systemnotis med ljud när vilan är klar, även i en annan app eller när RSG Coach är stängd.</p><div class="alarm-status" id="restAlarmStatusBox"><span>Bakgrundslarm</span><b id="restAlarmStatus">Kontrollerar…</b></div><div class="alarm-actions"><button id="enableRestAlarm" class="btn primary" type="button">Aktivera</button><button id="testRestAlarm" class="btn secondary" type="button">Testa larm</button></div><p class="alarm-help" id="restAlarmHelp">På iPhone måste RSG Coach öppnas från hemskärmsikonen. Notisljud måste vara tillåtet i iPhone-inställningarna.</p></div>
+
 <div class="card"><h2>⌚ Hälsa & klockor</h2><p>Importera data från Apple Watch, Garmin, Fitbit, Polar, Samsung, Oura, WHOOP, Suunto och COROS.</p><div class="choice" id="wearableBrands"></div><div id="wearableGuide" class="why">Välj märke.</div><label>Importera fil<input id="healthFile" type="file" accept=".xml,.csv,.json,.tcx,.gpx,text/xml,text/csv,application/json"></label><button id="importHealth" class="btn secondary">Importera hälsodata</button><div id="healthSummary"></div></div>
 
 <div class="card"><h2>Guide</h2><div class="quest"><div class="ico">🎯</div><div><b>Progression</b><small>Höj vikt först när övre repgränsen nås med god teknik och RIR 1–2.</small></div></div><div class="quest"><div class="ico">😴</div><div><b>Deload</b><small>Aktuellt när prestation, återhämtning och motivation sjunker samtidigt.</small></div></div><div class="quest"><div class="ico">🛡️</div><div><b>Säkerhet</b><small>Avbryt vid skarp smärta. Appen ersätter inte medicinsk rådgivning.</small></div></div></div>
@@ -122,6 +126,7 @@ label{display:block;color:var(--muted);font-size:13px;margin-bottom:10px}input,s
  </div>
 </div>
 
+<script src="rest-alarm.js"></script>
 <script src="exercise-media.js"></script>
 <script>
 const W={
@@ -321,7 +326,7 @@ const CARDIO={
 'HIIT kort':{goal:'Tidseffektiv kondition',sessions:[['10×1 min hårt/1 min lätt',25,'Hög'],['6×2 min hårt/2 min lätt',30,'Hög']]}
 };
 
-const APP_VERSION='4.10.0',DATA_SCHEMA=3,K='rsg_ai_complete_v1',TIMER_KEY='rsg_ai_rest_timer_v2';
+const APP_VERSION='4.11.0',DATA_SCHEMA=3,K='rsg_ai_complete_v1',TIMER_KEY='rsg_ai_rest_timer_v2';
 const DEFAULT_DATA={
 schemaVersion:DATA_SCHEMA,
 profile:{name:'',experience:'intermediate',uiMode:'guided',days:4,equipment:'gym',primaryGoal:'muscle',sleepGoal:8,stepGoal:8000,maxDuration:110,cardioPriority:'medium',limitations:'',avoidExercises:'',autoTraining:true,autoNutrition:false},
@@ -339,8 +344,9 @@ function loadData(){
  try{const parsed=JSON.parse(raw),backupKey=`rsg_ai_backup_before_schema_${DATA_SCHEMA}`;if(parsed.schemaVersion!==DATA_SCHEMA&&!localStorage.getItem(backupKey))localStorage.setItem(backupKey,raw);return normaliseData(parsed)}
  catch(error){try{localStorage.setItem(`rsg_ai_unreadable_${Date.now()}`,raw)}catch(_){}return freshData()}
 }
-let D=loadData(),currentDay='',timerInt=null,timerEndAt=0,timerExercise='',draftSaveTimer=null,swRegistration=null,refreshingForUpdate=false;
+let D=loadData(),currentDay='',timerInt=null,timerEndAt=0,timerExercise='',timerId='',timerRemoteScheduled=false,draftSaveTimer=null,swRegistration=null,refreshingForUpdate=false;
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const restAlarm=globalThis.RSG_REST_ALARM||{cancel:async()=>({cancelled:false}),createTimerId:()=>`${Date.now()}-${Math.random().toString(36).slice(2)}`,enable:async()=>{throw new Error('Bakgrundslarm stöds inte här.')},getStatus:async()=>({code:'unsupported',label:'Stöds inte',enabled:false}),init:async()=>{},onStatusChange:()=>{},playChime:async()=>false,primeAudio:async()=>false,reschedule:async()=>({scheduled:false}),schedule:async()=>({scheduled:false}),test:async()=>({notification:false})};
 const save=()=>{D.schemaVersion=DATA_SCHEMA;try{localStorage.setItem(K,JSON.stringify(D))}catch(error){console.error('Kunde inte spara RSG-data',error)}};
 const fmt=n=>new Intl.NumberFormat('sv-SE',{maximumFractionDigits:1}).format(n);
 const esc=x=>String(x??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
@@ -627,12 +633,14 @@ function workout(){
  $$('#exerciseList input').forEach(input=>input.oninput=()=>{input.classList.remove('invalid');clearTimeout(draftSaveTimer);draftSaveTimer=setTimeout(saveWorkoutDraft,250)});
  $$('#exerciseList .set button').forEach(b=>b.onclick=e=>{e.preventDefault();let row=b.closest('.set'),exercise=b.closest('.exercise'),kg=+row.querySelector('.kg').value,reps=+row.querySelector('.reps').value;if(!(kg>0&&reps>0)){row.querySelectorAll('input').forEach(x=>x.classList.toggle('invalid',!(+x.value>0)));toast('Fyll i både vikt och reps först');return}b.classList.toggle('done');saveWorkoutDraft();if(b.classList.contains('done'))startTimer(+exercise.querySelector('.rest-select').value,exercise.dataset.name)})
 }
-function persistTimer(){localStorage.setItem(TIMER_KEY,JSON.stringify({endAt:timerEndAt,exercise:timerExercise}))}
-function startTimer(sec,exercise){clearInterval(timerInt);timerEndAt=Date.now()+sec*1000;timerExercise=exercise||'Nästa set';persistTimer();$('#timer').classList.add('on');updateTimer();timerInt=setInterval(updateTimer,500)}
-function finishTimer(notify=true){clearInterval(timerInt);timerInt=null;timerEndAt=0;localStorage.removeItem(TIMER_KEY);$('#timer').classList.remove('on');if(notify){if(navigator.vibrate)navigator.vibrate([180,80,180]);toast('Vilan är klar – kör nästa set')}}
+function alarmTask(promise,onSuccess){Promise.resolve(promise).then(result=>onSuccess?.(result)).catch(error=>console.warn('Bakgrundslarmet kunde inte synkas',error))}
+function persistTimer(){localStorage.setItem(TIMER_KEY,JSON.stringify({endAt:timerEndAt,exercise:timerExercise,timerId,remoteScheduled:timerRemoteScheduled}))}
+function syncTimerAlarm(){if(!timerId||!(timerEndAt>Date.now()))return;let id=timerId;alarmTask(restAlarm.schedule({timerId:id,endAt:timerEndAt,exercise:timerExercise}),result=>{if(timerId===id&&result?.scheduled!==false){timerRemoteScheduled=true;persistTimer()}})}
+function startTimer(sec,exercise){let previousId=timerId;if(previousId)alarmTask(restAlarm.cancel(previousId));clearInterval(timerInt);timerEndAt=Date.now()+sec*1000;timerExercise=exercise||'Nästa set';timerId=restAlarm.createTimerId();timerRemoteScheduled=false;alarmTask(restAlarm.primeAudio());persistTimer();$('#timer').classList.add('on');updateTimer();timerInt=setInterval(updateTimer,500);syncTimerAlarm()}
+function finishTimer(notify=true,{fromPush=false}={}){if(!timerEndAt&&!timerId)return;let completedId=timerId;clearInterval(timerInt);timerInt=null;timerEndAt=0;timerExercise='';timerId='';timerRemoteScheduled=false;localStorage.removeItem(TIMER_KEY);$('#timer').classList.remove('on');if(completedId&&!fromPush)alarmTask(restAlarm.cancel(completedId));if(notify){alarmTask(restAlarm.playChime());toast('Vilan är klar – kör nästa set')}}
 function updateTimer(){let left=Math.max(0,Math.ceil((timerEndAt-Date.now())/1000));$('#timerExercise').textContent=`Vila efter ${timerExercise}`;$('#timerText').textContent=`${String(Math.floor(left/60)).padStart(2,'0')}:${String(left%60).padStart(2,'0')}`;if(left<=0&&timerEndAt)finishTimer(true)}
-function restoreTimer(){try{let t=JSON.parse(localStorage.getItem(TIMER_KEY)||'null');if(!t)return;if(t.endAt>Date.now()){timerEndAt=t.endAt;timerExercise=t.exercise||'Nästa set';clearInterval(timerInt);$('#timer').classList.add('on');updateTimer();timerInt=setInterval(updateTimer,500)}else finishTimer(true)}catch(_){localStorage.removeItem(TIMER_KEY)}}
-$('#addTimer').onclick=()=>{if(!timerEndAt)return;timerEndAt+=30000;persistTimer();updateTimer()};
+function restoreTimer(){try{let t=JSON.parse(localStorage.getItem(TIMER_KEY)||'null');if(!t)return;if(t.endAt>Date.now()){timerEndAt=t.endAt;timerExercise=t.exercise||'Nästa set';timerId=t.timerId||restAlarm.createTimerId();timerRemoteScheduled=!!t.remoteScheduled;clearInterval(timerInt);$('#timer').classList.add('on');updateTimer();timerInt=setInterval(updateTimer,500);if(!timerRemoteScheduled){persistTimer();syncTimerAlarm()}}else{timerId=t.timerId||'';timerEndAt=t.endAt||0;timerExercise=t.exercise||'';finishTimer(true)}}catch(_){localStorage.removeItem(TIMER_KEY)}}
+$('#addTimer').onclick=()=>{if(!timerEndAt)return;timerEndAt+=30000;persistTimer();updateTimer();let request=timerRemoteScheduled?restAlarm.reschedule({timerId,endAt:timerEndAt,exercise:timerExercise}):restAlarm.schedule({timerId,endAt:timerEndAt,exercise:timerExercise});alarmTask(request,result=>{if(result?.scheduled!==false){timerRemoteScheduled=true;persistTimer()}})};
 $('#stopTimer').onclick=()=>finishTimer(false);
 $('#saveWorkout').onclick=()=>{
  let ex=[];$$('#exerciseList .exercise').forEach(e=>{let sets=[...e.querySelectorAll('.set')].map((s,index)=>({setNumber:index+1,kg:+s.querySelector('.kg').value||0,reps:+s.querySelector('.reps').value||0,done:s.querySelector('button').classList.contains('done')})).filter(x=>x.done&&x.kg&&x.reps).map(({setNumber,kg,reps})=>({setNumber,kg,reps}));if(sets.length){let vol=sets.reduce((a,x)=>a+x.kg*x.reps,0),e1=Math.max(...sets.map(x=>x.kg*(1+x.reps/30)));ex.push({name:e.dataset.name,originalName:e.dataset.original,sets,vol,e1,reps:e.dataset.reps})}});
@@ -752,7 +760,13 @@ $('#importHealth').onclick=async()=>{
 
 $('#exportData').onclick=()=>{saveWorkoutDraft();let url=URL.createObjectURL(new Blob([JSON.stringify(D,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download=`rsg-coach-backup-${new Date().toISOString().slice(0,10)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
 $('#importBackup').onclick=async()=>{let file=$('#backupFile').files[0];if(!file)return toast('Välj en säkerhetskopia');try{let imported=JSON.parse(await file.text());if(!imported||typeof imported!=='object'||(!Array.isArray(imported.sessions)&&!imported.profile))throw new Error('Ogiltig RSG-fil');if(!confirm('Ersätta appens nuvarande data med säkerhetskopian?'))return;localStorage.setItem(`rsg_ai_backup_before_import_${Date.now()}`,JSON.stringify(D));D=normaliseData(imported);save();location.reload()}catch(error){toast('Filen kunde inte importeras')}};
-$('#resetData').onclick=()=>{if(confirm('Radera all träningsdata permanent?')){localStorage.removeItem(K);localStorage.removeItem(TIMER_KEY);location.reload()}};
+$('#resetData').onclick=()=>{if(confirm('Radera all träningsdata permanent?')){finishTimer(false);localStorage.removeItem(K);localStorage.removeItem(TIMER_KEY);location.reload()}};
+
+function showRestAlarmStatus(status){let box=$('#restAlarmStatusBox'),label=$('#restAlarmStatus'),button=$('#enableRestAlarm'),help=$('#restAlarmHelp');if(!box||!label||!button||!help)return;label.textContent=status.label;box.classList.toggle('enabled',!!status.enabled);button.textContent=status.enabled?'Återaktivera':'Aktivera';help.textContent={install:'Lägg RSG Coach på hemskärmen och öppna appen från ikonen innan du aktiverar.',blocked:'Öppna Inställningar → Notiser → RSG Coach och tillåt notiser och ljud.',unsupported:'Bakgrundsnotiser stöds inte i den här webbläsaren.',error:'Kontrollera internetanslutningen och försök igen.'}[status.code]||'På iPhone måste RSG Coach öppnas från hemskärmsikonen. Notisljud måste vara tillåtet i iPhone-inställningarna.'}
+async function refreshRestAlarmStatus(){try{showRestAlarmStatus(await restAlarm.getStatus())}catch(_){showRestAlarmStatus({code:'error',label:'Kunde inte kontrolleras',enabled:false})}}
+restAlarm.onStatusChange(showRestAlarmStatus);
+$('#enableRestAlarm').onclick=async()=>{let button=$('#enableRestAlarm');button.disabled=true;try{await restAlarm.enable();await refreshRestAlarmStatus();if(timerEndAt>Date.now()){timerRemoteScheduled=false;persistTimer();syncTimerAlarm()}toast('Bakgrundslarm aktiverat')}catch(error){toast(error.message||'Kunde inte aktivera larmet');await refreshRestAlarmStatus()}finally{button.disabled=false}};
+$('#testRestAlarm').onclick=async()=>{try{let status=await restAlarm.getStatus();if(!status.enabled)throw new Error('Aktivera bakgrundslarmet först.');await restAlarm.test();toast('Testlarm skickat')}catch(error){toast(error.message||'Kunde inte testa larmet')}};
 
 function onboarding(){
  if(D.onboarded)return;let step=0;
@@ -769,9 +783,11 @@ async function registerPWA(){
  if(!('serviceWorker' in navigator)||location.protocol==='file:')return;
  try{
   swRegistration=await navigator.serviceWorker.register('./service-worker.js',{updateViaCache:'none'});
+  await restAlarm.init(swRegistration);
   if(swRegistration.waiting)showUpdate(swRegistration);
   swRegistration.addEventListener('updatefound',()=>{let worker=swRegistration.installing;if(!worker)return;worker.addEventListener('statechange',()=>{if(worker.state==='installed'&&navigator.serviceWorker.controller)showUpdate(swRegistration)})});
   navigator.serviceWorker.addEventListener('controllerchange',()=>{if(refreshingForUpdate)location.reload()});
+  navigator.serviceWorker.addEventListener('message',event=>{let message=event.data;if(message?.type==='REST_ALARM_FINISHED'&&timerEndAt&&(!message.timerId||message.timerId===timerId))finishTimer(true,{fromPush:true})});
   setInterval(()=>swRegistration?.update(),60*60*1000)
  }catch(error){console.warn('PWA-läget kunde inte startas',error)}
 }
@@ -781,7 +797,7 @@ $('#checkUpdate').onclick=async()=>{if(!swRegistration)return toast('Uppdatering
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){restoreTimer();swRegistration?.update()}});
 $('#workoutDate').onfocus=saveWorkoutDraft;$('#workoutDate').onchange=workout;
 function render(){$('#workoutDate').value=$('#workoutDate').value||new Date().toISOString().slice(0,10);tabs();workout();renderHome();renderCoach();renderPrograms();renderExerciseLibrary();nutrition();profile();wearables();$('#activeProgramName').textContent=D.program;$('#appVersion').textContent=`RSG Coach ${APP_VERSION} • dataschema ${DATA_SCHEMA}`}
-addBuilderRow();render();restoreTimer();onboarding();registerPWA();
+addBuilderRow();render();restoreTimer();refreshRestAlarmStatus();onboarding();registerPWA();
 </script>
 <script src="./workout-editor.js"></script>
 <script src="./program-order.js"></script>

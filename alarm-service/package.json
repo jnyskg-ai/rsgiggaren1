@@ -1,0 +1,21 @@
+{
+  "name": "rsg-coach-alarm-service",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nitro dev",
+    "build": "nitro build",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "hono": "4.13.4",
+    "nitro": "3.0.260610-beta",
+    "rollup": "4.62.5",
+    "web-push": "3.6.7",
+    "workflow": "4.8.4"
+  },
+  "devDependencies": {
+    "@types/web-push": "3.6.4"
+  }
+}
+
