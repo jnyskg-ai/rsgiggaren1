@@ -13,7 +13,7 @@
 
   const supportsNotifications = () => 'Notification' in globalThis && 'serviceWorker' in navigator;
   const isIOS = () => IOS_RE.test(navigator.userAgent || '');
-  const isStandalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  const isStandalone = () => (typeof globalThis.matchMedia === 'function' && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
 
   async function registration() {
     if (!('serviceWorker' in navigator)) return null;
@@ -24,8 +24,8 @@
   function permissionLabel() {
     if (!supportsNotifications()) return 'Stöds inte i den här webbläsaren';
     if (isIOS() && !isStandalone()) return 'Installera RSG Coach på hemskärmen först';
-    if (Notification.permission === 'granted') return 'På – systemnotiser är tillåtna';
-    if (Notification.permission === 'denied') return 'Av – tillåt notiser i iPhone-inställningarna';
+    if (globalThis.Notification.permission === 'granted') return 'På – systemnotiser är tillåtna';
+    if (globalThis.Notification.permission === 'denied') return 'Av – tillåt notiser i iPhone-inställningarna';
     return 'Inte aktiverat';
   }
 
@@ -34,8 +34,9 @@
     const button = document.querySelector('#enableRestNotifications');
     if (status) status.textContent = permissionLabel();
     if (button) {
-      button.textContent = Notification?.permission === 'granted' ? 'Notiser aktiverade' : 'Aktivera vilonotiser';
-      button.disabled = supportsNotifications() && Notification.permission === 'granted';
+      const granted = supportsNotifications() && globalThis.Notification.permission === 'granted';
+      button.textContent = granted ? 'Notiser aktiverade' : 'Aktivera vilonotiser';
+      button.disabled = granted;
     }
   }
 
@@ -49,11 +50,11 @@
       updateStatus();
       return false;
     }
-    if (Notification.permission === 'granted') {
+    if (globalThis.Notification.permission === 'granted') {
       updateStatus();
       return true;
     }
-    if (Notification.permission === 'denied') {
+    if (globalThis.Notification.permission === 'denied') {
       if (!automatic && typeof toast === 'function') toast('Tillåt RSG Coach-notiser i iPhone-inställningarna');
       updateStatus();
       return false;
@@ -61,7 +62,7 @@
 
     try {
       localStorage.setItem(PROMPTED_KEY, '1');
-      const result = await Notification.requestPermission();
+      const result = await globalThis.Notification.requestPermission();
       updateStatus();
       if (!automatic && typeof toast === 'function') {
         toast(result === 'granted' ? 'Vilotimer-notiser är aktiverade' : 'Notiser aktiverades inte');
@@ -75,7 +76,7 @@
   }
 
   async function maybePromptFromTimerGesture() {
-    if (!supportsNotifications() || Notification.permission !== 'default') return;
+    if (!supportsNotifications() || globalThis.Notification.permission !== 'default') return;
     if (localStorage.getItem(PROMPTED_KEY)) return;
     if (isIOS() && !isStandalone()) return;
     // startTimer is called directly from the user's set-log button, which gives
@@ -84,7 +85,7 @@
   }
 
   async function showRestNotification(exercise) {
-    if (!supportsNotifications() || Notification.permission !== 'granted') return false;
+    if (!supportsNotifications() || globalThis.Notification.permission !== 'granted') return false;
     const reg = await registration();
     if (!reg) return false;
     try {
