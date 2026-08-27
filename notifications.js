@@ -1,19 +1,54 @@
-/* RSG Coach — system notifications for the rest timer.
- *
- * This module keeps the existing timer and training-data model intact. It adds
- * a notification permission UI, uses the active service worker to show a
- * system notification when rest ends, and leaves the service worker ready to
- * receive real Web Push payloads from a sender backend.
- */
+/* RSG Coach — system notifications and audible rest-timer signal. */
 (() => {
   'use strict';
 
   const PROMPTED_KEY = 'rsg_rest_notification_prompted_v1';
   const IOS_RE = /iphone|ipad|ipod/i;
+  let audioContext = null;
 
   const supportsNotifications = () => 'Notification' in globalThis && 'serviceWorker' in navigator;
   const isIOS = () => IOS_RE.test(navigator.userAgent || '');
   const isStandalone = () => (typeof globalThis.matchMedia === 'function' && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+
+  function ensureAudioContext() {
+    const AudioCtx = globalThis.AudioContext || globalThis.webkitAudioContext;
+    if (!AudioCtx) return null;
+    if (!audioContext) audioContext = new AudioCtx();
+    if (audioContext.state === 'suspended') void audioContext.resume().catch(() => {});
+    return audioContext;
+  }
+
+  function playRestTone() {
+    const ctx = ensureAudioContext();
+    if (!ctx) return false;
+    try {
+      const now = ctx.currentTime;
+      const master = ctx.createGain();
+      master.gain.setValueAtTime(0.0001, now);
+      master.gain.exponentialRampToValueAtTime(0.32, now + 0.015);
+      master.gain.setValueAtTime(0.32, now + 0.48);
+      master.gain.exponentialRampToValueAtTime(0.0001, now + 0.68);
+      master.connect(ctx.destination);
+
+      const first = ctx.createOscillator();
+      first.type = 'sine';
+      first.frequency.setValueAtTime(880, now);
+      first.connect(master);
+      first.start(now);
+      first.stop(now + 0.22);
+
+      const second = ctx.createOscillator();
+      second.type = 'sine';
+      second.frequency.setValueAtTime(1046.5, now + 0.28);
+      second.connect(master);
+      second.start(now + 0.28);
+      second.stop(now + 0.58);
+      return true;
+    } catch (error) {
+      console.warn('Kunde inte spela vilotimer-ljud', error);
+      return false;
+    }
+  }
 
   async function registration() {
     if (!('serviceWorker' in navigator)) return null;
@@ -79,8 +114,6 @@
     if (!supportsNotifications() || globalThis.Notification.permission !== 'default') return;
     if (localStorage.getItem(PROMPTED_KEY)) return;
     if (isIOS() && !isStandalone()) return;
-    // startTimer is called directly from the user's set-log button, which gives
-    // iOS the required user activation for the permission prompt.
     await requestPermission({ automatic: true });
   }
 
@@ -113,12 +146,15 @@
     card.className = 'card';
     card.id = 'restNotificationCard';
     card.innerHTML = `
-      <h2>🔔 Vilotimer-notiser</h2>
-      <p>Få en systemnotis med iPhones normala notisljud när vilan är slut. På iPhone måste RSG Coach vara installerad på hemskärmen.</p>
-      <div class="why"><b>Status</b><br><span id="restNotificationStatus"></span></div>
-      <button id="enableRestNotifications" class="btn primary" type="button" style="margin-top:10px">Aktivera vilonotiser</button>
-      <small style="display:block;margin-top:9px">Om appen tvångsstängs helt krävs Web Push från en server. Appens service worker är förberedd för det, men en push-server måste vara kopplad för garanterad leverans i det läget.</small>`;
+      <h2>🔔 Vilotimer-ljud</h2>
+      <p>När RSG Coach är öppen spelas en tydlig dubbelton. När appen ligger i bakgrunden används iPhones systemnotis med ljud.</p>
+      <button id="testRestSound" class="btn primary" type="button">🔊 Testa ljud nu</button>
+      <div class="why" style="margin-top:10px"><b>Bakgrundsnotis</b><br><span id="restNotificationStatus"></span></div>
+      <button id="enableRestNotifications" class="btn secondary" type="button" style="margin-top:10px">Aktivera vilonotiser</button>`;
     profile.append(card);
+    document.querySelector('#testRestSound')?.addEventListener('click', () => {
+      if (playRestTone() && typeof toast === 'function') toast('Detta är vilotimer-ljudet');
+    });
     document.querySelector('#enableRestNotifications')?.addEventListener('click', () => requestPermission());
     updateStatus();
   }
@@ -126,6 +162,7 @@
   if (typeof startTimer === 'function') {
     const nativeStartTimer = startTimer;
     startTimer = function startTimerWithNotifications(sec, exercise) {
+      ensureAudioContext();
       const result = nativeStartTimer(sec, exercise);
       void maybePromptFromTimerGesture();
       return result;
@@ -137,7 +174,10 @@
     finishTimer = function finishTimerWithNotifications(notify = true) {
       const exercise = typeof timerExercise === 'string' ? timerExercise : '';
       const result = nativeFinishTimer(notify);
-      if (notify) void showRestNotification(exercise);
+      if (notify) {
+        if (document.hidden) void showRestNotification(exercise);
+        else playRestTone();
+      }
       return result;
     };
   }
@@ -152,6 +192,7 @@
   globalThis.RSG_NOTIFICATIONS = Object.freeze({
     requestPermission,
     showRestNotification,
+    playRestTone,
     permissionLabel
   });
 })();
