@@ -9,6 +9,7 @@ const APP_SHELL = [
   './exercise-media.js',
   './workout-editor.js',
   './program-order.js',
+  './notifications.js',
   './manifest.webmanifest',
   './icon-192.png',
   './icon-512.png'
@@ -21,7 +22,8 @@ async function injectEnhancements(response) {
   const text = await response.text();
   const missingScripts = [
     text.includes('workout-editor.js') ? '' : '<script src="./workout-editor.js"></script>',
-    text.includes('program-order.js') ? '' : '<script src="./program-order.js"></script>'
+    text.includes('program-order.js') ? '' : '<script src="./program-order.js"></script>',
+    text.includes('notifications.js') ? '' : '<script src="./notifications.js"></script>'
   ].join('');
   const html = !missingScripts
     ? text
@@ -31,6 +33,28 @@ async function injectEnhancements(response) {
   const headers = new Headers(response.headers);
   headers.delete('content-length');
   return new Response(html, { status: response.status, statusText: response.statusText, headers });
+}
+
+function notificationPayload(event) {
+  if (!event.data) return {};
+  try { return event.data.json(); }
+  catch (_) {
+    try { return { body: event.data.text() }; }
+    catch (_) { return {}; }
+  }
+}
+
+function showRestNotification(payload = {}) {
+  const data = payload.data && typeof payload.data === 'object' ? payload.data : {};
+  return self.registration.showNotification(payload.title || 'Vilan är klar', {
+    body: payload.body || 'Kör nästa set.',
+    icon: payload.icon || './icon-192.png',
+    badge: payload.badge || './icon-192.png',
+    tag: payload.tag || 'rsg-rest-timer',
+    renotify: true,
+    silent: false,
+    data: { url: './Coash%201.0.html#train', kind: 'rest-timer', ...data }
+  });
 }
 
 self.addEventListener('install', event => {
@@ -55,6 +79,29 @@ self.addEventListener('activate', event => {
 self.addEventListener('message', event => {
   if (event.data?.type === 'SKIP_WAITING') self.skipWaiting();
   if (event.data?.type === 'GET_VERSION') event.source?.postMessage({ type: 'APP_VERSION', version: VERSION });
+  if (event.data?.type === 'SHOW_REST_NOTIFICATION') {
+    event.waitUntil(showRestNotification(event.data.payload || {}));
+  }
+});
+
+self.addEventListener('push', event => {
+  event.waitUntil(showRestNotification(notificationPayload(event)));
+});
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  const requestedUrl = event.notification.data?.url || './Coash%201.0.html#train';
+  const targetUrl = new URL(requestedUrl, self.location.href).href;
+  event.waitUntil((async () => {
+    const windows = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    for (const client of windows) {
+      if (client.url.startsWith(self.location.origin) && 'focus' in client) {
+        if ('navigate' in client) await client.navigate(targetUrl);
+        return client.focus();
+      }
+    }
+    return self.clients.openWindow(targetUrl);
+  })());
 });
 
 self.addEventListener('fetch', event => {
