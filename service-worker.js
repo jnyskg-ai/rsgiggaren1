@@ -1,9 +1,10 @@
-const VERSION = '4.11.0';
+const VERSION = '4.12.0';
 const CACHE_PREFIX = 'rsg-coach-shell-';
 const CACHE_NAME = `${CACHE_PREFIX}${VERSION}`;
 const MEDIA_CACHE_NAME = 'rsg-coach-guide-media-v1';
+const REST_STATE_CACHE = 'rsg-coach-rest-state-v1';
+const REST_STATE_URL = new URL('./__rest_state__', self.location.href).href;
 const GUIDE_MEDIA_HOSTS = new Set(['raw.githubusercontent.com']);
-let activeRestScheduleId = '';
 
 const APP_SHELL = [
   './index.html',
@@ -60,23 +61,26 @@ function showRestNotification(payload = {}) {
   });
 }
 
-async function scheduleRestNotification({ scheduleId, endAt, exercise }) {
-  if (!scheduleId || !Number.isFinite(Number(endAt))) return;
-  activeRestScheduleId = scheduleId;
-  const delay = Math.max(0, Number(endAt) - Date.now());
-  await new Promise(resolve => setTimeout(resolve, delay));
-  if (activeRestScheduleId !== scheduleId) return;
+async function saveRestState(state) {
+  const cache = await caches.open(REST_STATE_CACHE);
+  await cache.put(REST_STATE_URL, new Response(JSON.stringify(state), {
+    headers: { 'Content-Type': 'application/json' }
+  }));
+}
 
-  const windows = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
-  const hasVisibleWindow = windows.some(client => client.visibilityState === 'visible');
-  if (!hasVisibleWindow) {
-    await showRestNotification({
-      title: 'Vilan är klar',
-      body: exercise ? `${exercise} – kör nästa set.` : 'Kör nästa set.',
-      data: { scheduled: true, scheduleId }
-    });
+async function readRestState() {
+  try {
+    const cache = await caches.open(REST_STATE_CACHE);
+    const response = await cache.match(REST_STATE_URL);
+    return response ? await response.json() : null;
+  } catch (_) {
+    return null;
   }
-  if (activeRestScheduleId === scheduleId) activeRestScheduleId = '';
+}
+
+async function clearRestState() {
+  const cache = await caches.open(REST_STATE_CACHE);
+  await cache.delete(REST_STATE_URL);
 }
 
 self.addEventListener('install', event => {
@@ -105,16 +109,29 @@ self.addEventListener('message', event => {
   if (event.data?.type === 'SHOW_REST_NOTIFICATION') {
     event.waitUntil(showRestNotification(event.data.payload || {}));
   }
-  if (event.data?.type === 'SCHEDULE_REST_NOTIFICATION') {
-    event.waitUntil(scheduleRestNotification(event.data));
+  if (event.data?.type === 'SET_ACTIVE_REST_SCHEDULE') {
+    event.waitUntil(saveRestState({
+      scheduleId: event.data.scheduleId || '',
+      endAt: Number(event.data.endAt) || 0,
+      exercise: event.data.exercise || 'Nästa set'
+    }));
   }
-  if (event.data?.type === 'CANCEL_REST_NOTIFICATION') {
-    activeRestScheduleId = '';
+  if (event.data?.type === 'CLEAR_ACTIVE_REST_SCHEDULE') {
+    event.waitUntil(clearRestState());
   }
 });
 
 self.addEventListener('push', event => {
-  event.waitUntil(showRestNotification(notificationPayload(event)));
+  event.waitUntil((async () => {
+    const payload = notificationPayload(event);
+    const incomingScheduleId = payload?.data?.scheduleId || '';
+    if (incomingScheduleId) {
+      const active = await readRestState();
+      if (!active?.scheduleId || active.scheduleId !== incomingScheduleId) return;
+      await clearRestState();
+    }
+    await showRestNotification(payload);
+  })());
 });
 
 self.addEventListener('notificationclick', event => {
@@ -137,6 +154,8 @@ self.addEventListener('fetch', event => {
   const { request } = event;
   if (request.method !== 'GET') return;
   const url = new URL(request.url);
+
+  if (url.href === REST_STATE_URL) return;
 
   if (url.origin !== self.location.origin) {
     if (request.destination !== 'image' || !GUIDE_MEDIA_HOSTS.has(url.hostname)) return;
