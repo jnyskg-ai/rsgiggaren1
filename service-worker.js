@@ -1,8 +1,10 @@
-const VERSION = '4.10.1';
+const VERSION = '4.11.0';
 const CACHE_PREFIX = 'rsg-coach-shell-';
 const CACHE_NAME = `${CACHE_PREFIX}${VERSION}`;
 const MEDIA_CACHE_NAME = 'rsg-coach-guide-media-v1';
 const GUIDE_MEDIA_HOSTS = new Set(['raw.githubusercontent.com']);
+let activeRestScheduleId = '';
+
 const APP_SHELL = [
   './index.html',
   './Coash%201.0.html',
@@ -53,8 +55,28 @@ function showRestNotification(payload = {}) {
     tag: payload.tag || 'rsg-rest-timer',
     renotify: true,
     silent: false,
+    requireInteraction: false,
     data: { url: './Coash%201.0.html#train', kind: 'rest-timer', ...data }
   });
+}
+
+async function scheduleRestNotification({ scheduleId, endAt, exercise }) {
+  if (!scheduleId || !Number.isFinite(Number(endAt))) return;
+  activeRestScheduleId = scheduleId;
+  const delay = Math.max(0, Number(endAt) - Date.now());
+  await new Promise(resolve => setTimeout(resolve, delay));
+  if (activeRestScheduleId !== scheduleId) return;
+
+  const windows = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+  const hasVisibleWindow = windows.some(client => client.visibilityState === 'visible');
+  if (!hasVisibleWindow) {
+    await showRestNotification({
+      title: 'Vilan är klar',
+      body: exercise ? `${exercise} – kör nästa set.` : 'Kör nästa set.',
+      data: { scheduled: true, scheduleId }
+    });
+  }
+  if (activeRestScheduleId === scheduleId) activeRestScheduleId = '';
 }
 
 self.addEventListener('install', event => {
@@ -66,6 +88,7 @@ self.addEventListener('install', event => {
       await cache.put(url, prepared);
     })))
   );
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', event => {
@@ -81,6 +104,12 @@ self.addEventListener('message', event => {
   if (event.data?.type === 'GET_VERSION') event.source?.postMessage({ type: 'APP_VERSION', version: VERSION });
   if (event.data?.type === 'SHOW_REST_NOTIFICATION') {
     event.waitUntil(showRestNotification(event.data.payload || {}));
+  }
+  if (event.data?.type === 'SCHEDULE_REST_NOTIFICATION') {
+    event.waitUntil(scheduleRestNotification(event.data));
+  }
+  if (event.data?.type === 'CANCEL_REST_NOTIFICATION') {
+    activeRestScheduleId = '';
   }
 });
 
