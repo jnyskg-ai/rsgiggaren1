@@ -1,13 +1,16 @@
-/* RSG Coach — robust rest-timer audio + background notification scheduling. */
+/* RSG Coach — audible rest timer + real Web Push scheduling for iPhone PWA. */
 (() => {
   'use strict';
 
   const PROMPTED_KEY = 'rsg_rest_notification_prompted_v1';
   const IOS_RE = /iphone|ipad|ipod/i;
+  const PUSH_API_BASE = 'https://rsg-coach-push-rsgiggaren.vercel.app';
+  const VAPID_PUBLIC_KEY = 'BAqw-9r_ZUjKmJ8NVkrSefAZV9LhYA_MTSOv98pmeWCnoRCqUOnzrTVFGng0wnnatLU-tuiNJ9_-vbuQkfaa7QA';
   let audioContext = null;
   let currentScheduleId = '';
 
   const supportsNotifications = () => 'Notification' in globalThis && 'serviceWorker' in navigator;
+  const supportsPush = () => supportsNotifications() && 'PushManager' in globalThis;
   const isIOS = () => IOS_RE.test(navigator.userAgent || '');
   const isStandalone = () => (typeof globalThis.matchMedia === 'function' && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
 
@@ -44,7 +47,6 @@
       master.gain.setValueAtTime(0.55, now + 0.95);
       master.gain.exponentialRampToValueAtTime(0.0001, now + 1.15);
       master.connect(ctx.destination);
-
       [880, 1046.5, 1318.5].forEach((freq, index) => {
         const osc = ctx.createOscillator();
         osc.type = 'square';
@@ -61,6 +63,13 @@
     }
   }
 
+  function urlBase64ToUint8Array(value) {
+    const padding = '='.repeat((4 - value.length % 4) % 4);
+    const base64 = (value + padding).replace(/-/g, '+').replace(/_/g, '/');
+    const raw = atob(base64);
+    return Uint8Array.from([...raw].map(char => char.charCodeAt(0)));
+  }
+
   async function registration() {
     if (!('serviceWorker' in navigator)) return null;
     try { return await navigator.serviceWorker.ready; }
@@ -70,15 +79,15 @@
   function permissionLabel() {
     if (!supportsNotifications()) return 'Stöds inte i den här webbläsaren';
     if (isIOS() && !isStandalone()) return 'Installera RSG Coach på hemskärmen först';
-    if (globalThis.Notification.permission === 'granted') return 'På – ljud och bakgrundsnotiser är aktiverade';
+    if (globalThis.Notification.permission === 'granted') return supportsPush() ? 'På – Web Push och ljud är aktiverade' : 'På – notiser är tillåtna';
     if (globalThis.Notification.permission === 'denied') return 'Av – tillåt notiser i iPhone-inställningarna';
     return 'Inte aktiverat';
   }
 
-  function updateStatus() {
+  function updateStatus(extra = '') {
     const status = document.querySelector('#restNotificationStatus');
     const button = document.querySelector('#enableRestNotifications');
-    if (status) status.textContent = permissionLabel();
+    if (status) status.textContent = extra || permissionLabel();
     if (button) {
       const granted = supportsNotifications() && globalThis.Notification.permission === 'granted';
       button.textContent = granted ? 'Notiser aktiverade' : 'Aktivera vilonotiser';
@@ -126,6 +135,64 @@
     await requestPermission({ automatic: true });
   }
 
+  async function ensurePushSubscription() {
+    if (!supportsPush()) return null;
+    if (globalThis.Notification.permission !== 'granted') return null;
+    const reg = await registration();
+    if (!reg?.pushManager) return null;
+    let subscription = await reg.pushManager.getSubscription();
+    if (!subscription) {
+      subscription = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+      });
+    }
+    return subscription;
+  }
+
+  async function setActiveScheduleInWorker(scheduleId, endAt, exercise) {
+    const reg = await registration();
+    const worker = reg?.active || navigator.serviceWorker.controller;
+    if (!worker) return;
+    worker.postMessage({ type: 'SET_ACTIVE_REST_SCHEDULE', scheduleId, endAt, exercise: exercise || 'Nästa set' });
+  }
+
+  async function clearActiveScheduleInWorker() {
+    const reg = await registration();
+    const worker = reg?.active || navigator.serviceWorker.controller;
+    currentScheduleId = '';
+    if (worker) worker.postMessage({ type: 'CLEAR_ACTIVE_REST_SCHEDULE' });
+  }
+
+  async function scheduleRemoteRest(endAt, exercise) {
+    if (!endAt) return false;
+    const scheduleId = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    currentScheduleId = scheduleId;
+    await setActiveScheduleInWorker(scheduleId, endAt, exercise);
+
+    try {
+      const subscription = await ensurePushSubscription();
+      if (!subscription) return false;
+      const response = await fetch(`${PUSH_API_BASE}/api/schedule`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          subscription: subscription.toJSON(),
+          endAt,
+          scheduleId,
+          exercise: exercise || 'Nästa set'
+        })
+      });
+      if (!response.ok) throw new Error(`Push-server svarade ${response.status}`);
+      updateStatus('På – Web Push är ansluten');
+      return true;
+    } catch (error) {
+      console.warn('Kunde inte schemalägga Web Push', error);
+      updateStatus('Notiser tillåtna – push-server kunde inte nås');
+      return false;
+    }
+  }
+
   async function showRestNotification(exercise) {
     if (!supportsNotifications() || globalThis.Notification.permission !== 'granted') return false;
     const reg = await registration();
@@ -147,27 +214,6 @@
     }
   }
 
-  async function scheduleInServiceWorker(endAt, exercise) {
-    const reg = await registration();
-    const worker = reg?.active || navigator.serviceWorker.controller;
-    if (!worker || !endAt) return false;
-    currentScheduleId = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-    worker.postMessage({
-      type: 'SCHEDULE_REST_NOTIFICATION',
-      scheduleId: currentScheduleId,
-      endAt,
-      exercise: exercise || 'Nästa set'
-    });
-    return true;
-  }
-
-  async function cancelServiceWorkerSchedule() {
-    const reg = await registration();
-    const worker = reg?.active || navigator.serviceWorker.controller;
-    currentScheduleId = '';
-    if (worker) worker.postMessage({ type: 'CANCEL_REST_NOTIFICATION' });
-  }
-
   function installUI() {
     if (document.querySelector('#restNotificationCard')) return;
     const profile = document.querySelector('#profile');
@@ -177,7 +223,7 @@
     card.id = 'restNotificationCard';
     card.innerHTML = `
       <h2>🔔 Vilotimer-ljud</h2>
-      <p>RSG Coach låser upp ljudet när du loggar ett set. När appen är öppen spelas ett tydligt tretons-larm. I bakgrunden försöker service workern leverera en systemnotis med ljud.</p>
+      <p>När appen är öppen spelas ett tydligt tretons-larm. När RSG Coach ligger i bakgrunden skickas vilan till en Web Push-server som väcker iPhones systemnotis.</p>
       <button id="testRestSound" class="btn primary" type="button">🔊 Testa larmet nu</button>
       <div class="why" style="margin-top:10px"><b>Bakgrundsnotis</b><br><span id="restNotificationStatus"></span></div>
       <button id="enableRestNotifications" class="btn secondary" type="button" style="margin-top:10px">Aktivera vilonotiser</button>`;
@@ -186,7 +232,18 @@
       unlockAudio();
       if (playRestTone() && typeof toast === 'function') toast('Detta är vilotimer-larmet');
     });
-    document.querySelector('#enableRestNotifications')?.addEventListener('click', () => requestPermission());
+    document.querySelector('#enableRestNotifications')?.addEventListener('click', async () => {
+      const granted = await requestPermission();
+      if (granted) {
+        try {
+          await ensurePushSubscription();
+          updateStatus('På – Web Push och ljud är aktiverade');
+        } catch (error) {
+          console.warn('Kunde inte skapa push-prenumeration', error);
+          updateStatus('Notiser tillåtna – Web Push kunde inte aktiveras');
+        }
+      }
+    });
     updateStatus();
   }
 
@@ -200,8 +257,7 @@
       unlockAudio();
       const result = nativeStartTimer(sec, exercise);
       const endAt = typeof timerEndAt === 'number' ? timerEndAt : Date.now() + Number(sec || 0) * 1000;
-      void scheduleInServiceWorker(endAt, exercise);
-      void maybePromptFromTimerGesture();
+      void maybePromptFromTimerGesture().then(() => scheduleRemoteRest(endAt, exercise));
       return result;
     };
   }
@@ -212,7 +268,7 @@
       const exercise = typeof timerExercise === 'string' ? timerExercise : '';
       const wasHidden = document.hidden;
       const result = nativeFinishTimer(notify);
-      void cancelServiceWorkerSchedule();
+      void clearActiveScheduleInWorker();
       if (notify) {
         if (wasHidden) void showRestNotification(exercise);
         else playRestTone();
@@ -225,23 +281,14 @@
     const id = event.target?.id;
     if (id === 'addTimer') {
       setTimeout(() => {
-        if (typeof timerEndAt === 'number' && timerEndAt > Date.now()) void scheduleInServiceWorker(timerEndAt, typeof timerExercise === 'string' ? timerExercise : 'Nästa set');
+        if (typeof timerEndAt === 'number' && timerEndAt > Date.now()) void scheduleRemoteRest(timerEndAt, typeof timerExercise === 'string' ? timerExercise : 'Nästa set');
       }, 0);
     }
-    if (id === 'stopTimer') void cancelServiceWorkerSchedule();
+    if (id === 'stopTimer') void clearActiveScheduleInWorker();
   }, true);
 
   document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) {
-      updateStatus();
-      try {
-        const saved = JSON.parse(localStorage.getItem('rsg_timer') || localStorage.getItem('rsg_timer_v1') || 'null');
-        if (saved?.endAt && saved.endAt <= Date.now()) {
-          playRestTone();
-          void showRestNotification(saved.exercise || '');
-        }
-      } catch (_) {}
-    }
+    if (!document.hidden) updateStatus();
   });
 
   installUI();
@@ -251,7 +298,8 @@
     requestPermission,
     showRestNotification,
     playRestTone,
-    scheduleInServiceWorker,
+    ensurePushSubscription,
+    scheduleRemoteRest,
     permissionLabel
   });
 })();
